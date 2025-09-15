@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
+import 'package:splitwise_flutter/features/authentication/data/models/login_params/login_params.dart';
+import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
+
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final AuthenticationCubit _authenticationCubit = getIt<AuthenticationCubit>();
 
   @override
   void dispose() {
@@ -25,10 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
       try {
-        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-        await authProvider.login(
-          _emailController.text,
-          _passwordController.text,
+        // Call AuthenticationCubit for login
+        await _authenticationCubit.getLogin(
+          loginParams: LoginParams(
+            email: _emailController.text,
+            password: _passwordController.text,
+          ),
         );
       } catch (e) {
         if (mounted) {
@@ -98,12 +104,38 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: _handleLogin,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: const Text('Login'),
+                BlocConsumer<AuthenticationCubit, AuthenticationState>(
+                  bloc: _authenticationCubit,
+                  listener: (context, state) {
+                    if (state.isLoading) {
+                      showDialog(
+                        context: context,
+                        builder: (context) =>
+                            const Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    if (state.successMessage != null) {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.successMessage!)),
+                      );
+                    }
+                    if (state.errorMessage != null) {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.errorMessage!)),
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    return ElevatedButton(
+                      onPressed: _handleLogin,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      child: const Text('Login'),
+                    );
+                  },
                 ),
                 const SizedBox(height: 16),
                 TextButton(

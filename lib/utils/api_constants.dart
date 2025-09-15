@@ -1,7 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiConstants {
-  static const String baseUrl = 'http://192.168.0.114:8000/api';  // Your computer's local IP address
+  static const String baseUrl =
+      'https://yalla.redgits.com/splitwise/api'; // Your computer's local IP address
   static const String tokenKey = 'token';
 
   static Future<Map<String, String>> getHeaders() async {
