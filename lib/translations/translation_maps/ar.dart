@@ -35,5 +35,17 @@ const Map<String, String> ar = {
   "forgetPassword": "نسيت كلمة المرور؟",
   "newUser": "مستخدم جديد؟",
   "createAccount": "إنشاء حساب",
+  "letsCreateAnAccount": "لننشئ حساباً",
+    "name": "الاسم",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+    "pleaseEnterYourName": "يرجى إدخال اسمك",
+  "pleaseEnterYourEmail": "يرجى إدخال بريدك الإلكتروني",
+  "pleaseEnterYourPassword": "يرجى إدخال كلمة المرور",
+  "passwordMustBeAtLeast6Characters": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+  "pleaseConfirmYourPassword": "يرجى تأكيد كلمة المرور",
+  "getStarted": "لنبدأ",
+  "yourAccountIsCreated": "تم إنشاء حسابك بنجاح. لنبدأ!",
+  "congratulations": "تهانينا!",
 
 };

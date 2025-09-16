@@ -122,6 +122,8 @@ TextStyle tr22 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_22Size, fontWeight: FontWeight.w400, color: AllColors.black);
 TextStyle tr24 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_24Size, fontWeight: FontWeight.w400, color: AllColors.black);
+    TextStyle tr25 = GoogleFonts.notoSansHebrew().copyWith(
+    fontSize: font_25Size, fontWeight: FontWeight.w400, color: AllColors.black);
 TextStyle tr32 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_32Size, fontWeight: FontWeight.w400, color: AllColors.black);
 TextStyle tr34 = GoogleFonts.notoSansHebrew().copyWith(

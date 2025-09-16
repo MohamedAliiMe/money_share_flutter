@@ -47,17 +47,13 @@ class AppTextField extends StatelessWidget {
               onChanged: (val) => field.didChange(val),
               decoration: InputDecoration(
                 labelText: label,
-
                 labelStyle: TextStyle(
-                  color: hasError ? AllColors.red : Colors.grey,
+                  color: hasError ? AllColors.red : AllColors.globalAppColor,
                 ),
-
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 14,
                 ),
-
-                
                 enabledBorder: _buildBorder(
                   color: hasError ? AllColors.errorField : Colors.black12,
                 ),
@@ -71,7 +67,6 @@ class AppTextField extends StatelessWidget {
                     _buildBorder(color: AllColors.errorField, width: 1.5),
                 focusedErrorBorder:
                     _buildBorder(color: AllColors.errorField, width: 1.5),
-
                 suffixIcon: suffixIcon,
                 prefixIcon: prefixIcon,
               ),

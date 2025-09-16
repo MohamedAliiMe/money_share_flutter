@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
+import 'package:splitwise_flutter/features/authentication/pages/congratulation_screen.dart';
 import 'package:splitwise_flutter/features/authentication/pages/view/login_screen.dart';
 import 'package:splitwise_flutter/features/authentication/pages/view/register_screen.dart';
 import 'package:splitwise_flutter/features/authentication/pages/view/splash_screen.dart';
@@ -16,6 +17,8 @@ class RouteGenerator {
         return _screenInit(const LoginScreen(), settings);
       case AppRoute.registerScreen:
         return _screenInit(const RegisterScreen(), settings);
+      case AppRoute.congratulationScreen:
+        return _screenInit(const CongratulationScreen(), settings);
 
       default:
         return _errorRoute();

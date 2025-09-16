@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
+import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
+import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/login_params/login_params.dart';
 import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
@@ -152,11 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Text(LocaleKeys.newUser.tr()),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RegisterScreen()),
-                );
+                pushName(context, AppRoute.registerScreen);
               },
               child: Text(
                 LocaleKeys.createAccount.tr(),

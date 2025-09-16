@@ -1,5 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
+import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
+import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
+import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart';
+import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
+import 'package:splitwise_flutter/features/authentication/widget/app_text_field_widget.dart';
+import 'package:splitwise_flutter/gen/assets.gen.dart';
+import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 import '../../../../providers/auth_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -36,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           _confirmPasswordController.text,
         );
         if (mounted) {
-          Navigator.pop(context);
+          pushName(context, AppRoute.congratulationScreen);
         }
       } catch (e) {
         if (mounted) {
@@ -51,9 +61,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Register'),
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -62,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                   SizedBox(height: 40.h),
+                SizedBox(height: 40.h),
                 Row(
                   children: [
                     Image.asset(
@@ -76,94 +83,101 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 SizedBox(height: 40.h),
-                Text(LocaleKeys.login.tr(), style: tsb25),
+                Text(LocaleKeys.signUp.tr(), style: tsb25),
                 SizedBox(height: 6.h),
                 Text(
-                  LocaleKeys.letsGetStart.tr(),
+                  LocaleKeys.letsCreateAnAccount.tr(),
                   style: tr13.copyWith(color: AllColors.grey),
                 ),
                 SizedBox(height: 24.h),
-                TextFormField(
+
+                /// Name
+                AppTextField(
                   controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
-                    border: OutlineInputBorder(),
-                  ),
+                  label: LocaleKeys.name.tr(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
+                      return LocaleKeys.pleaseEnterYourName.tr();
                     }
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
+                SizedBox(height: 17.h),
+
+                /// Email
+                AppTextField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                  ),
+                  label: LocaleKeys.email.tr(),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
+                      return LocaleKeys.pleaseEnterYourEmail.tr();
                     }
                     if (!value.contains('@')) {
-                      return 'Please enter a valid email';
+                      return LocaleKeys.enterValidEmail.tr();
                     }
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
+                SizedBox(height: 17.h),
+
+                /// Password
+                AppTextField(
                   controller: _passwordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                    border: OutlineInputBorder(),
-                  ),
+                  label: LocaleKeys.password.tr(),
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a password';
+                      return LocaleKeys.pleaseEnterYourPassword.tr();
                     }
                     if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
+                      return LocaleKeys.passwordMustBeAtLeast6Characters.tr();
                     }
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
+                SizedBox(height: 17.h),
+
+                /// Confirm Password
+                AppTextField(
                   controller: _confirmPasswordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Confirm Password',
-                    border: OutlineInputBorder(),
-                  ),
+                  label: LocaleKeys.confirmPassword.tr(),
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
+                      return LocaleKeys.pleaseConfirmYourPassword.tr();
                     }
                     if (value != _passwordController.text) {
-                      return 'Passwords do not match';
+                      return LocaleKeys.passwordsDoNotMatch.tr();
                     }
                     return null;
                   },
                 ),
-                const SizedBox(height: 24),
-                ElevatedButton(
+                SizedBox(height: 17.h),
+
+                AppButton(
+                  text: LocaleKeys.signUp.tr(),
+                  icon: Icons.login,
                   onPressed: _handleRegister,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: const Text('Register'),
+                  color: AllColors.globalAppColor,
+                  textColor: AllColors.white,
                 ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Already have an account? Login'),
+                SizedBox(height: 16.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Already have an account?", style: tr13),
+                    SizedBox(width: 8.w),
+                    GestureDetector(
+                      onTap: () {
+                        popScreen(context);
+                      },
+                      child: Text(
+                        'Login',
+                        style: tsb13.copyWith(color: AllColors.globalAppColor),
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),

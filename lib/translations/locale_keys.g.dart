@@ -28,7 +28,8 @@ abstract class LocaleKeys {
   static const welcome = 'welcome';
   static const termsAndContactUs = 'termsAndContactUs';
   static const splitsmart = 'splitsmart';
-  static const smartWayToManageSharedExpenses = 'smartWayToManageSharedExpenses';
+  static const smartWayToManageSharedExpenses =
+      'smartWayToManageSharedExpenses';
   static const letsGetStart = 'letsGetStart';
   static const email = 'email';
   static const enterValidEmail = 'enterValidEmail';
@@ -37,5 +38,16 @@ abstract class LocaleKeys {
   static const forgetPassword = 'forgetPassword';
   static const newUser = 'newUser';
   static const createAccount = 'createAccount';
-
+  static const letsCreateAnAccount = 'letsCreateAnAccount';
+  static const name = 'name';
+  static const confirmPassword = 'confirmPassword';
+  static const passwordsDoNotMatch = 'passwordsDoNotMatch';
+  static const pleaseEnterYourEmail = 'pleaseEnterYourEmail';
+  static const pleaseEnterYourName = 'pleaseEnterYourName';
+  static const pleaseEnterYourPassword = 'pleaseEnterYourPassword';
+  static const passwordMustBeAtLeast6Characters = 'passwordMustBeAtLeast6Characters';
+  static const pleaseConfirmYourPassword = 'pleaseConfirmYourPassword';
+  static const getStarted = 'getStarted';
+  static const yourAccountIsCreated = 'yourAccountIsCreated';
+  static const congratulations = 'congratulations';
 }
