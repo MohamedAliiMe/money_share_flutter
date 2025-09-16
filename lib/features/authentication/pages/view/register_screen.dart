@@ -62,6 +62,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                   SizedBox(height: 40.h),
+                Row(
+                  children: [
+                    Image.asset(
+                      Assets.images.iconInterfaceSolid.path,
+                      width: 32.w,
+                      height: 32.h,
+                      color: AllColors.globalAppColor,
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(LocaleKeys.splitsmart.tr(), style: tsb25),
+                  ],
+                ),
+                SizedBox(height: 40.h),
+                Text(LocaleKeys.login.tr(), style: tsb25),
+                SizedBox(height: 6.h),
+                Text(
+                  LocaleKeys.letsGetStart.tr(),
+                  style: tr13.copyWith(color: AllColors.grey),
+                ),
+                SizedBox(height: 24.h),
                 TextFormField(
                   controller: _nameController,
                   decoration: const InputDecoration(
