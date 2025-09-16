@@ -24,4 +24,18 @@ abstract class LocaleKeys {
   static const error = 'error';
   static const someThingWentWrong = 'someThingWentWrong';
   static const doneSuccessfully = 'doneSuccessfully';
+  static const signUp = 'signUp';
+  static const welcome = 'welcome';
+  static const termsAndContactUs = 'termsAndContactUs';
+  static const splitsmart = 'splitsmart';
+  static const smartWayToManageSharedExpenses = 'smartWayToManageSharedExpenses';
+  static const letsGetStart = 'letsGetStart';
+  static const email = 'email';
+  static const enterValidEmail = 'enterValidEmail';
+  static const password = 'password';
+  static const passwordIsWrong = 'passwordIsWrong';
+  static const forgetPassword = 'forgetPassword';
+  static const newUser = 'newUser';
+  static const createAccount = 'createAccount';
+
 }

@@ -35,8 +35,8 @@ _i174.GetIt $initGetIt(
     environmentFilter,
   );
   final registerModule = _$RegisterModule();
-  gh.factory<_i691.ThemeCubit>(() => _i691.ThemeCubit());
   gh.factory<_i102.DataStorage>(() => _i102.DataStorage());
+  gh.factory<_i691.ThemeCubit>(() => _i691.ThemeCubit());
   gh.factory<_i559.ProfileCubit>(() => _i559.ProfileCubit());
   gh.factory<String>(
     () => registerModule.baseUrl,

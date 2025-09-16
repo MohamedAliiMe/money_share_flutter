@@ -19,4 +19,6 @@ class AllColors {
   static const Color customFavoriteColor = Color(0xffFECF08);
   static const Color home2Container = Color(0xffFF9F06);
   static const Color walkthroughTitle = Color(0xffff03277f);
+  static const Color globalAppColor = Color(0xffffA755F7);
+  static const Color errorField = Color(0xffffFFCCCC);
 }

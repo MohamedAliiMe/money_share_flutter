@@ -16,8 +16,12 @@ class $AssetsImagesGen {
   AssetGenImage get iconInterfaceSolid =>
       const AssetGenImage('assets/images/Icon Interface Solid.png');
 
+  /// File path: assets/images/title-header-login-screen.svg
+  String get titleHeaderLoginScreen =>
+      'assets/images/title-header-login-screen.svg';
+
   /// List of all assets
-  List<AssetGenImage> get values => [iconInterfaceSolid];
+  List<dynamic> get values => [iconInterfaceSolid, titleHeaderLoginScreen];
 }
 
 class Assets {

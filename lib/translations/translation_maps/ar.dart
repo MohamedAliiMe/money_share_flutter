@@ -22,4 +22,18 @@ const Map<String, String> ar = {
   "error": "خطأ",
   "someThingWentWrong": "هناك خطأ ما",
   "doneSuccessfully": "تم التنفيذ بنجاح",
+  "signUp": "إنشاء حساب",
+  "termsAndContactUs": "الشروط / سياسة الخصوصية / اتصل بنا",
+  "welcome": " ! مرحباً ",
+  "splitsmart": "قسم بذكاء",
+  "smartWayToManageSharedExpenses": "طريقة ذكية لإدارة النفقات المشتركة",
+  "letsGetStart": "لنبدأ",
+  "email": "البريد الإلكتروني",
+  "enterValidEmail": "أدخل بريد إلكتروني صحيح",
+  "password": "كلمة المرور",
+  "passwordIsWrong": "كلمة المرور خاطئة، حاول مرة أخرى!",
+  "forgetPassword": "نسيت كلمة المرور؟",
+  "newUser": "مستخدم جديد؟",
+  "createAccount": "إنشاء حساب",
+
 };

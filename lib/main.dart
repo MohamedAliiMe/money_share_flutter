@@ -65,6 +65,7 @@ import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
 import 'package:splitwise_flutter/core/utilities/appKeys.dart';
 import 'package:splitwise_flutter/core/utilities/configs/themes/core_theme.dart';
 import 'package:splitwise_flutter/core/utilities/environment/environment_configurations.dart';
+import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
 import 'package:splitwise_flutter/core/utilities/routes_navigator/route_generator.dart';
 import 'package:splitwise_flutter/translations/codegen_loader.g.dart';
 
@@ -96,8 +97,8 @@ void main() async {
     EasyLocalization(
       path: 'assets/translation',
       supportedLocales: const [Locale('ar'), Locale('en')],
-      startLocale: const Locale('ar'),
-      fallbackLocale: const Locale('ar'),
+      startLocale: const Locale('en'),
+      fallbackLocale: const Locale('en'),
       assetLoader: const CodeGenLoader(),
       child: const MyApp(),
     ),
@@ -140,6 +141,7 @@ class _MaterialChildState extends State<MaterialChild> {
           darkTheme: themeDark,
           themeMode: ThemeMode.light,
           onGenerateRoute: RouteGenerator.generateRoute,
+          initialRoute: AppRoute.splashPage,
         );
       },
     );

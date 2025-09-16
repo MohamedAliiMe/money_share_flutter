@@ -23,7 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     const GroupsTab(),
     const ActivityTab(),
-    const FriendsScreen(),
+    const ActivityTab(),
+    // const FriendsScreen(),
     const ProfileScreen(),
   ];
 
@@ -70,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                   return;
                 }
-                
+
                 final selectedGroup = await showDialog<Group>(
                   context: context,
                   builder: (context) => AlertDialog(
@@ -159,4 +160,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

@@ -1,8 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
+import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
+import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/login_params/login_params.dart';
 import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
+import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
+import 'package:splitwise_flutter/features/authentication/widget/app_text_field_widget.dart';
+import 'package:splitwise_flutter/gen/assets.gen.dart';
+import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 
 import 'register_screen.dart';
 
@@ -19,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   final AuthenticationCubit _authenticationCubit = getIt<AuthenticationCubit>();
 
+  bool _obscurePassword = true;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -28,130 +38,135 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      try {
-        // Call AuthenticationCubit for login
-        await _authenticationCubit.getLogin(
-          loginParams: LoginParams(
-            email: _emailController.text,
-            password: _passwordController.text,
-          ),
-        );
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(e.toString())),
-          );
-        }
-      }
+      await _authenticationCubit.getLogin(
+        loginParams: LoginParams(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  'Splitwise',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green,
-                  ),
-                  textAlign: TextAlign.center,
+                SizedBox(height: 40.h),
+                Row(
+                  children: [
+                    Image.asset(
+                      Assets.images.iconInterfaceSolid.path,
+                      width: 32.w,
+                      height: 32.h,
+                      color: AllColors.globalAppColor,
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(LocaleKeys.splitsmart.tr(), style: tsb25),
+                  ],
                 ),
-                const SizedBox(height: 48),
-                TextFormField(
+                SizedBox(height: 40.h),
+                Text(LocaleKeys.login.tr(), style: tsb25),
+                SizedBox(height: 6.h),
+                Text(
+                  LocaleKeys.letsGetStart.tr(),
+                  style: tr13.copyWith(color: AllColors.grey),
+                ),
+                SizedBox(height: 24.h),
+                AppTextField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                  ),
+                  label: LocaleKeys.email.tr(),
                   keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    if (!value.contains('@')) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
+                  validator: (value) => value == null || !value.contains('@')
+                      ? LocaleKeys.enterValidEmail.tr()
+                      : null,
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
+                SizedBox(height: 16.h),
+                AppTextField(
                   controller: _passwordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                    border: OutlineInputBorder(),
+                  label: LocaleKeys.password.tr(),
+                  obscureText: _obscurePassword,
+                  validator: (value) => value == null || value.length < 6
+                      ? LocaleKeys.passwordIsWrong.tr()
+                      : null,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color: AllColors.globalAppColor,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
                   ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
-                    }
-                    return null;
-                  },
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 8.h),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    LocaleKeys.forgetPassword.tr(),
+                    style: TextStyle(
+                        color: AllColors.globalAppColor, fontSize: 12.sp),
+                  ),
+                ),
+                SizedBox(height: 24.h),
                 BlocConsumer<AuthenticationCubit, AuthenticationState>(
                   bloc: _authenticationCubit,
                   listener: (context, state) {
-                    if (state.isLoading) {
-                      showDialog(
-                        context: context,
-                        builder: (context) =>
-                            const Center(child: CircularProgressIndicator()),
-                      );
-                    }
-                    if (state.successMessage != null) {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.successMessage!)),
-                      );
-                    }
                     if (state.errorMessage != null) {
-                      Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(state.errorMessage!)),
                       );
                     }
                   },
                   builder: (context, state) {
-                    return ElevatedButton(
+                    return AppButton(
+                      text: LocaleKeys.login.tr(),
+                      icon: Icons.login,
                       onPressed: _handleLogin,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                      child: const Text('Login'),
+                      color: AllColors.globalAppColor,
+                      textColor: AllColors.white,
                     );
                   },
-                ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text('Don\'t have an account? Register'),
                 ),
               ],
             ),
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: 20.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(LocaleKeys.newUser.tr()),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const RegisterScreen()),
+                );
+              },
+              child: Text(
+                LocaleKeys.createAccount.tr(),
+                style: TextStyle(
+                  color: Colors.purple,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
