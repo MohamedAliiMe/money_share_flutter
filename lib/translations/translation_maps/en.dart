@@ -32,7 +32,7 @@ const Map<String, String> en = {
   "enterValidEmail": "Enter valid email",
   "password": "Password",
   "passwordIsWrong": "Password is wrong, please try again!",
-  "forgetPassword": "Forgot Password?",
+  "forgetPassword": "Forgot Password",
   "newUser": "New User?",
   "createAccount": "Create Account",
   "letsCreateAnAccount": "Let's Create ccount",
@@ -45,6 +45,11 @@ const Map<String, String> en = {
   "passwordMustBeAtLeast6Characters": "Password must be at least 6 characters",
   "pleaseConfirmYourPassword": "Please confirm your password",
   "getStarted": "Get Started",
-  "yourAccountIsCreated": "Your account is created complete. Let's get started!",
+  "yourAccountIsCreated":
+      "Your account is created complete. Let's get started!",
   "congratulations": "Congratulations!",
+  "continues": "Continue",
+  "remeberYourPassword": "Remembered your password?",
+  "checkYourEmail": "Check your email",
+  "forGetAccessToCreateNewPassword": "for get access to create new password",
 };

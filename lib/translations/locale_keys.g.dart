@@ -45,9 +45,15 @@ abstract class LocaleKeys {
   static const pleaseEnterYourEmail = 'pleaseEnterYourEmail';
   static const pleaseEnterYourName = 'pleaseEnterYourName';
   static const pleaseEnterYourPassword = 'pleaseEnterYourPassword';
-  static const passwordMustBeAtLeast6Characters = 'passwordMustBeAtLeast6Characters';
+  static const passwordMustBeAtLeast6Characters =
+      'passwordMustBeAtLeast6Characters';
   static const pleaseConfirmYourPassword = 'pleaseConfirmYourPassword';
   static const getStarted = 'getStarted';
   static const yourAccountIsCreated = 'yourAccountIsCreated';
   static const congratulations = 'congratulations';
+  static const continues = 'continue';
+  static const remeberYourPassword = 'remeberYourPassword';
+  static const checkYourEmail = 'checkYourEmail';
+  static const forGetAccessToCreateNewPassword =
+      'forGetAccessToCreateNewPassword';
 }

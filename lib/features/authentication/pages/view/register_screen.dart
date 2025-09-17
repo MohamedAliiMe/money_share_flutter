@@ -2,10 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
 import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart';
+import 'package:splitwise_flutter/features/authentication/data/models/regester_params/regester_params.dart';
+import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_text_field_widget.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
@@ -25,6 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final AuthenticationCubit _authCubit = getIt<AuthenticationCubit>();
 
   @override
   void dispose() {
@@ -38,13 +42,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _handleRegister() async {
     if (_formKey.currentState!.validate()) {
       try {
-        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        final authProvider = _authCubit;
         await authProvider.register(
-          _nameController.text,
-          _emailController.text,
-          _passwordController.text,
-          _confirmPasswordController.text,
-        );
+            registerParams: RegisterParams(
+                name: _nameController.text,
+                email: _emailController.text,
+                password: _passwordController.text,
+                passwordConfirmation: _confirmPasswordController.text));
         if (mounted) {
           pushName(context, AppRoute.congratulationScreen);
         }

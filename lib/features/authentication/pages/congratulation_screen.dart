@@ -42,7 +42,7 @@ class CongratulationScreen extends StatelessWidget {
               child: AppButton(
                 text: LocaleKeys.getStarted.tr(),
                 onPressed: () =>
-                    pushName(context, AppRoute.registerScreen),
+                    popAllAndPushName(context, AppRoute.homeScreen),
               ),
             ),
           ],

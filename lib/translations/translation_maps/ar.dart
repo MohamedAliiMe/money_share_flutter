@@ -32,7 +32,7 @@ const Map<String, String> ar = {
   "enterValidEmail": "أدخل بريد إلكتروني صحيح",
   "password": "كلمة المرور",
   "passwordIsWrong": "كلمة المرور خاطئة، حاول مرة أخرى!",
-  "forgetPassword": "نسيت كلمة المرور؟",
+  "forgetPassword": "نسيت كلمة المرور",
   "newUser": "مستخدم جديد؟",
   "createAccount": "إنشاء حساب",
   "letsCreateAnAccount": "لننشئ حساباً",
@@ -47,5 +47,10 @@ const Map<String, String> ar = {
   "getStarted": "لنبدأ",
   "yourAccountIsCreated": "تم إنشاء حسابك بنجاح. لنبدأ!",
   "congratulations": "تهانينا!",
+  "continues" : "استمرار",
+  "remeberYourPassword" : "هل تذكرت كلمة مرورك؟",
+  "checkYourEmail": "تحقق من بريدك الإلكتروني",
+  "forGetAccessToCreateNewPassword": "للحصول على إمكانية إنشاء كلمة مرور جديدة",
+
 
 };

@@ -113,12 +113,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(height: 8.h),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    LocaleKeys.forgetPassword.tr(),
-                    style: TextStyle(
-                        color: AllColors.globalAppColor, fontSize: 12.sp),
+                GestureDetector(
+                  onTap: () {
+                    pushName(context, AppRoute.forgetPasswordScreen);
+                  },
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      LocaleKeys.forgetPassword.tr(),
+                      style: TextStyle(
+                          color: AllColors.globalAppColor, fontSize: 12.sp),
+                    ),
                   ),
                 ),
                 SizedBox(height: 24.h),
@@ -159,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Text(
                 LocaleKeys.createAccount.tr(),
                 style: TextStyle(
-                  color: Colors.purple,
+                  color: AllColors.globalAppColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
