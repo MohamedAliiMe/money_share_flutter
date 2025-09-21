@@ -2,7 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
-import 'package:splitwise_flutter/features/authentication/pages/congratulation_screen.dart';
+import 'package:splitwise_flutter/features/authentication/pages/view/congratulation_screen.dart';
+import 'package:splitwise_flutter/features/authentication/pages/view/create_new_password_sceen.dart';
 import 'package:splitwise_flutter/features/authentication/pages/view/forget_pasword_screen.dart';
 import 'package:splitwise_flutter/features/authentication/pages/view/login_screen.dart';
 import 'package:splitwise_flutter/features/authentication/pages/view/register_screen.dart';
@@ -23,8 +24,16 @@ class RouteGenerator {
         return _screenInit(const CongratulationScreen(), settings);
       case AppRoute.homeScreen:
         return _screenInit(const HomeScreen(), settings);
-        case AppRoute.forgetPasswordScreen:
+      case AppRoute.forgetPasswordScreen:
         return _screenInit(const ForgetPaswordScreen(), settings);
+
+      case AppRoute.createNewPasswordSceen:
+        final arg = settings.arguments as String;
+        return _screenInit(
+            CreateNewPasswordSceen(
+              emailName: arg,
+            ),
+            settings);
       default:
         return _errorRoute();
     }

@@ -129,6 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 AppTextField(
                   controller: _passwordController,
                   label: LocaleKeys.password.tr(),
+                  keyboardType: TextInputType.text,
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {

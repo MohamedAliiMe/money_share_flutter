@@ -29,6 +29,11 @@ class _ForgetPaswordScreenState extends State<ForgetPaswordScreen> {
   bool _emailSubmitted = false;
 
   Future<void> _handleLogin() async {
+    if (_emailSubmitted) {
+      pushNameWithArguments(
+          context, AppRoute.createNewPasswordSceen, _emailController.text);
+      return;
+    }
     if (_formKey.currentState!.validate()) {
       setState(() {
         _emailSubmitted = true;

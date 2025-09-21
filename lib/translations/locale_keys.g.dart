@@ -56,4 +56,9 @@ abstract class LocaleKeys {
   static const checkYourEmail = 'checkYourEmail';
   static const forGetAccessToCreateNewPassword =
       'forGetAccessToCreateNewPassword';
+  static const createNewPassword = 'createNewPassword';
+  static const yourEmail = 'yourEmail';
+  static const newPassword = 'newPassword';
+  static const confirmNewPassword = 'confirmNewPassword';
+
 }

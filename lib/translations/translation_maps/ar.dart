@@ -51,6 +51,9 @@ const Map<String, String> ar = {
   "remeberYourPassword" : "هل تذكرت كلمة مرورك؟",
   "checkYourEmail": "تحقق من بريدك الإلكتروني",
   "forGetAccessToCreateNewPassword": "للحصول على إمكانية إنشاء كلمة مرور جديدة",
-
+  "createNewPassword" : "إنشاء كلمة مرور جديدة",
+  "yourEmail" :"بريدك الإلكتروني", 
+  "newPassword" : "كلمة مرور جديدة",
+  "confirmNewPassword" : "تأكيد كلمة المرور الجديدة",
 
 };

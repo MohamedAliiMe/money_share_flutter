@@ -52,4 +52,8 @@ const Map<String, String> en = {
   "remeberYourPassword": "Remembered your password?",
   "checkYourEmail": "Check your email",
   "forGetAccessToCreateNewPassword": "for get access to create new password",
+  "createNewPassword" : "Create New Password",
+  "yourEmail" :"Your Email", 
+  "newPassword" : "New Password",
+  "confirmNewPassword" : "Confirm New Password",
 };
