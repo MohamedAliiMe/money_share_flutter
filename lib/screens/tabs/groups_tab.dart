@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/groups_provider.dart';
 import '../../models/group.dart';
 import '../group_details_screen.dart';
 import '../create_group_screen.dart';
@@ -13,47 +11,45 @@ class GroupsTab extends StatefulWidget {
 }
 
 class _GroupsTabState extends State<GroupsTab> {
+  List<Group> groups = [];
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<GroupsProvider>().loadGroups();
+    _loadGroups();
+  }
+
+  Future<void> _loadGroups() async {
+    setState(() {
+      groups = [
+        Group(
+          id: 1,
+          name: 'Family',
+          description: 'Family expenses',
+          totalSpent: 120.50,
+          members: [], // Add mock members here if needed
+        ),
+        Group(
+          id: 2,
+          name: 'Friends',
+          description: 'Trip expenses',
+          totalSpent: 300.00,
+          members: [], // Add mock members here if needed
+        ),
+      ];
     });
   }
 
   Future<void> _refreshGroups() async {
-    await context.read<GroupsProvider>().loadGroups();
+    await _loadGroups();
   }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: _refreshGroups,
-      child: Consumer<GroupsProvider>(
-        builder: (context, groupsProvider, child) {
-          if (groupsProvider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (groupsProvider.error != null) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Error: ${groupsProvider.error}'),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _refreshGroups,
-                    child: const Text('Retry'),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          final groups = groupsProvider.groups;
-          if (groups.isEmpty) {
-            return Center(
+      child: groups.isEmpty
+          ? Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -72,40 +68,36 @@ class _GroupsTabState extends State<GroupsTab> {
                   ),
                 ],
               ),
-            );
-          }
-
-        return ListView.builder(
-          itemCount: groups.length,
-          itemBuilder: (context, index) {
-            final Group group = groups[index];
-            return ListTile(
-              leading: const CircleAvatar(
-                child: Icon(Icons.group),
-              ),
-              title: Text(group.name),
-              subtitle: Text(group.description ?? ''),
-              trailing: Text(
-                group.totalSpent > 0 
-                    ? '\$${group.totalSpent.toStringAsFixed(2)}'
-                    : '',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GroupDetailsScreen(group: group),
+            )
+          : ListView.builder(
+              itemCount: groups.length,
+              itemBuilder: (context, index) {
+                final Group group = groups[index];
+                return ListTile(
+                  leading: const CircleAvatar(
+                    child: Icon(Icons.group),
                   ),
+                  title: Text(group.name),
+                  subtitle: Text(group.description ?? ''),
+                  trailing: Text(
+                    group.totalSpent > 0
+                        ? '\$${group.totalSpent.toStringAsFixed(2)}'
+                        : '',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GroupDetailsScreen(group: group),
+                      ),
+                    );
+                  },
                 );
               },
-            );
-          },
-        );
-      },
-    ),
-  );
+            ),
+    );
   }
 }

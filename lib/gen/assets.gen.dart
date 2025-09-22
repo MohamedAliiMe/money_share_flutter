@@ -16,12 +16,35 @@ class $AssetsImagesGen {
   AssetGenImage get iconInterfaceSolid =>
       const AssetGenImage('assets/images/Icon Interface Solid.png');
 
+  /// File path: assets/images/Icon.png
+  AssetGenImage get icon => const AssetGenImage('assets/images/Icon.png');
+
+  /// File path: assets/images/activity.svg
+  String get activity => 'assets/images/activity.svg';
+
   /// File path: assets/images/done-succesfly.png
   AssetGenImage get doneSuccesfly =>
       const AssetGenImage('assets/images/done-succesfly.png');
 
+  /// File path: assets/images/friends.svg
+  String get friends => 'assets/images/friends.svg';
+
+  /// File path: assets/images/home-02.svg
+  String get home02 => 'assets/images/home-02.svg';
+
+  /// File path: assets/images/profile.svg
+  String get profile => 'assets/images/profile.svg';
+
   /// List of all assets
-  List<AssetGenImage> get values => [iconInterfaceSolid, doneSuccesfly];
+  List<dynamic> get values => [
+        iconInterfaceSolid,
+        icon,
+        activity,
+        doneSuccesfly,
+        friends,
+        home02,
+        profile
+      ];
 }
 
 class Assets {
