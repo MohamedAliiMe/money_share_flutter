@@ -17,6 +17,7 @@ import '../../features/authentication/data/repositories/authentication_repositor
 import '../../features/authentication/data/services/authentication_service.dart'
     as _i894;
 import '../../features/authentication/logic/authentication_cubit.dart' as _i854;
+import '../../features/nav/logic/nav_cubit.dart' as _i106;
 import '../../features/profile/data/services/profile_service.dart' as _i510;
 import '../../features/profile/logic/profile_cubit.dart' as _i559;
 import '../utilities/app_data_storage.dart' as _i102;
@@ -38,6 +39,7 @@ _i174.GetIt $initGetIt(
   gh.factory<_i102.DataStorage>(() => _i102.DataStorage());
   gh.factory<_i691.ThemeCubit>(() => _i691.ThemeCubit());
   gh.factory<_i559.ProfileCubit>(() => _i559.ProfileCubit());
+  gh.factory<_i106.NavCubit>(() => _i106.NavCubit());
   gh.factory<String>(
     () => registerModule.baseUrl,
     instanceName: 'BaseUrl',

@@ -108,7 +108,7 @@ TextStyle tr10 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_10Size, fontWeight: FontWeight.w400, color: AllColors.black);
 TextStyle tr12 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_12Size, fontWeight: FontWeight.w400, color: AllColors.black);
-    TextStyle tr13 = GoogleFonts.notoSansHebrew().copyWith(
+TextStyle tr13 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_13Size, fontWeight: FontWeight.w400, color: AllColors.black);
 TextStyle tr14 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_14Size, fontWeight: FontWeight.w400, color: AllColors.black);
@@ -122,7 +122,7 @@ TextStyle tr22 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_22Size, fontWeight: FontWeight.w400, color: AllColors.black);
 TextStyle tr24 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_24Size, fontWeight: FontWeight.w400, color: AllColors.black);
-    TextStyle tr25 = GoogleFonts.notoSansHebrew().copyWith(
+TextStyle tr25 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_25Size, fontWeight: FontWeight.w400, color: AllColors.black);
 TextStyle tr32 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_32Size, fontWeight: FontWeight.w400, color: AllColors.black);
@@ -183,7 +183,7 @@ TextStyle tsb10 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_10Size, fontWeight: FontWeight.w600, color: AllColors.black);
 TextStyle tsb12 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_12Size, fontWeight: FontWeight.w600, color: AllColors.black);
-    TextStyle tsb13 = GoogleFonts.notoSansHebrew().copyWith(
+TextStyle tsb13 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_13Size, fontWeight: FontWeight.w600, color: AllColors.black);
 TextStyle tsb14 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_14Size, fontWeight: FontWeight.w600, color: AllColors.black);
@@ -198,7 +198,7 @@ TextStyle tsb22 = GoogleFonts.notoSansHebrew().copyWith(
 TextStyle tsb24 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_24Size, fontWeight: FontWeight.w600, color: AllColors.black);
 
-    TextStyle tsb25 = GoogleFonts.notoSansHebrew().copyWith(
+TextStyle tsb25 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_25Size, fontWeight: FontWeight.w600, color: AllColors.black);
 TextStyle tsb32 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_32Size, fontWeight: FontWeight.w600, color: AllColors.black);

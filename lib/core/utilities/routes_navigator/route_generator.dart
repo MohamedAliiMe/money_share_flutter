@@ -8,6 +8,7 @@ import 'package:splitwise_flutter/features/authentication/pages/view/forget_pasw
 import 'package:splitwise_flutter/features/authentication/pages/view/login_screen.dart';
 import 'package:splitwise_flutter/features/authentication/pages/view/register_screen.dart';
 import 'package:splitwise_flutter/features/authentication/pages/view/splash_screen.dart';
+import 'package:splitwise_flutter/features/nav/pages/view/nav_page.dart';
 import 'package:splitwise_flutter/screens/home_screen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 
@@ -26,6 +27,8 @@ class RouteGenerator {
         return _screenInit(const HomeScreen(), settings);
       case AppRoute.forgetPasswordScreen:
         return _screenInit(const ForgetPaswordScreen(), settings);
+        case AppRoute.navPage:
+        return _screenInit(const NavPage(), settings);
 
       case AppRoute.createNewPasswordSceen:
         final arg = settings.arguments as String;

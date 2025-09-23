@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
           password: _passwordController.text.trim(),
         ),
       );
-      popAllAndPushName(context, AppRoute.homeScreen);
+      popAllAndPushName(context, AppRoute.navPage);
     }
   }
 
