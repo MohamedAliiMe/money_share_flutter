@@ -14,6 +14,7 @@ class AuthenticationState with _$AuthenticationState {
     bool? failedLoginState,
     LoginModel? getLogin,
     RegisterModel? register,
+    LogoutModel? logout,
     String? userAccessToken,
   }) = _AuthenticationState;
 }

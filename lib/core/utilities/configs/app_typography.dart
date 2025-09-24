@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 
 double font_32Size = 32.sp;
+double font_31Size = 31.sp;
 double font_34Size = 34.sp;
 double font_30Size = 30.sp;
 double font_28Size = 28.sp;
@@ -206,6 +207,8 @@ TextStyle tsb34 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_34Size, fontWeight: FontWeight.w600, color: AllColors.black);
 TextStyle tsb30 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_30Size, fontWeight: FontWeight.w600, color: AllColors.black);
+TextStyle tsb31 = GoogleFonts.notoSansHebrew().copyWith(
+    fontSize: font_31Size, fontWeight: FontWeight.w600, color: AllColors.black);
 
 // notoSansHebrew ExtraBold
 TextStyle txb10 = GoogleFonts.notoSansHebrew().copyWith(

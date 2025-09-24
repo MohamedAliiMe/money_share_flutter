@@ -13,26 +13,27 @@ class NavState with _$NavState {
     @Default(false) bool failedState,
     @Default(false) bool showOngoingProjects,
   }) = _NavState;
-  
-factory NavState.initial() => NavState(
-      currentIndex: 0,
-      pages: const [
-        GroupsTab(),
-        ActivityTab(),
-        ActivityTab(),
-        ProfileScreen(),
-      ],
-      navPages: [
-        NavEntity(Assets.images.home02, 'Home', const GroupsTab()),
-        NavEntity(Assets.images.activity, 'Activity', const ActivityTab()),
-        NavEntity(Assets.images.friends, 'Friends', const ActivityTab()),
-        NavEntity(Assets.images.profile, 'Profile', const ProfileScreen()),
-      ],
-      currentPage:  NavEntity(
-        Assets.images.home02,
-        'Home',
-        GroupsTab(),
-      ),
-    );
 
+  factory NavState.initial() => NavState(
+        currentIndex: 0,
+        pages: const [
+          GroupsTab(),
+          ActivityTab(),
+          SizedBox.shrink(),
+          ActivityTab(),
+          ProfileScreen(),
+        ],
+        navPages: [
+          NavEntity(Assets.images.home02, 'Home', const GroupsTab()),
+          NavEntity(Assets.images.activity, 'Activity', const ActivityTab()),
+          NavEntity('', '', SizedBox.shrink()),
+          NavEntity(Assets.images.friends, 'Friends', const ActivityTab()),
+          NavEntity(Assets.images.profile, 'Profile', const ProfileScreen()),
+        ],
+        currentPage: NavEntity(
+          Assets.images.home02,
+          'Home',
+          GroupsTab(),
+        ),
+      );
 }

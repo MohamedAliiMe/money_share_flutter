@@ -14,7 +14,7 @@ class _AuthenticationService implements AuthenticationService {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'https://yalla.redgits.com/splitwise/api';
+    baseUrl ??= 'https://yalla.redgits.com/api';
   }
 
   final Dio _dio;
@@ -24,38 +24,33 @@ class _AuthenticationService implements AuthenticationService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<SingleItemBaseResponse<LoginModel>>> getLogin(
+  Future<HttpResponse<LoginModel>> getLogin(
       {required LoginParams loginParams}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(loginParams.toJson());
-    final _options =
-        _setStreamType<HttpResponse<SingleItemBaseResponse<LoginModel>>>(
-            Options(
+    final _options = _setStreamType<HttpResponse<LoginModel>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-                .compose(
-                  _dio.options,
-                  '/login',
-                  queryParameters: queryParameters,
-                  data: _data,
-                )
-                .copyWith(
-                    baseUrl: _combineBaseUrls(
-                  _dio.options.baseUrl,
-                  baseUrl,
-                )));
+        .compose(
+          _dio.options,
+          '/login',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late SingleItemBaseResponse<LoginModel> _value;
+    late LoginModel _value;
     try {
-      _value = SingleItemBaseResponse<LoginModel>.fromJson(
-        _result.data!,
-        (json) => LoginModel.fromJson(json as Map<String, dynamic>),
-      );
+      _value = LoginModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -65,38 +60,67 @@ class _AuthenticationService implements AuthenticationService {
   }
 
   @override
-  Future<HttpResponse<SingleItemBaseResponse<RegisterModel>>> register(
+  Future<HttpResponse<RegisterModel>> register(
       {required RegisterParams registerParams}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(registerParams.toJson());
-    final _options =
-        _setStreamType<HttpResponse<SingleItemBaseResponse<RegisterModel>>>(
-            Options(
+    final _options = _setStreamType<HttpResponse<RegisterModel>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-                .compose(
-                  _dio.options,
-                  '/register',
-                  queryParameters: queryParameters,
-                  data: _data,
-                )
-                .copyWith(
-                    baseUrl: _combineBaseUrls(
-                  _dio.options.baseUrl,
-                  baseUrl,
-                )));
+        .compose(
+          _dio.options,
+          '/register',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late SingleItemBaseResponse<RegisterModel> _value;
+    late RegisterModel _value;
     try {
-      _value = SingleItemBaseResponse<RegisterModel>.fromJson(
-        _result.data!,
-        (json) => RegisterModel.fromJson(json as Map<String, dynamic>),
-      );
+      _value = RegisterModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<LogoutModel>> logout() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<LogoutModel>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/logout',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late LogoutModel _value;
+    try {
+      _value = LogoutModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

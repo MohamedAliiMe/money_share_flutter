@@ -60,5 +60,4 @@ abstract class LocaleKeys {
   static const yourEmail = 'yourEmail';
   static const newPassword = 'newPassword';
   static const confirmNewPassword = 'confirmNewPassword';
-
 }

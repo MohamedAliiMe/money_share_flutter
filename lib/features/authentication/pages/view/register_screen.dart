@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
+import 'package:splitwise_flutter/core/functions/app_alert_dialog.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
@@ -29,6 +31,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final AuthenticationCubit _authCubit = getIt<AuthenticationCubit>();
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   void dispose() {
@@ -49,9 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 email: _emailController.text,
                 password: _passwordController.text,
                 passwordConfirmation: _confirmPasswordController.text));
-        if (mounted) {
-          pushName(context, AppRoute.congratulationScreen);
-        }
+        if (mounted) {}
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -127,24 +129,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 /// Password
                 AppTextField(
-                  controller: _passwordController,
-                  label: LocaleKeys.password.tr(),
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return LocaleKeys.pleaseEnterYourPassword.tr();
-                    }
-                    if (value.length < 6) {
-                      return LocaleKeys.passwordMustBeAtLeast6Characters.tr();
-                    }
-                    return null;
-                  },
-                ),
+                    controller: _passwordController,
+                    label: LocaleKeys.password.tr(),
+                    keyboardType: TextInputType.text,
+                    obscureText: _obscurePassword,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return LocaleKeys.pleaseEnterYourPassword.tr();
+                      }
+                      if (value.length < 6) {
+                        return LocaleKeys.passwordMustBeAtLeast6Characters.tr();
+                      }
+                      return null;
+                    },
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: AllColors.globalAppColor,
+                      ),
+                    )),
                 SizedBox(height: 17.h),
 
                 /// Confirm Password
                 AppTextField(
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _obscureConfirmPassword = !_obscureConfirmPassword;
+                      });
+                    },
+                    icon: Icon(
+                      _obscureConfirmPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color: AllColors.globalAppColor,
+                    ),
+                  ),
                   controller: _confirmPasswordController,
                   label: LocaleKeys.confirmPassword.tr(),
                   obscureText: true,
@@ -158,14 +185,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 17.h),
+                SizedBox(height: 16.h),
 
-                AppButton(
-                  text: LocaleKeys.signUp.tr(),
-                  icon: Icons.login,
-                  onPressed: _handleRegister,
-                  color: AllColors.globalAppColor,
-                  textColor: AllColors.white,
+                BlocConsumer<AuthenticationCubit, AuthenticationState>(
+                  bloc: _authCubit,
+                  listener: (context, state) {
+                    if (state.errorMessage != null) {
+                      AppAlertDialog.showErrorBar(
+                        errorMessage: state.errorMessage,
+                      );
+                      return;
+                    }
+
+                    if (state.failedState == true &&
+                        state.errorMessage != null) {
+                      AppAlertDialog.showErrorBar(
+                        errorMessage: state.errorMessage,
+                      );
+                      return;
+                    }
+
+                    if (state.successMessage != null ||
+                        state.register != null) {
+                      AppAlertDialog.showSuccessBar(
+                        message: LocaleKeys.doneSuccessfully.tr(),
+                      );
+                      popAllAndPushName(context, AppRoute.congratulationScreen);
+                    }
+                  },
+                  builder: (context, state) {
+                    return AppButton(
+                      text: LocaleKeys.signUp.tr(),
+                      icon: Icons.login,
+                      onPressed: _handleRegister,
+                      color: AllColors.globalAppColor,
+                      textColor: AllColors.white,
+                    );
+                  },
                 ),
                 SizedBox(height: 16.h),
                 Row(

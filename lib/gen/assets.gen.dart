@@ -35,6 +35,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/profile.svg
   String get profile => 'assets/images/profile.svg';
 
+  /// File path: assets/images/splaasg-bouttom-left.png
+  AssetGenImage get splaasgBouttomLeft =>
+      const AssetGenImage('assets/images/splaasg-bouttom-left.png');
+
+  /// File path: assets/images/splash-top-right.png
+  AssetGenImage get splashTopRight =>
+      const AssetGenImage('assets/images/splash-top-right.png');
+
   /// List of all assets
   List<dynamic> get values => [
         iconInterfaceSolid,
@@ -43,7 +51,9 @@ class $AssetsImagesGen {
         doneSuccesfly,
         friends,
         home02,
-        profile
+        profile,
+        splaasgBouttomLeft,
+        splashTopRight
       ];
 }
 

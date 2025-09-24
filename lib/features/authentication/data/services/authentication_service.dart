@@ -5,6 +5,7 @@ import 'package:splitwise_flutter/core/data/single_item_base_response/single_ite
 import 'package:splitwise_flutter/core/networking/api_path.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/login_model/login_model.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/login_params/login_params.dart';
+import 'package:splitwise_flutter/features/authentication/data/models/logout_model/logout_model.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/regester_params/regester_params.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/register_model/register_model.dart';
 
@@ -18,14 +19,19 @@ abstract class AuthenticationService {
       _AuthenticationService(dio);
 
   @POST(AppApiPaths.loginUrl)
-  Future<HttpResponse<SingleItemBaseResponse<LoginModel>>> getLogin({
+  Future<HttpResponse<LoginModel>> getLogin({
     @Body() required LoginParams loginParams,
   });
 
   @POST(AppApiPaths.registerUrl)
-  Future<HttpResponse<SingleItemBaseResponse<RegisterModel>>> register({
+  Future<HttpResponse<RegisterModel>> register({
     @Body() required RegisterParams registerParams,
   });
+
+  @POST(AppApiPaths.logout)
+  Future<HttpResponse<LogoutModel>> logout();
+
+
 
   // @POST(AppApiPaths.forgetPassword)
   // Future<HttpResponse<SingleItemBaseResponse<RegisterModel>>> forgetPassword({

@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
+import 'package:splitwise_flutter/core/functions/app_alert_dialog.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
+import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
+import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart';
+import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 
 import '../providers/auth_provider.dart';
@@ -43,6 +49,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  final AuthenticationCubit _authenticationCubit = getIt<AuthenticationCubit>();
 
   final List<Widget> _screens = [
     const GroupsTab(),
@@ -54,9 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<GroupsProvider>(context, listen: false).loadGroups();
-    });
   }
 
   void _showAddDialog() {
@@ -139,14 +143,23 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: AllColors.white,
       appBar: AppBar(
-        title: const Text('Splitwise'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              context.read<AuthProvider>().logout();
+          BlocListener<AuthenticationCubit, AuthenticationState>(
+            bloc: _authenticationCubit,
+            listener: (context, state) {
+              if (state.successMessage != null) {
+                AppAlertDialog.showSuccessBar(message: state.successMessage);
+                popAllAndPushName(context, AppRoute.splasAuthScreen);
+              } else {
+                AppAlertDialog.showErrorBar(errorMessage: state.errorMessage);
+              }
             },
-          ),
+            child: IconButton(
+                onPressed: () {
+                  _authenticationCubit.logout();
+                },
+                icon: Icon(Icons.logout_rounded)),
+          )
         ],
       ),
       body: _screens[_selectedIndex],

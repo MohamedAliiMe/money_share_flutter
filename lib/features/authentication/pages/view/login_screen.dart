@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
+import 'package:splitwise_flutter/core/functions/app_alert_dialog.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
@@ -46,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
           password: _passwordController.text.trim(),
         ),
       );
-      popAllAndPushName(context, AppRoute.navPage);
     }
   }
 
@@ -132,9 +132,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   bloc: _authenticationCubit,
                   listener: (context, state) {
                     if (state.errorMessage != null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.errorMessage!)),
-                      );
+                      AppAlertDialog.showErrorBar(
+                          errorMessage: state.errorMessage);
+                      return;
+                    }
+                    if (state.failedLoginState == true &&
+                        state.loginErrorMessage != null) {
+                      AppAlertDialog.showErrorBar(
+                          errorMessage: state.loginErrorMessage);
+                      return;
+                    }
+
+                    if (state.successMessage != null ||
+                        state.getLogin != null) {
+                      AppAlertDialog.showSuccessBar(
+                          message: state.successMessage);
+                      popAllAndPushName(context, AppRoute.navPage);
                     }
                   },
                   builder: (context, state) {
@@ -146,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       textColor: AllColors.white,
                     );
                   },
-                ),
+                )
               ],
             ),
           ),

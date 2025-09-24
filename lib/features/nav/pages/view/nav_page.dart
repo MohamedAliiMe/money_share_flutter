@@ -2,14 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
+import 'package:splitwise_flutter/core/functions/app_alert_dialog.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
+import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
+import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart';
+import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
 import 'package:splitwise_flutter/features/nav/domain/entity/nav_entity.dart';
 import 'package:splitwise_flutter/features/nav/logic/nav_cubit.dart';
 
-class NavPage extends StatelessWidget {
+class NavPage extends StatefulWidget {
   const NavPage({super.key});
 
+  @override
+  State<NavPage> createState() => _NavPageState();
+}
+
+class _NavPageState extends State<NavPage> {
+  final AuthenticationCubit _authenticationCubit = getIt<AuthenticationCubit>();
   void _showAddDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -45,6 +56,28 @@ class NavPage extends StatelessWidget {
       child: BlocBuilder<NavCubit, NavState>(
         builder: (context, state) {
           return Scaffold(
+            appBar: AppBar(
+              actions: [
+                BlocListener<AuthenticationCubit, AuthenticationState>(
+                  bloc: _authenticationCubit,
+                  listener: (context, state) {
+                    if (state.successMessage != null) {
+                      AppAlertDialog.showSuccessBar(
+                          message: state.successMessage);
+                      popAllAndPushName(context, AppRoute.splasAuthScreen);
+                    } else {
+                      AppAlertDialog.showErrorBar(
+                          errorMessage: state.errorMessage);
+                    }
+                  },
+                  child: IconButton(
+                      onPressed: () {
+                        _authenticationCubit.logout();
+                      },
+                      icon: Icon(Icons.logout_rounded)),
+                )
+              ],
+            ),
             body: state.currentPage?.page,
             bottomNavigationBar: SizedBox(
               height: 90.h,

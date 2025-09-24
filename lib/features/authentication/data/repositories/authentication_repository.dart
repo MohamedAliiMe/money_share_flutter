@@ -4,6 +4,7 @@ import 'package:splitwise_flutter/core/networking/data_state.dart';
 import 'package:splitwise_flutter/core/networking/network_utils.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/login_model/login_model.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/login_params/login_params.dart';
+import 'package:splitwise_flutter/features/authentication/data/models/logout_model/logout_model.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/regester_params/regester_params.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/register_model/register_model.dart';
 import 'package:splitwise_flutter/features/authentication/data/services/authentication_service.dart';
@@ -14,21 +15,20 @@ class AuthenticationRepository {
 
   AuthenticationRepository(this._service);
 
-  Future<DataState<SingleItemBaseResponse<LoginModel>>> getLogin({
+  Future<DataState<LoginModel>> getLogin({
     required LoginParams loginParams,
   }) {
-    final NetworkUtils<SingleItemBaseResponse<LoginModel>> networkUtils =
+    final NetworkUtils<LoginModel> networkUtils =
         NetworkUtils();
     return networkUtils.handleApiResponse(_service.getLogin(
         loginParams: LoginParams(
             email: loginParams.email, password: loginParams.password)));
   }
 
-  Future<DataState<SingleItemBaseResponse<RegisterModel>>> register({
+  Future<DataState<RegisterModel>> register({
     required RegisterParams registerParams,
   }) {
-    final NetworkUtils<SingleItemBaseResponse<RegisterModel>> networkUtils =
-        NetworkUtils();
+    final NetworkUtils<RegisterModel> networkUtils = NetworkUtils();
     return networkUtils.handleApiResponse(_service.register(
         registerParams: RegisterParams(
       name: registerParams.name,
@@ -36,5 +36,10 @@ class AuthenticationRepository {
       password: registerParams.password,
       passwordConfirmation: registerParams.passwordConfirmation,
     )));
+  }
+
+  Future<DataState<LogoutModel>> logout() {
+    final NetworkUtils<LogoutModel> networkUtils = NetworkUtils();
+    return networkUtils.handleApiResponse(_service.logout());
   }
 }

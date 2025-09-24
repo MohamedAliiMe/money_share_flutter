@@ -27,6 +27,7 @@ mixin _$AuthenticationState {
   bool? get failedLoginState => throw _privateConstructorUsedError;
   LoginModel? get getLogin => throw _privateConstructorUsedError;
   RegisterModel? get register => throw _privateConstructorUsedError;
+  LogoutModel? get logout => throw _privateConstructorUsedError;
   String? get userAccessToken => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -52,6 +53,7 @@ abstract class $AuthenticationStateCopyWith<$Res> {
       bool? failedLoginState,
       LoginModel? getLogin,
       RegisterModel? register,
+      LogoutModel? logout,
       String? userAccessToken});
 }
 
@@ -79,6 +81,7 @@ class _$AuthenticationStateCopyWithImpl<$Res, $Val extends AuthenticationState>
     Object? failedLoginState = freezed,
     Object? getLogin = freezed,
     Object? register = freezed,
+    Object? logout = freezed,
     Object? userAccessToken = freezed,
   }) {
     return _then(_value.copyWith(
@@ -126,6 +129,10 @@ class _$AuthenticationStateCopyWithImpl<$Res, $Val extends AuthenticationState>
           ? _value.register
           : register // ignore: cast_nullable_to_non_nullable
               as RegisterModel?,
+      logout: freezed == logout
+          ? _value.logout
+          : logout // ignore: cast_nullable_to_non_nullable
+              as LogoutModel?,
       userAccessToken: freezed == userAccessToken
           ? _value.userAccessToken
           : userAccessToken // ignore: cast_nullable_to_non_nullable
@@ -154,6 +161,7 @@ abstract class _$$AuthenticationStateImplCopyWith<$Res>
       bool? failedLoginState,
       LoginModel? getLogin,
       RegisterModel? register,
+      LogoutModel? logout,
       String? userAccessToken});
 }
 
@@ -179,6 +187,7 @@ class __$$AuthenticationStateImplCopyWithImpl<$Res>
     Object? failedLoginState = freezed,
     Object? getLogin = freezed,
     Object? register = freezed,
+    Object? logout = freezed,
     Object? userAccessToken = freezed,
   }) {
     return _then(_$AuthenticationStateImpl(
@@ -226,6 +235,10 @@ class __$$AuthenticationStateImplCopyWithImpl<$Res>
           ? _value.register
           : register // ignore: cast_nullable_to_non_nullable
               as RegisterModel?,
+      logout: freezed == logout
+          ? _value.logout
+          : logout // ignore: cast_nullable_to_non_nullable
+              as LogoutModel?,
       userAccessToken: freezed == userAccessToken
           ? _value.userAccessToken
           : userAccessToken // ignore: cast_nullable_to_non_nullable
@@ -249,6 +262,7 @@ class _$AuthenticationStateImpl implements _AuthenticationState {
       this.failedLoginState,
       this.getLogin,
       this.register,
+      this.logout,
       this.userAccessToken});
 
   @override
@@ -276,11 +290,13 @@ class _$AuthenticationStateImpl implements _AuthenticationState {
   @override
   final RegisterModel? register;
   @override
+  final LogoutModel? logout;
+  @override
   final String? userAccessToken;
 
   @override
   String toString() {
-    return 'AuthenticationState(isLoading: $isLoading, errorMessage: $errorMessage, loginErrorMessage: $loginErrorMessage, successMessage: $successMessage, resitSuccessMessage: $resitSuccessMessage, resitErrorMessage: $resitErrorMessage, otpErrorMessage: $otpErrorMessage, failedState: $failedState, failedLoginState: $failedLoginState, getLogin: $getLogin, register: $register, userAccessToken: $userAccessToken)';
+    return 'AuthenticationState(isLoading: $isLoading, errorMessage: $errorMessage, loginErrorMessage: $loginErrorMessage, successMessage: $successMessage, resitSuccessMessage: $resitSuccessMessage, resitErrorMessage: $resitErrorMessage, otpErrorMessage: $otpErrorMessage, failedState: $failedState, failedLoginState: $failedLoginState, getLogin: $getLogin, register: $register, logout: $logout, userAccessToken: $userAccessToken)';
   }
 
   @override
@@ -310,6 +326,7 @@ class _$AuthenticationStateImpl implements _AuthenticationState {
                 other.getLogin == getLogin) &&
             (identical(other.register, register) ||
                 other.register == register) &&
+            (identical(other.logout, logout) || other.logout == logout) &&
             (identical(other.userAccessToken, userAccessToken) ||
                 other.userAccessToken == userAccessToken));
   }
@@ -328,6 +345,7 @@ class _$AuthenticationStateImpl implements _AuthenticationState {
       failedLoginState,
       getLogin,
       register,
+      logout,
       userAccessToken);
 
   @JsonKey(ignore: true)
@@ -351,6 +369,7 @@ abstract class _AuthenticationState implements AuthenticationState {
       final bool? failedLoginState,
       final LoginModel? getLogin,
       final RegisterModel? register,
+      final LogoutModel? logout,
       final String? userAccessToken}) = _$AuthenticationStateImpl;
 
   @override
@@ -375,6 +394,8 @@ abstract class _AuthenticationState implements AuthenticationState {
   LoginModel? get getLogin;
   @override
   RegisterModel? get register;
+  @override
+  LogoutModel? get logout;
   @override
   String? get userAccessToken;
   @override

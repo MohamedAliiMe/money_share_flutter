@@ -11,6 +11,7 @@ import 'package:splitwise_flutter/core/utilities/app_data_storage.dart';
 import 'package:splitwise_flutter/core/utilities/static_data.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/login_model/login_model.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/login_params/login_params.dart';
+import 'package:splitwise_flutter/features/authentication/data/models/logout_model/logout_model.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/regester_params/regester_params.dart';
 import 'package:splitwise_flutter/features/authentication/data/models/register_model/register_model.dart';
 import 'package:splitwise_flutter/features/authentication/data/repositories/authentication_repository.dart';
@@ -38,18 +39,18 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       failedLoginState: false,
     ));
 
-    final DataState<SingleItemBaseResponse<LoginModel>> dataState =
+    final DataState<LoginModel> dataState =
         await _authenticationRepository.getLogin(loginParams: loginParams);
 
     if (dataState is DataSuccess) {
-      final loginData = dataState.data!.data!;
+      final loginData = dataState.data!;
       final token = loginData.token;
 
       emit(state.copyWith(
         isLoading: false,
         failedState: false,
         getLogin: loginData,
-        successMessage: dataState.data!.message,
+        successMessage: dataState.error,
         failedLoginState: false,
         errorMessage: null,
         loginErrorMessage: null,
@@ -78,22 +79,21 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       errorMessage: null,
       successMessage: null,
     ));
-    final DataState<SingleItemBaseResponse<RegisterModel>> dataState =
-        await _authenticationRepository.register(
-            registerParams: registerParams);
+    final DataState<RegisterModel> dataState = await _authenticationRepository
+        .register(registerParams: registerParams);
     if (dataState is DataSuccess) {
       emit(state.copyWith(
         isLoading: false,
         failedState: true,
-        register: dataState.data!.data,
-        successMessage: dataState.data?.message,
+        register: dataState.data!,
+        successMessage: "dataState.data?",
         errorMessage: null,
       ));
       await _dataStorage.saveData(
-          AppStringConstants.userAccessToken, dataState.data!.data!.token);
+          AppStringConstants.userAccessToken, dataState.data!.token);
       StaticData.isAuth = false;
 
-      log('User access token saved: ${dataState.data!.data!.token}');
+      log('User access token saved: ${dataState.data!.token}');
     } else {
       log('Error retrieving token: ${dataState.error}');
       emit(state.copyWith(
@@ -114,6 +114,35 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     } catch (e) {
       log('Error retrieving token: $e');
       return null;
+    }
+  }
+
+  Future<void> logout() async {
+    emit(state.copyWith(
+      isLoading: true,
+      failedState: false,
+      errorMessage: null,
+      successMessage: null,
+    ));
+    final DataState<LogoutModel> dataState =
+        await _authenticationRepository.logout();
+    if (dataState is DataSuccess) {
+      final succesMessage = dataState.data!.message;
+      emit(state.copyWith(
+        isLoading: false,
+        failedState: false,
+        successMessage: succesMessage,
+        failedLoginState: false,
+        errorMessage: null,
+        loginErrorMessage: null,
+      ));
+    } else {
+      emit(state.copyWith(
+        isLoading: false,
+        successMessage: null,
+        errorMessage: dataState.data!.message,
+        failedState: true,
+      ));
     }
   }
 }
