@@ -67,8 +67,8 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                 Image.asset(
                   Assets.images.iconInterfaceSolid.path,
-                  width: 87.w,
-                  height: 87.h,
+                  width: 48.w,
+                  height: 48.h,
                 ),
                 Text(
                   LocaleKeys.splitsmart.tr(),

@@ -36,6 +36,7 @@ abstract class LocaleKeys {
   static const password = 'password';
   static const passwordIsWrong = 'passwordIsWrong';
   static const forgetPassword = 'forgetPassword';
+  static const forgetPasswordTitle = 'forgetPasswordTitle';
   static const newUser = 'newUser';
   static const createAccount = 'createAccount';
   static const letsCreateAnAccount = 'letsCreateAnAccount';

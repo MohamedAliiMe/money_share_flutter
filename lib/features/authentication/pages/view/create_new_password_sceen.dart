@@ -75,7 +75,6 @@ class _CreateNewPasswordSceenState extends State<CreateNewPasswordSceen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(height: 40.h),
                     Row(
                       children: [
                         Image.asset(

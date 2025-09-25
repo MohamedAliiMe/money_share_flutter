@@ -1,9 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
 import 'package:splitwise_flutter/core/functions/app_alert_dialog.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
@@ -11,34 +10,9 @@ import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
 import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart';
 import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
+import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
-
-import '../providers/auth_provider.dart';
-import '../models/group.dart';
-import '../providers/groups_provider.dart';
-import 'create_group_screen.dart';
-import 'create_expense_screen.dart';
-import 'profile_screen.dart';
-import 'friends_screen.dart';
-import 'tabs/groups_tab.dart';
-import 'tabs/activity_tab.dart';
-
-class CustomStyle extends StyleHook {
-  @override
-  double get activeIconSize => 36.sp;
-  @override
-  double get activeIconMargin => 6.w;
-  @override
-  double get iconSize => 24.sp;
-
-  @override
-  TextStyle textStyle(Color color, [String? itemTitle]) {
-    final bool isActive = color == AllColors.globalAppColor;
-    return isActive
-        ? tsb13.copyWith(color: AllColors.globalAppColor)
-        : tsb13.copyWith(color: AllColors.darkBlue);
-  }
-}
+import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,101 +22,51 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
   final AuthenticationCubit _authenticationCubit = getIt<AuthenticationCubit>();
-
-  final List<Widget> _screens = [
-    const GroupsTab(),
-    const ActivityTab(),
-    const ActivityTab(),
-    const ProfileScreen(),
+  final groups = [
+    {
+      "name": "Hurghada000000000000000000000000000000",
+      "members": "0 Member",
+      "activity": "No Activity yet",
+      "status": "No Expenses yet",
+      "statusColor": AllColors.grey,
+      "icon": Assets.images.house,
+    },
+    {
+      "name": "Dahab",
+      "members": "4 Members",
+      "activity": "You added Dinner",
+      "status": "Receive 250 EGP",
+      "statusColor": AllColors.green,
+      "icon": Assets.images.airplane,
+    },
+    {
+      "name": "Apartment",
+      "members": "You, Omar",
+      "activity": "Omar added Rent",
+      "status": "Pay 250 EGP",
+      "statusColor": AllColors.red,
+      "icon": Assets.images.heart,
+    },
   ];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void _showAddDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Add New'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.group_add),
-              title: const Text('New Group'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CreateGroupScreen(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.receipt),
-              title: const Text('New Expense'),
-              onTap: () async {
-                Navigator.pop(context);
-                final groups = context.read<GroupsProvider>().groups;
-                if (groups.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please create a group first'),
-                    ),
-                  );
-                  return;
-                }
-
-                final selectedGroup = await showDialog<Group>(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('Select Group'),
-                    content: SizedBox(
-                      width: double.maxFinite,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: groups.length,
-                        itemBuilder: (context, index) {
-                          final group = groups[index];
-                          return ListTile(
-                            title: Text(group.name),
-                            onTap: () => Navigator.pop(context, group),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                );
-
-                if (selectedGroup != null && context.mounted) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CreateExpenseScreen(
-                        group: selectedGroup,
-                      ),
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AllColors.white,
       appBar: AppBar(
+        title: Row(
+          children: [
+            Image.asset(
+              Assets.images.iconInterfaceSolid.path,
+              width: 35.w,
+              height: 35.h,
+              color: AllColors.globalAppColor,
+            ),
+            SizedBox(width: 8.w),
+            Text(LocaleKeys.splitsmart.tr(), style: tsb20),
+          ],
+        ),
         actions: [
           BlocListener<AuthenticationCubit, AuthenticationState>(
             bloc: _authenticationCubit,
@@ -154,90 +78,148 @@ class _HomeScreenState extends State<HomeScreen> {
                 AppAlertDialog.showErrorBar(errorMessage: state.errorMessage);
               }
             },
-            child: IconButton(
-                onPressed: () {
-                  _authenticationCubit.logout();
-                },
-                icon: Icon(Icons.logout_rounded)),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: GestureDetector(
+                child: SvgPicture.asset(Assets.images.searsh),
+                onTap: () {},
+              ),
+            ),
           )
         ],
       ),
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: StyleProvider(
-        style: CustomStyle(),
-        child: ConvexAppBar(
-          style: TabStyle.fixedCircle,
-          backgroundColor: AllColors.whiteBase,
-          color: AllColors.white.withOpacity(0.2),
-          activeColor: AllColors.globalAppColor,
-          elevation: 0,
-          cornerRadius: 18.r,
-          height: 90.h,
-          curveSize: 100.sp,
-          top: -30.h,
-          items: [
-            TabItem(
-                icon: SvgPicture.asset(Assets.images.home02,
-                    color: _selectedIndex == 0
-                        ? AllColors.globalAppColor
-                        : AllColors.darkBlue),
-                title: 'Home'),
-            TabItem(
-                icon: SvgPicture.asset(Assets.images.activity,
-                    color: _selectedIndex == 1
-                        ? AllColors.globalAppColor
-                        : AllColors.darkBlue),
-                title: 'Activity'),
-            TabItem(
-              icon: Container(
-                margin: EdgeInsets.all(8.w),
+      body: groups.isEmpty ? _buildEmptyState(context) : _buildGroupsList(),
+    );
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text.rich(
+                TextSpan(
+                  text: "Ready to ",
+                  style: tr13.copyWith(color: Colors.black),
+                  children: [
+                    TextSpan(
+                      text: "Splitsmart?",
+                      style: tr13.copyWith(
+                        color: AllColors.globalAppColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const TextSpan(text: "\nCreate your first group now!"),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20.h),
+              AppButton(
+                text: "Add Group",
+                color: AllColors.globalAppColor,
+                textColor: AllColors.white,
+                onPressed: () {
+                  // Navigate to Create Group Screen
+                },
+                width: 182.w,
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGroupsList() {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Groups",
+                style: tr20,
+              ),
+              GestureDetector(
+                  onTap: () {}, child: SvgPicture.asset(Assets.images.filter)),
+            ],
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            padding: EdgeInsets.all(16.w),
+            itemCount: groups.length,
+            itemBuilder: (context, index) {
+              final group = groups[index];
+              return Container(
+                margin: EdgeInsets.only(bottom: 16.h),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AllColors.globalAppColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AllColors.globalAppColor.withOpacity(0.9),
-                      blurRadius: 12,
-                      spreadRadius: 2,
-                      offset: const Offset(0, 2),
+                  color: AllColors.grey.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(
+                    color: AllColors.grey.withOpacity(0.03),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 20.r,
+                      backgroundColor:
+                          AllColors.globalAppColor.withOpacity(0.15),
+                      child: SvgPicture.asset(group['icon'].toString()),
+                    ),
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  group["name"].toString(),
+                                  style: tr16,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              SizedBox(width: 8.w),
+                              Expanded(
+                                child: Text(
+                                  group["status"].toString(),
+                                  style: tr13.copyWith(
+                                    color: group["statusColor"] as Color,
+                                  ),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(group["members"].toString(),
+                              style: tr13.copyWith(color: AllColors.grey)),
+                          Text(group["activity"].toString(),
+                              style: tr13.copyWith(color: AllColors.grey)),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-                child: Center(
-                  child: Icon(
-                    Icons.add,
-                    size: 32.sp,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              title: '',
-            ),
-            TabItem(
-                icon: SvgPicture.asset(Assets.images.friends,
-                    color: _selectedIndex == 2
-                        ? AllColors.globalAppColor
-                        : AllColors.darkBlue),
-                title: 'Friends'),
-            TabItem(
-                icon: SvgPicture.asset(Assets.images.profile,
-                    color: _selectedIndex == 3
-                        ? AllColors.globalAppColor
-                        : AllColors.darkBlue),
-                title: 'Profile'),
-          ],
-          initialActiveIndex: 0,
-          onTap: (int index) {
-            if (index == 2) {
-              _showAddDialog();
-              return;
-            }
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
+              );
+            },
+          ),
         ),
-      ),
+      ],
     );
   }
 }

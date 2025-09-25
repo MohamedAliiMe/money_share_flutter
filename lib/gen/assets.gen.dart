@@ -22,18 +22,33 @@ class $AssetsImagesGen {
   /// File path: assets/images/activity.svg
   String get activity => 'assets/images/activity.svg';
 
+  /// File path: assets/images/airplane.svg
+  String get airplane => 'assets/images/airplane.svg';
+
   /// File path: assets/images/done-succesfly.png
   AssetGenImage get doneSuccesfly =>
       const AssetGenImage('assets/images/done-succesfly.png');
 
+  /// File path: assets/images/filter.svg
+  String get filter => 'assets/images/filter.svg';
+
   /// File path: assets/images/friends.svg
   String get friends => 'assets/images/friends.svg';
+
+  /// File path: assets/images/heart.svg
+  String get heart => 'assets/images/heart.svg';
 
   /// File path: assets/images/home-02.svg
   String get home02 => 'assets/images/home-02.svg';
 
+  /// File path: assets/images/house.svg
+  String get house => 'assets/images/house.svg';
+
   /// File path: assets/images/profile.svg
   String get profile => 'assets/images/profile.svg';
+
+  /// File path: assets/images/searsh.svg
+  String get searsh => 'assets/images/searsh.svg';
 
   /// File path: assets/images/splaasg-bouttom-left.png
   AssetGenImage get splaasgBouttomLeft =>
@@ -48,10 +63,15 @@ class $AssetsImagesGen {
         iconInterfaceSolid,
         icon,
         activity,
+        airplane,
         doneSuccesfly,
+        filter,
         friends,
+        heart,
         home02,
+        house,
         profile,
+        searsh,
         splaasgBouttomLeft,
         splashTopRight
       ];

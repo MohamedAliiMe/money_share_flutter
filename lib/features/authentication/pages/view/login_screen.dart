@@ -62,7 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 40.h),
                 Row(
                   children: [
                     Image.asset(
@@ -120,11 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      LocaleKeys.forgetPassword.tr(),
-                      style: TextStyle(
-                          color: AllColors.globalAppColor, fontSize: 12.sp),
-                    ),
+                    child: Text(LocaleKeys.forgetPassword.tr(),
+                        style: tsb10.copyWith(color: AllColors.globalAppColor)),
                   ),
                 ),
                 SizedBox(height: 24.h),

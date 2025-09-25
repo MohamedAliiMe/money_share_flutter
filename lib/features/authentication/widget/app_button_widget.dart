@@ -9,6 +9,7 @@ class AppButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color color;
   final Color textColor;
+  final double? width;
 
   const AppButton({
     super.key,
@@ -17,12 +18,13 @@ class AppButton extends StatelessWidget {
     this.color = AllColors.white,
     this.textColor = AllColors.black,
     this.icon,
+    this.width,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      width: width ?? double.infinity,
       child: InkWell(
         onTap: onPressed,
         borderRadius: BorderRadius.circular(30.r),

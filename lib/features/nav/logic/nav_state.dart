@@ -16,24 +16,25 @@ class NavState with _$NavState {
 
   factory NavState.initial() => NavState(
         currentIndex: 0,
-        pages: const [
-          GroupsTab(),
-          ActivityTab(),
-          SizedBox.shrink(),
-          ActivityTab(),
-          ProfileScreen(),
-        ],
+        pages: [
+  const HomeScreen(),
+  const ActivityTab(),
+  CreateGroupScreen(),
+  const ActivityTab(),
+  const ProfileScreen(),
+],
+
         navPages: [
-          NavEntity(Assets.images.home02, 'Home', const GroupsTab()),
+          NavEntity(Assets.images.home02, 'Home', const HomeScreen()),
           NavEntity(Assets.images.activity, 'Activity', const ActivityTab()),
-          NavEntity('', '', SizedBox.shrink()),
+          NavEntity('', '', const CreateGroupScreen()),
           NavEntity(Assets.images.friends, 'Friends', const ActivityTab()),
           NavEntity(Assets.images.profile, 'Profile', const ProfileScreen()),
         ],
         currentPage: NavEntity(
           Assets.images.home02,
           'Home',
-          GroupsTab(),
+          HomeScreen(),
         ),
       );
 }

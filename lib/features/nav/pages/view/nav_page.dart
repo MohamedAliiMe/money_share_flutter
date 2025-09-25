@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
 import 'package:splitwise_flutter/core/functions/app_alert_dialog.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
@@ -21,33 +21,11 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   final AuthenticationCubit _authenticationCubit = getIt<AuthenticationCubit>();
-  void _showAddDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Add New'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.group_add),
-              title: const Text('New Group'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.receipt),
-              title: const Text('New Expense'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+
+  bool isCreating = false;
+
+  static const int createIndex = 2;
+  static const int homeIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -55,36 +33,24 @@ class _NavPageState extends State<NavPage> {
       create: (_) => NavCubit(),
       child: BlocBuilder<NavCubit, NavState>(
         builder: (context, state) {
+          if (state.currentIndex != createIndex && isCreating) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) setState(() => isCreating = false);
+            });
+          } else if (state.currentIndex == createIndex && !isCreating) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) setState(() => isCreating = true);
+            });
+          }
+
           return Scaffold(
-            appBar: AppBar(
-              actions: [
-                BlocListener<AuthenticationCubit, AuthenticationState>(
-                  bloc: _authenticationCubit,
-                  listener: (context, state) {
-                    if (state.successMessage != null) {
-                      AppAlertDialog.showSuccessBar(
-                          message: state.successMessage);
-                      popAllAndPushName(context, AppRoute.splasAuthScreen);
-                    } else {
-                      AppAlertDialog.showErrorBar(
-                          errorMessage: state.errorMessage);
-                    }
-                  },
-                  child: IconButton(
-                      onPressed: () {
-                        _authenticationCubit.logout();
-                      },
-                      icon: Icon(Icons.logout_rounded)),
-                )
-              ],
-            ),
             body: state.currentPage?.page,
             bottomNavigationBar: SizedBox(
               height: 90.h,
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  NavBarBackground(),
+                  const NavBarBackground(),
                   Positioned.fill(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -92,7 +58,7 @@ class _NavPageState extends State<NavPage> {
                         final item = state.navPages[index];
                         final isSelected = state.currentIndex == index;
 
-                        if (index == 2) {
+                        if (index == createIndex) {
                           return Row(
                             children: [
                               SizedBox(width: 60.w),
@@ -110,7 +76,7 @@ class _NavPageState extends State<NavPage> {
                     left: 0,
                     right: 0,
                     child: GestureDetector(
-                      onTap: () => _showAddDialog(context),
+                      onTap: () => _onMiddleButtonPressed(context, state),
                       child: Container(
                         height: 70.h,
                         width: 70.w,
@@ -127,7 +93,9 @@ class _NavPageState extends State<NavPage> {
                           ],
                         ),
                         child: Icon(
-                          Icons.add,
+                          (isCreating || state.currentIndex == createIndex)
+                              ? Icons.check
+                              : Icons.add,
                           color: Colors.white,
                           size: 32.h,
                         ),
@@ -150,7 +118,16 @@ class _NavPageState extends State<NavPage> {
     bool isSelected,
   ) {
     return GestureDetector(
-      onTap: () => context.read<NavCubit>().changePage(index),
+      onTap: () {
+        if (index == createIndex) {
+          context.read<NavCubit>().changePage(createIndex);
+          setState(() => isCreating = true);
+          return;
+        }
+
+        context.read<NavCubit>().changePage(index);
+        if (isCreating) setState(() => isCreating = false);
+      },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -163,6 +140,16 @@ class _NavPageState extends State<NavPage> {
         ],
       ),
     );
+  }
+
+  void _onMiddleButtonPressed(BuildContext context, NavState state) {
+    if (state.currentIndex == createIndex || isCreating) {
+      context.read<NavCubit>().changePage(homeIndex);
+      setState(() => isCreating = false);
+    } else {
+      context.read<NavCubit>().changePage(createIndex);
+      setState(() => isCreating = true);
+    }
   }
 }
 

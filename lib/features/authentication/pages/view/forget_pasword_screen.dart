@@ -59,7 +59,6 @@ class _ForgetPaswordScreenState extends State<ForgetPaswordScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 40.h),
                 Row(
                   children: [
                     Image.asset(
@@ -73,7 +72,7 @@ class _ForgetPaswordScreenState extends State<ForgetPaswordScreen> {
                   ],
                 ),
                 SizedBox(height: 40.h),
-                Text(LocaleKeys.forgetPassword.tr(), style: tsb25),
+                Text(LocaleKeys.forgetPasswordTitle.tr(), style: tsb25),
                 SizedBox(height: 24.h),
                 _emailSubmitted
                     ? Text(
@@ -135,7 +134,7 @@ class _ForgetPaswordScreenState extends State<ForgetPaswordScreen> {
                               _emailController.clear();
                             });
                           },
-                          child: Icon(Icons.close, color: Colors.grey),
+                          child: Icon(Icons.close, color: AllColors.grey),
                         ),
                       ],
                     ),
@@ -158,7 +157,7 @@ class _ForgetPaswordScreenState extends State<ForgetPaswordScreen> {
               child: Text(
                 LocaleKeys.login.tr(),
                 style: TextStyle(
-                  color: Colors.purple,
+                  color: AllColors.globalAppColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),

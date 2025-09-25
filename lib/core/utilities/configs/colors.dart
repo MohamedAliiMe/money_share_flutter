@@ -21,4 +21,5 @@ class AllColors {
   static const Color walkthroughTitle = Color(0xffff03277f);
   static const Color globalAppColor = Color(0xffffA755F7);
   static const Color errorField = Color(0xffffFFCCCC);
+  static const Color greyContainer = Color(0xffffF8F8F8);
 }

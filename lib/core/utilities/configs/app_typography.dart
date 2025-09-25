@@ -210,6 +210,10 @@ TextStyle tsb30 = GoogleFonts.notoSansHebrew().copyWith(
 TextStyle tsb31 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_31Size, fontWeight: FontWeight.w600, color: AllColors.black);
 
+TextStyle tyb30 = GoogleFonts.notoSansHebrew().copyWith(
+    fontSize: font_30Size, fontWeight: FontWeight.w700, color: AllColors.black);
+
+
 // notoSansHebrew ExtraBold
 TextStyle txb10 = GoogleFonts.notoSansHebrew().copyWith(
     fontSize: font_10Size, fontWeight: FontWeight.w800, color: AllColors.black);

@@ -29,6 +29,9 @@ class SplashAuthScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(
+                    height: 85.h,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -48,9 +51,8 @@ class SplashAuthScreen extends StatelessWidget {
                   SizedBox(height: 32.h),
                   Text(
                     LocaleKeys.welcome.tr(),
-                    style: tsb30.copyWith(
+                    style: tyb30.copyWith(
                       color: AllColors.white,
-                      fontWeight: FontWeight.w700,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -62,10 +64,7 @@ class SplashAuthScreen extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(
-                    height: 50.h,
-                  ),
-                  // Spacer(),
+                  Spacer(),
                   AppButton(
                     text: LocaleKeys.login.tr(),
                     icon: Icons.login,
