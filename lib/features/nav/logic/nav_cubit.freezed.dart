@@ -23,6 +23,11 @@ mixin _$NavState {
   Map<int, UniqueKey> get pageKeys => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
+  bool? get succses => throw _privateConstructorUsedError;
+  bool? get createGroup => throw _privateConstructorUsedError;
+  String? get groupName => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  bool? get createGroupRequested => throw _privateConstructorUsedError;
   bool get failedState => throw _privateConstructorUsedError;
   bool get showOngoingProjects => throw _privateConstructorUsedError;
 
@@ -44,6 +49,11 @@ abstract class $NavStateCopyWith<$Res> {
       Map<int, UniqueKey> pageKeys,
       bool isLoading,
       String? errorMessage,
+      bool? succses,
+      bool? createGroup,
+      String? groupName,
+      String? description,
+      bool? createGroupRequested,
       bool failedState,
       bool showOngoingProjects});
 }
@@ -68,6 +78,11 @@ class _$NavStateCopyWithImpl<$Res, $Val extends NavState>
     Object? pageKeys = null,
     Object? isLoading = null,
     Object? errorMessage = freezed,
+    Object? succses = freezed,
+    Object? createGroup = freezed,
+    Object? groupName = freezed,
+    Object? description = freezed,
+    Object? createGroupRequested = freezed,
     Object? failedState = null,
     Object? showOngoingProjects = null,
   }) {
@@ -100,6 +115,26 @@ class _$NavStateCopyWithImpl<$Res, $Val extends NavState>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      succses: freezed == succses
+          ? _value.succses
+          : succses // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      createGroup: freezed == createGroup
+          ? _value.createGroup
+          : createGroup // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      groupName: freezed == groupName
+          ? _value.groupName
+          : groupName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createGroupRequested: freezed == createGroupRequested
+          ? _value.createGroupRequested
+          : createGroupRequested // ignore: cast_nullable_to_non_nullable
+              as bool?,
       failedState: null == failedState
           ? _value.failedState
           : failedState // ignore: cast_nullable_to_non_nullable
@@ -128,6 +163,11 @@ abstract class _$$NavStateImplCopyWith<$Res>
       Map<int, UniqueKey> pageKeys,
       bool isLoading,
       String? errorMessage,
+      bool? succses,
+      bool? createGroup,
+      String? groupName,
+      String? description,
+      bool? createGroupRequested,
       bool failedState,
       bool showOngoingProjects});
 }
@@ -150,6 +190,11 @@ class __$$NavStateImplCopyWithImpl<$Res>
     Object? pageKeys = null,
     Object? isLoading = null,
     Object? errorMessage = freezed,
+    Object? succses = freezed,
+    Object? createGroup = freezed,
+    Object? groupName = freezed,
+    Object? description = freezed,
+    Object? createGroupRequested = freezed,
     Object? failedState = null,
     Object? showOngoingProjects = null,
   }) {
@@ -182,6 +227,26 @@ class __$$NavStateImplCopyWithImpl<$Res>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      succses: freezed == succses
+          ? _value.succses
+          : succses // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      createGroup: freezed == createGroup
+          ? _value.createGroup
+          : createGroup // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      groupName: freezed == groupName
+          ? _value.groupName
+          : groupName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createGroupRequested: freezed == createGroupRequested
+          ? _value.createGroupRequested
+          : createGroupRequested // ignore: cast_nullable_to_non_nullable
+              as bool?,
       failedState: null == failedState
           ? _value.failedState
           : failedState // ignore: cast_nullable_to_non_nullable
@@ -205,6 +270,11 @@ class _$NavStateImpl implements _NavState {
       final Map<int, UniqueKey> pageKeys = const {},
       this.isLoading = false,
       this.errorMessage,
+      this.succses,
+      this.createGroup,
+      this.groupName,
+      this.description,
+      this.createGroupRequested,
       this.failedState = false,
       this.showOngoingProjects = false})
       : _pages = pages,
@@ -249,6 +319,16 @@ class _$NavStateImpl implements _NavState {
   @override
   final String? errorMessage;
   @override
+  final bool? succses;
+  @override
+  final bool? createGroup;
+  @override
+  final String? groupName;
+  @override
+  final String? description;
+  @override
+  final bool? createGroupRequested;
+  @override
   @JsonKey()
   final bool failedState;
   @override
@@ -257,7 +337,7 @@ class _$NavStateImpl implements _NavState {
 
   @override
   String toString() {
-    return 'NavState(currentIndex: $currentIndex, pages: $pages, navPages: $navPages, currentPage: $currentPage, pageKeys: $pageKeys, isLoading: $isLoading, errorMessage: $errorMessage, failedState: $failedState, showOngoingProjects: $showOngoingProjects)';
+    return 'NavState(currentIndex: $currentIndex, pages: $pages, navPages: $navPages, currentPage: $currentPage, pageKeys: $pageKeys, isLoading: $isLoading, errorMessage: $errorMessage, succses: $succses, createGroup: $createGroup, groupName: $groupName, description: $description, createGroupRequested: $createGroupRequested, failedState: $failedState, showOngoingProjects: $showOngoingProjects)';
   }
 
   @override
@@ -276,6 +356,15 @@ class _$NavStateImpl implements _NavState {
                 other.isLoading == isLoading) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
+            (identical(other.succses, succses) || other.succses == succses) &&
+            (identical(other.createGroup, createGroup) ||
+                other.createGroup == createGroup) &&
+            (identical(other.groupName, groupName) ||
+                other.groupName == groupName) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.createGroupRequested, createGroupRequested) ||
+                other.createGroupRequested == createGroupRequested) &&
             (identical(other.failedState, failedState) ||
                 other.failedState == failedState) &&
             (identical(other.showOngoingProjects, showOngoingProjects) ||
@@ -292,6 +381,11 @@ class _$NavStateImpl implements _NavState {
       const DeepCollectionEquality().hash(_pageKeys),
       isLoading,
       errorMessage,
+      succses,
+      createGroup,
+      groupName,
+      description,
+      createGroupRequested,
       failedState,
       showOngoingProjects);
 
@@ -311,6 +405,11 @@ abstract class _NavState implements NavState {
       final Map<int, UniqueKey> pageKeys,
       final bool isLoading,
       final String? errorMessage,
+      final bool? succses,
+      final bool? createGroup,
+      final String? groupName,
+      final String? description,
+      final bool? createGroupRequested,
       final bool failedState,
       final bool showOngoingProjects}) = _$NavStateImpl;
 
@@ -328,6 +427,16 @@ abstract class _NavState implements NavState {
   bool get isLoading;
   @override
   String? get errorMessage;
+  @override
+  bool? get succses;
+  @override
+  bool? get createGroup;
+  @override
+  String? get groupName;
+  @override
+  String? get description;
+  @override
+  bool? get createGroupRequested;
   @override
   bool get failedState;
   @override

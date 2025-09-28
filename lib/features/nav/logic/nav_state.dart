@@ -10,24 +10,29 @@ class NavState with _$NavState {
     @Default({}) Map<int, UniqueKey> pageKeys,
     @Default(false) bool isLoading,
     String? errorMessage,
+    bool? succses,
+    bool? createGroup,
+    String? groupName,
+    String? description,
+    bool? createGroupRequested,
     @Default(false) bool failedState,
     @Default(false) bool showOngoingProjects,
   }) = _NavState;
 
   factory NavState.initial() => NavState(
         currentIndex: 0,
+        createGroupRequested: false,
         pages: [
-  const HomeScreen(),
-  const ActivityTab(),
-  CreateGroupScreen(),
-  const ActivityTab(),
-  const ProfileScreen(),
-],
-
+          const HomeScreen(),
+          const ActivityTab(),
+          CreateGroupScreen(),
+          const ActivityTab(),
+          const ProfileScreen(),
+        ],
         navPages: [
           NavEntity(Assets.images.home02, 'Home', const HomeScreen()),
           NavEntity(Assets.images.activity, 'Activity', const ActivityTab()),
-          NavEntity('', '', const CreateGroupScreen()),
+          NavEntity('', '', CreateGroupScreen()),
           NavEntity(Assets.images.friends, 'Friends', const ActivityTab()),
           NavEntity(Assets.images.profile, 'Profile', const ProfileScreen()),
         ],

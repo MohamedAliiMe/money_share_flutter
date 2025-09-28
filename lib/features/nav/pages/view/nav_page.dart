@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -143,12 +145,13 @@ class _NavPageState extends State<NavPage> {
   }
 
   void _onMiddleButtonPressed(BuildContext context, NavState state) {
-    if (state.currentIndex == createIndex || isCreating) {
-      context.read<NavCubit>().changePage(homeIndex);
-      setState(() => isCreating = false);
+    if (state.currentIndex == 2) {
+      context.read<NavCubit>().requestCreateGroup(
+            "New Group Name",
+            "Description",
+          );
     } else {
-      context.read<NavCubit>().changePage(createIndex);
-      setState(() => isCreating = true);
+      context.read<NavCubit>().changePage(2);
     }
   }
 }

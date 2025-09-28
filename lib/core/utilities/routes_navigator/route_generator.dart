@@ -10,6 +10,8 @@ import 'package:splitwise_flutter/features/authentication/pages/view/register_sc
 import 'package:splitwise_flutter/features/authentication/pages/view/splash_auth_screen.dart';
 import 'package:splitwise_flutter/features/authentication/pages/view/splash_screen.dart';
 import 'package:splitwise_flutter/features/nav/pages/view/nav_page.dart';
+import 'package:splitwise_flutter/models/group.dart';
+import 'package:splitwise_flutter/screens/group_details_screen.dart';
 import 'package:splitwise_flutter/screens/home_screen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 
@@ -20,6 +22,14 @@ class RouteGenerator {
         return _screenInit(const SplashScreen(), settings);
       case AppRoute.splasAuthScreen:
         return _screenInit(const SplashAuthScreen(), settings);
+      case AppRoute.groupDetailsScreen:
+        final arg = settings.arguments as Group;
+
+        return _screenInit(
+            GroupDetailsScreen(
+              group: arg,
+            ),
+            settings);
       case AppRoute.loginScreen:
         return _screenInit(const LoginScreen(), settings);
       case AppRoute.registerScreen:

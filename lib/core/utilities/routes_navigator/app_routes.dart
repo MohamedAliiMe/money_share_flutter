@@ -8,4 +8,5 @@ class AppRoute {
   static const String forgetPasswordScreen = '/forgetPasswordScreen';
   static const String createNewPasswordSceen = '/createNewPasswordSceen';
   static const String navPage = '/navPage';
+  static const String groupDetailsScreen = '/groupDetailsScreen';
 }

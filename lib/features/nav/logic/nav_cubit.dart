@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -16,13 +18,14 @@ part 'nav_state.dart';
 part 'nav_cubit.freezed.dart';
 
 @Injectable()
+@Injectable()
 class NavCubit extends Cubit<NavState> {
   final _pageRefreshTimes = <int, DateTime>{};
 
   NavCubit() : super(NavState.initial());
+
   void changePage(int index) {
     if (index < 0 || index >= state.navPages.length) return;
-
     if (state.currentIndex == index) return;
 
     final newPages = List<Widget>.from(state.pages);
@@ -61,7 +64,7 @@ class NavCubit extends Cubit<NavState> {
       case 1:
         return const ActivityTab();
       case 2:
-        return const CreateGroupScreen();
+        return CreateGroupScreen();
       case 3:
         return const ActivityTab();
       case 4:
@@ -69,5 +72,37 @@ class NavCubit extends Cubit<NavState> {
       default:
         return state.pages[index];
     }
+  }
+
+  void addGroup(String groupName, String description) {
+    if (groupName.isNotEmpty && description.isNotEmpty) {
+      emit(state.copyWith(
+        succses: true,
+        createGroup: true,
+        groupName: groupName,
+        description: description,
+        errorMessage: null,
+      ));
+      log(state.groupName.toString());
+      log(state.description.toString());
+    } else {
+      emit(state.copyWith(
+        succses: false,
+        createGroup: false,
+        errorMessage: "Something went wrong",
+      ));
+    }
+  }
+
+  void requestCreateGroup(String groupName, String description) {
+    emit(state.copyWith(
+      createGroupRequested: true,
+      groupName: groupName,
+      description: description,
+    ));
+  }
+
+  void resetCreateGroupRequest() {
+    emit(state.copyWith(createGroupRequested: false));
   }
 }

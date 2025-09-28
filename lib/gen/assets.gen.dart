@@ -25,6 +25,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/airplane.svg
   String get airplane => 'assets/images/airplane.svg';
 
+  /// File path: assets/images/briefcase-02.svg
+  String get briefcase02 => 'assets/images/briefcase-02.svg';
+
+  /// File path: assets/images/calendar.svg
+  String get calendar => 'assets/images/calendar.svg';
+
   /// File path: assets/images/done-succesfly.png
   AssetGenImage get doneSuccesfly =>
       const AssetGenImage('assets/images/done-succesfly.png');
@@ -41,8 +47,20 @@ class $AssetsImagesGen {
   /// File path: assets/images/home-02.svg
   String get home02 => 'assets/images/home-02.svg';
 
+  /// File path: assets/images/home-line.svg
+  String get homeLine => 'assets/images/home-line.svg';
+
   /// File path: assets/images/house.svg
   String get house => 'assets/images/house.svg';
+
+  /// File path: assets/images/love.svg
+  String get love => 'assets/images/love.svg';
+
+  /// File path: assets/images/other.svg
+  String get other => 'assets/images/other.svg';
+
+  /// File path: assets/images/people.svg
+  String get people => 'assets/images/people.svg';
 
   /// File path: assets/images/profile.svg
   String get profile => 'assets/images/profile.svg';
@@ -58,22 +76,36 @@ class $AssetsImagesGen {
   AssetGenImage get splashTopRight =>
       const AssetGenImage('assets/images/splash-top-right.png');
 
+  /// File path: assets/images/trip.svg
+  String get trip => 'assets/images/trip.svg';
+
+  /// File path: assets/images/users-03.svg
+  String get users03 => 'assets/images/users-03.svg';
+
   /// List of all assets
   List<dynamic> get values => [
         iconInterfaceSolid,
         icon,
         activity,
         airplane,
+        briefcase02,
+        calendar,
         doneSuccesfly,
         filter,
         friends,
         heart,
         home02,
+        homeLine,
         house,
+        love,
+        other,
+        people,
         profile,
         searsh,
         splaasgBouttomLeft,
-        splashTopRight
+        splashTopRight,
+        trip,
+        users03
       ];
 }
 

@@ -12,6 +12,9 @@ import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart
 import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
+import 'package:splitwise_flutter/models/group.dart';
+import 'package:splitwise_flutter/models/user.dart';
+import 'package:splitwise_flutter/screens/group_details_screen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,6 +26,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final AuthenticationCubit _authenticationCubit = getIt<AuthenticationCubit>();
+  Widget? _currentBody;
+  bool _isHomePage = true;
   final groups = [
     {
       "name": "Hurghada000000000000000000000000000000",
@@ -49,6 +54,33 @@ class _HomeScreenState extends State<HomeScreen> {
       "icon": Assets.images.heart,
     },
   ];
+  @override
+  void initState() {
+    super.initState();
+    _setInitialBody();
+  }
+
+  void _setInitialBody() {
+    if (groups.isEmpty) {
+      _currentBody = _buildEmptyState(context);
+    } else {
+      _currentBody = _buildGroupsList();
+    }
+  }
+
+  void _showGroupDetails(Group group) {
+    setState(() {
+      _currentBody = GroupDetailsScreen(group: group);
+      _isHomePage = false;
+    });
+  }
+
+  void _showGroupsList() {
+    setState(() {
+      _setInitialBody();
+      _isHomePage = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,28 +99,14 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(LocaleKeys.splitsmart.tr(), style: tsb20),
           ],
         ),
-        actions: [
-          BlocListener<AuthenticationCubit, AuthenticationState>(
-            bloc: _authenticationCubit,
-            listener: (context, state) {
-              if (state.successMessage != null) {
-                AppAlertDialog.showSuccessBar(message: state.successMessage);
-                popAllAndPushName(context, AppRoute.splasAuthScreen);
-              } else {
-                AppAlertDialog.showErrorBar(errorMessage: state.errorMessage);
-              }
-            },
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: GestureDetector(
-                child: SvgPicture.asset(Assets.images.searsh),
-                onTap: () {},
-              ),
-            ),
-          )
-        ],
       ),
-      body: groups.isEmpty ? _buildEmptyState(context) : _buildGroupsList(),
+      body: WillPopScope(
+        onWillPop: () async {
+          _showGroupsList();
+          return false;
+        },
+        child: _currentBody!,
+      ),
     );
   }
 
@@ -157,63 +175,79 @@ class _HomeScreenState extends State<HomeScreen> {
             itemCount: groups.length,
             itemBuilder: (context, index) {
               final group = groups[index];
-              return Container(
-                margin: EdgeInsets.only(bottom: 16.h),
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
-                decoration: BoxDecoration(
-                  color: AllColors.grey.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(20.r),
-                  border: Border.all(
-                    color: AllColors.grey.withOpacity(0.03),
-                    width: 1,
+              return GestureDetector(
+                onTap: () {
+                  _showGroupDetails(Group(
+                    id: 1,
+                    name: group['name'].toString(),
+                    members: [
+                      User(
+                        email: "farouk@gmail.com",
+                        id: 1,
+                        name: group['name'].toString(),
+                      )
+                    ],
+                  ));
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 16.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: AllColors.grey.withOpacity(0.05),
+                    borderRadius: BorderRadius.circular(20.r),
+                    border: Border.all(
+                      color: AllColors.grey.withOpacity(0.03),
+                      width: 1,
+                    ),
                   ),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 20.r,
-                      backgroundColor:
-                          AllColors.globalAppColor.withOpacity(0.15),
-                      child: SvgPicture.asset(group['icon'].toString()),
-                    ),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  group["name"].toString(),
-                                  style: tr16,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              SizedBox(width: 8.w),
-                              Expanded(
-                                child: Text(
-                                  group["status"].toString(),
-                                  style: tr13.copyWith(
-                                    color: group["statusColor"] as Color,
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 4.h),
-                          Text(group["members"].toString(),
-                              style: tr13.copyWith(color: AllColors.grey)),
-                          Text(group["activity"].toString(),
-                              style: tr13.copyWith(color: AllColors.grey)),
-                        ],
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 20.r,
+                        backgroundColor:
+                            AllColors.globalAppColor.withOpacity(0.15),
+                        child: SvgPicture.asset(group['icon'].toString()),
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    group["name"].toString(),
+                                    style: tr16,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                SizedBox(width: 8.w),
+                                Expanded(
+                                  child: Text(
+                                    group["status"].toString(),
+                                    style: tr13.copyWith(
+                                      color: group["statusColor"] as Color,
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(group["members"].toString(),
+                                style: tr13.copyWith(color: AllColors.grey)),
+                            Text(group["activity"].toString(),
+                                style: tr13.copyWith(color: AllColors.grey)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
