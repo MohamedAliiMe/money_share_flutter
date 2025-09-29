@@ -7,6 +7,7 @@ class AllColors {
   static const Color grey = Color(0xff8E8E8E);
   static const Color grayLight = Color(0xffD9D9D9);
   static const Color red = Color(0xFFD12B2B);
+  static const Color error = Color(0xFFFD4A4A);
   static const Color blue = Color(0xff07298B);
   static Color blueBackground = const Color(0xff7582AE).withOpacity(0.3);
 
@@ -14,6 +15,7 @@ class AllColors {
   static const Color yellow = Color(0xffF5BA00);
   static const Color yellowLight = Color(0xffFFE8C5);
   static const Color green = Color(0xff09FF3F);
+  static const Color greenWithOpacity = Color(0xff44B649);
   static const Color transparent = Color(0x00000000);
   static const Color home1Container = Color(0xffFFE1B4);
   static const Color customFavoriteColor = Color(0xffFECF08);

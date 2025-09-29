@@ -28,6 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final AuthenticationCubit _authenticationCubit = getIt<AuthenticationCubit>();
   Widget? _currentBody;
   bool _isHomePage = true;
+
+  String? _selectedGroupName;
+  String? _selectedGroupIcon;
+
   final groups = [
     {
       "name": "Hurghada000000000000000000000000000000",
@@ -54,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
       "icon": Assets.images.heart,
     },
   ];
+
   @override
   void initState() {
     super.initState();
@@ -68,10 +73,24 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _showGroupDetails(Group group) {
+  void _showGroupDetails(Map<String, dynamic> group) {
     setState(() {
-      _currentBody = GroupDetailsScreen(group: group);
+      _currentBody = GroupDetailsScreen(
+        group: Group(
+          id: 1,
+          name: group['name'].toString(),
+          members: [
+            User(
+              email: "farouk@gmail.com",
+              id: 1,
+              name: group['name'].toString(),
+            )
+          ],
+        ),
+      );
       _isHomePage = false;
+      _selectedGroupName = group['name'].toString();
+      _selectedGroupIcon = group['icon'].toString();
     });
   }
 
@@ -79,6 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _setInitialBody();
       _isHomePage = true;
+      _selectedGroupName = null;
+      _selectedGroupIcon = null;
     });
   }
 
@@ -89,65 +110,43 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            Image.asset(
-              Assets.images.iconInterfaceSolid.path,
-              width: 35.w,
-              height: 35.h,
-              color: AllColors.globalAppColor,
-            ),
-            SizedBox(width: 8.w),
-            Text(LocaleKeys.splitsmart.tr(), style: tsb20),
+            if (_selectedGroupIcon != null) ...[
+              SvgPicture.asset(
+                _selectedGroupIcon!,
+                width: 28.w,
+                height: 28.h,
+              ),
+              SizedBox(width: 8.w),
+              Expanded(
+                child: Text(
+                  _selectedGroupName ?? "",
+                  style: tsb20,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ] else ...[
+              Image.asset(
+                Assets.images.iconInterfaceSolid.path,
+                width: 35.w,
+                height: 35.h,
+                color: AllColors.globalAppColor,
+              ),
+              SizedBox(width: 8.w),
+              Text(LocaleKeys.splitsmart.tr(), style: tsb20),
+            ],
           ],
         ),
       ),
       body: WillPopScope(
         onWillPop: () async {
-          _showGroupsList();
-          return false;
+          if (!_isHomePage) {
+            _showGroupsList();
+            return false;
+          }
+          return true;
         },
         child: _currentBody!,
-      ),
-    );
-  }
-
-  Widget _buildEmptyState(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text.rich(
-                TextSpan(
-                  text: "Ready to ",
-                  style: tr13.copyWith(color: Colors.black),
-                  children: [
-                    TextSpan(
-                      text: "Splitsmart?",
-                      style: tr13.copyWith(
-                        color: AllColors.globalAppColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const TextSpan(text: "\nCreate your first group now!"),
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20.h),
-              AppButton(
-                text: "Add Group",
-                color: AllColors.globalAppColor,
-                textColor: AllColors.white,
-                onPressed: () {
-                  // Navigate to Create Group Screen
-                },
-                width: 182.w,
-              ),
-            ],
-          )
-        ],
       ),
     );
   }
@@ -160,10 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Groups",
-                style: tr20,
-              ),
+              Text("Groups", style: tr20),
               GestureDetector(
                   onTap: () {}, child: SvgPicture.asset(Assets.images.filter)),
             ],
@@ -176,19 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (context, index) {
               final group = groups[index];
               return GestureDetector(
-                onTap: () {
-                  _showGroupDetails(Group(
-                    id: 1,
-                    name: group['name'].toString(),
-                    members: [
-                      User(
-                        email: "farouk@gmail.com",
-                        id: 1,
-                        name: group['name'].toString(),
-                      )
-                    ],
-                  ));
-                },
+                onTap: () => _showGroupDetails(group),
                 child: Container(
                   margin: EdgeInsets.only(bottom: 16.h),
                   padding:
@@ -256,4 +240,44 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
+}
+
+Widget _buildEmptyState(BuildContext context) {
+  return Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text.rich(
+              TextSpan(
+                text: "Ready to ",
+                style: tr13.copyWith(color: Colors.black),
+                children: [
+                  TextSpan(
+                    text: "Splitsmart?",
+                    style: tr13.copyWith(
+                      color: AllColors.globalAppColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const TextSpan(text: "\nCreate your first group now!"),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20.h),
+            AppButton(
+              text: "Add Group",
+              color: AllColors.globalAppColor,
+              textColor: AllColors.white,
+              onPressed: () {},
+              width: 182.w,
+            ),
+          ],
+        )
+      ],
+    ),
+  );
 }

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
+import 'package:splitwise_flutter/gen/assets.gen.dart';
+import 'package:splitwise_flutter/widgets/balance_card_widget.dart';
+import 'package:splitwise_flutter/widgets/expense_card_widget.dart';
 import '../models/group.dart';
 import '../models/expense.dart';
 import '../services/expense_service.dart';
-import 'create_expense_screen.dart';
 import 'manage_members_screen.dart';
-import 'group_statistics_screen.dart';
 
 class GroupDetailsScreen extends StatefulWidget {
   final Group group;
@@ -53,68 +55,44 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     }
   }
 
-  Widget _buildBalanceTab() {
+  Column _buildBalanceTab() {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Balances',
-                style: tr20,
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                  decoration: BoxDecoration(
-                    color: AllColors.grey.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  child: Text(
-                    "Settle Up",
-                    style:
-                        tr13.copyWith(color: AllColors.grey.withOpacity(0.7)),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
+        buildHeader("Balances",
+            actionText: "Settle Up",
+            onAction: () {},
+            color: AllColors.globalAppColor,
+            colorText: AllColors.white),
         Expanded(
           child: ListView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             children: [
-              if (_balances.isEmpty)
+              if (_balances.isNotEmpty)
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.all(16),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: AllColors.grey.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                        width: 0.2, color: AllColors.grey.withOpacity(0.3)),
+                        width: 0.4.w, color: Colors.grey.withOpacity(0.3)),
                   ),
-                  child: const Text('No balances yet'),
+                  child: const Text('No balance yet'),
                 )
               else
                 Column(
-                  children: _balances.entries.map((entry) {
-                    final isPositive = entry.value >= 0;
-                    return ListTile(
-                      title: Text(entry.key),
-                      trailing: Text(
-                        '${isPositive ? '+' : ''}\$${entry.value.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          color: isPositive ? Colors.green : Colors.red,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                  children: [
+                    BalanceCard(
+                      totalSpent: 400,
+                      members: [
+                        {"name": "You", "amount": 300},
+                        {"name": "Ahmed", "amount": -100},
+                        {"name": "Ali", "amount": -100},
+                        {"name": "Hassan", "amount": -100},
+                      ],
+                    )
+                  ],
                 ),
             ],
           ),
@@ -123,34 +101,98 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     );
   }
 
-  Widget _buildExpensesTab() {
-    return _expenses.isEmpty
-        ? const Center(child: Text('No expenses yet'))
-        : ListView(
-            padding: const EdgeInsets.all(16),
-            children: _expenses.map((expense) {
-              final date = expense.date;
-              final formattedDate =
-                  '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 4),
-                child: ListTile(
-                  title: Text(expense.description),
-                  subtitle:
-                      Text('Paid by ${expense.paidBy.name} • $formattedDate'),
-                  trailing: Text('\$${expense.amount.toStringAsFixed(2)}'),
+  Column _buildExpensesTab() {
+    return Column(
+      children: [
+        buildHeader(
+          "Expenses",
+          actionText: "Add Expense",
+          onAction: () {},
+          color: AllColors.globalAppColor,
+          colorText: AllColors.white,
+        ),
+        _expenses.isEmpty
+            ? Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                      width: 0.2, color: Colors.grey.withOpacity(0.3)),
                 ),
-              );
-            }).toList(),
-          );
+                child: const Text('No expenses yet'),
+              )
+            : Expanded(
+                child: ListView(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  children: _expenses.map((expense) {
+                    final date = expense.date;
+                    final formattedDate =
+                        '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 4),
+                      child: ListTile(
+                        title: Text(expense.description),
+                        subtitle: Text(
+                            'Paid by ${expense.paidBy.name} • $formattedDate'),
+                        trailing:
+                            Text('\$${expense.amount.toStringAsFixed(2)}'),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+      ],
+    );
   }
 
-  Widget _buildStatisticsTab() {
-    return GroupStatisticsScreen(group: widget.group);
+  Column _buildStatisticsTab() {
+    final Map<String, double> chartData = {
+      'You': 55,
+      'Ahmed': 15,
+      'Ali': 15,
+      'Hassan': 15,
+    };
+    return Column(
+      children: [
+        buildHeader("Charts",
+            actionText: "Export",
+            onAction: () {},
+            color: AllColors.globalAppColor,
+            colorText: AllColors.white,
+            hasIcon: true,
+            assetName: Assets.images.export),
+        _expenses.isNotEmpty
+            ? Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                      width: 0.2, color: Colors.grey.withOpacity(0.3)),
+                ),
+                child: const Text('No expenses yet'),
+              )
+            : Expanded(
+                child: ExpenseOverviewCard(
+                  data: chartData,
+                  total: 400,
+                  selectedPerson: 'You',
+                  onExport: () {},
+                  onPersonChanged: (value) {},
+                ),
+              ),
+      ],
+    );
   }
 
-  Widget _buildMembersTab() {
+  ManageMembersScreen _buildMembersTab() {
     return ManageMembersScreen(group: widget.group);
   }
 
@@ -169,8 +211,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     }
   }
 
-  Widget _buildTopMenu() {
-    final tabs = ['Balances', 'Expenses', 'Statistics', 'Members'];
+  Container _buildTopMenu() {
+    final tabs = ['Balances', 'Expenses', 'Charts', 'Members'];
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -178,37 +220,40 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         color: AllColors.white,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
-          width: 1.w,
-          color: AllColors.black.withOpacity(0.3),
+          width: 1.2.w,
+          color: AllColors.grey.withOpacity(0.2),
         ),
       ),
       child: Row(
-        children: List.generate(tabs.length * 2 - 1, (i) {
-          if (i.isOdd) {
-            return Container(
-              width: 1.w,
-              height: 40.h,
-              color: AllColors.grey.withOpacity(0.4),
-            );
-          }
-
-          int index = i ~/ 2;
+        children: List.generate(tabs.length, (index) {
           final isSelected = _selectedIndex == index;
 
           return Expanded(
             child: GestureDetector(
               onTap: () => setState(() => _selectedIndex = index),
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-                color: isSelected
-                    ? AllColors.globalAppColor.withOpacity(0.2)
-                    : Colors.transparent,
-                child: Text(
-                  tabs[index],
-                  style: TextStyle(
-                    color: isSelected ? AllColors.globalAppColor : Colors.black,
-                    fontWeight: FontWeight.bold,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: EdgeInsets.symmetric(vertical: 10.h),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 0.4, color: AllColors.grey.withOpacity(0.4)),
+                  color: isSelected
+                      ? AllColors.globalAppColor.withOpacity(0.2)
+                      : AllColors.transparent,
+                  borderRadius: index == 0
+                      ? BorderRadius.only(
+                          bottomLeft: Radius.circular(12.r),
+                          topLeft: Radius.circular(12.r))
+                      : index == 3
+                          ? BorderRadius.only(
+                              bottomRight: Radius.circular(12.r),
+                              topRight: Radius.circular(12.r))
+                          : BorderRadius.circular(0),
+                ),
+                child: Center(
+                  child: Text(
+                    tabs[index],
+                    style: tr13,
                   ),
                 ),
               ),
@@ -226,14 +271,61 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 _buildTopMenu(),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Expanded(child: _buildBody()),
               ],
             ),
     );
   }
+}
+
+Padding buildHeader(
+  String title, {
+  String? actionText,
+  VoidCallback? onAction,
+  Color? color,
+  Color? colorText,
+  String? assetName,
+  bool? hasIcon,
+}) {
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(title, style: tr20),
+        if (actionText != null)
+          GestureDetector(
+            onTap: onAction,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(
+                      color: AllColors.globalAppColor.withOpacity(0.1))),
+              child: Row(
+                children: [
+                  Text(
+                    actionText,
+                    style: tr13.copyWith(color: colorText),
+                  ),
+                  if (hasIcon == true)
+                    Row(
+                      children: [
+                        SizedBox(width: 8.w),
+                        SvgPicture.asset(assetName!),
+                      ],
+                    )
+                ],
+              ),
+            ),
+          ),
+      ],
+    ),
+  );
 }
 
 // class GroupDetailsScreen extends StatefulWidget {

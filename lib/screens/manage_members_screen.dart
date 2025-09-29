@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:splitwise_flutter/core/functions/app_alert_dialog.dart';
+import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
+import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
+import 'package:splitwise_flutter/gen/assets.gen.dart';
+import 'package:splitwise_flutter/screens/group_details_screen.dart';
 import '../models/group.dart';
 import '../models/user.dart';
-import '../services/group_service.dart';
-import '../services/user_service.dart';
 
 class ManageMembersScreen extends StatefulWidget {
   final Group group;
@@ -17,131 +22,127 @@ class ManageMembersScreen extends StatefulWidget {
 }
 
 class _ManageMembersScreenState extends State<ManageMembersScreen> {
-  final _groupService = GroupService();
-  final _userService = UserService();
   bool _isLoading = false;
-  List<User> _allUsers = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _loadUsers();
-  }
+  final List<User> _dummyMembers = [
+    User(id: 1, name: "You", email: "mohamed@gmail.com"),
+    User(id: 2, name: "Ahmed", email: "ahmed@gmail.com"),
+    User(id: 3, name: "Ali", email: "ali@gmail.com"),
+    User(id: 4, name: "Hassan", email: "hassan@gmail.com"),
+  ];
 
-  Future<void> _loadUsers() async {
-    setState(() => _isLoading = true);
-    try {
-      final users = await _userService.getAllUsers();
-      if (mounted) {
-        setState(() {
-          _allUsers = users;
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load users: $e')),
-        );
-        setState(() => _isLoading = false);
-      }
-    }
-  }
-
-  Future<void> _addMember(User user) async {
-    setState(() => _isLoading = true);
-    try {
-      await _groupService.addMemberToGroup(widget.group.id, user.id);
-      widget.group.members.add(user);
-      if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Added ${user.name} to group')),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to add member: $e')),
-        );
-        setState(() => _isLoading = false);
-      }
-    }
-  }
-
-  Future<void> _removeMember(User user) async {
-    setState(() => _isLoading = true);
-    try {
-      await _groupService.removeMemberFromGroup(widget.group.id, user.id);
-      widget.group.members.remove(user);
-      if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Removed ${user.name} from group')),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to remove member: $e')),
-        );
-        setState(() => _isLoading = false);
-      }
-    }
-  }
+  final List<User> _dummyFriends = [
+    User(id: 5, name: "Omar", email: "omar@gmail.com"),
+    User(id: 6, name: "Sara", email: "sara@gmail.com"),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manage Members'),
-      ),
+      backgroundColor: AllColors.white,
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView(
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Current Members',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                ...widget.group.members.map(
-                  (member) => ListTile(
-                    title: Text(member.name),
-                    subtitle: Text(member.email),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.remove_circle_outline),
-                      onPressed: () => _removeMember(member),
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Add Members',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                ..._allUsers
-                    .where((user) => !widget.group.members.contains(user))
-                    .map(
-                      (user) => ListTile(
-                        title: Text(user.name),
-                        subtitle: Text(user.email),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.add_circle_outline),
-                          onPressed: () => _addMember(user),
+                buildHeader("Charts",
+                    // look figma with conntact api => (replace name)
+                    actionText: "Invite",
+                    onAction: () {},
+                    color: AllColors.globalAppColor,
+                    colorText: AllColors.white,
+                    hasIcon: true,
+                    assetName: Assets.images.plus),
+                SizedBox(height: 16.h),
+                ..._dummyMembers.map(
+                  (member) => Card(
+                    elevation: 0,
+                    color: AllColors.grey.withOpacity(0.1),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor:
+                              AllColors.globalAppColor.withOpacity(0.2),
+                          child: Text(
+                            member.name[0],
+                            style: tr20,
+                          ),
                         ),
-                      ),
-                    ),
+                        title: Text(
+                          member.name,
+                          style: tr20,
+                        ),
+                        subtitle: Text(
+                          member.email,
+                          style: tr13.copyWith(
+                              color: AllColors.grey.withOpacity(0.9)),
+                        ),
+                        trailing: GestureDetector(
+                          onTap: () {
+                            AppAlertDialog.showSuccessBar(
+                                message: "Removed ${member.name}");
+                          },
+                          child: SvgPicture.asset(Assets.images.remove),
+                        )),
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                Divider(
+                  endIndent: 16.w,
+                  indent: 16.w,
+                  color: AllColors.grey.withOpacity(0.5),
+                  height: 0,
+                ),
+                SizedBox(height: 24.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                  ),
+                  child: Text(
+                    "Friends",
+                    style: tr20,
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                ..._dummyFriends.map(
+                  (friend) => Card(
+                    elevation: 0,
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor:
+                              AllColors.globalAppColor.withOpacity(0.2),
+                          child: Text(
+                            friend.name[0],
+                            style: tr20,
+                          ),
+                        ),
+                        title: Text(
+                          friend.name,
+                          style: tr20,
+                        ),
+                        subtitle: Text(
+                          friend.email,
+                          style: tr13.copyWith(
+                              color: AllColors.grey.withOpacity(0.9)),
+                        ),
+                        trailing: GestureDetector(
+                          onTap: () {
+                            AppAlertDialog.showSuccessBar(
+                                message: "Added ${friend.name} to members");
+                          },
+                          child: CircleAvatar(
+                            backgroundColor:
+                                AllColors.globalAppColor.withOpacity(0.1),
+                            child: SvgPicture.asset(
+                              Assets.images.plus,
+                              color: AllColors.globalAppColor,
+                            ),
+                          ),
+                        )),
+                  ),
+                ),
               ],
             ),
     );

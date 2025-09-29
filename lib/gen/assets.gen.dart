@@ -35,6 +35,9 @@ class $AssetsImagesGen {
   AssetGenImage get doneSuccesfly =>
       const AssetGenImage('assets/images/done-succesfly.png');
 
+  /// File path: assets/images/export.svg
+  String get export => 'assets/images/export.svg';
+
   /// File path: assets/images/filter.svg
   String get filter => 'assets/images/filter.svg';
 
@@ -62,8 +65,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/people.svg
   String get people => 'assets/images/people.svg';
 
+  /// File path: assets/images/plus.svg
+  String get plus => 'assets/images/plus.svg';
+
   /// File path: assets/images/profile.svg
   String get profile => 'assets/images/profile.svg';
+
+  /// File path: assets/images/remove.svg
+  String get remove => 'assets/images/remove.svg';
 
   /// File path: assets/images/searsh.svg
   String get searsh => 'assets/images/searsh.svg';
@@ -75,6 +84,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/splash-top-right.png
   AssetGenImage get splashTopRight =>
       const AssetGenImage('assets/images/splash-top-right.png');
+
+  /// File path: assets/images/status.svg
+  String get status => 'assets/images/status.svg';
 
   /// File path: assets/images/trip.svg
   String get trip => 'assets/images/trip.svg';
@@ -91,6 +103,7 @@ class $AssetsImagesGen {
         briefcase02,
         calendar,
         doneSuccesfly,
+        export,
         filter,
         friends,
         heart,
@@ -100,10 +113,13 @@ class $AssetsImagesGen {
         love,
         other,
         people,
+        plus,
         profile,
+        remove,
         searsh,
         splaasgBouttomLeft,
         splashTopRight,
+        status,
         trip,
         users03
       ];

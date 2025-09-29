@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_text_field_widget.dart';
 import 'package:splitwise_flutter/features/nav/logic/nav_cubit.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
+import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 import '../models/user.dart';
 import '../services/group_service.dart';
 
@@ -55,6 +57,8 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
 
       try {
         context.read<NavCubit>().addGroup(_nameController.text, "Hello");
+        AppAlertDialog.showSuccessBar(
+            message: LocaleKeys.doneSuccessfully.tr());
 
         if (mounted) {
           context.read<NavCubit>().changePage(homeIndex);
