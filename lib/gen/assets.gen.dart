@@ -28,8 +28,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/briefcase-02.svg
   String get briefcase02 => 'assets/images/briefcase-02.svg';
 
+  /// File path: assets/images/calendar-expnses.svg
+  String get calendarExpnses => 'assets/images/calendar-expnses.svg';
+
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
+
+  /// File path: assets/images/currency-pound.svg
+  String get currencyPound => 'assets/images/currency-pound.svg';
 
   /// File path: assets/images/done-succesfly.png
   AssetGenImage get doneSuccesfly =>
@@ -59,6 +65,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/love.svg
   String get love => 'assets/images/love.svg';
 
+  /// File path: assets/images/message-text.svg
+  String get messageText => 'assets/images/message-text.svg';
+
+  /// File path: assets/images/moneys.svg
+  String get moneys => 'assets/images/moneys.svg';
+
   /// File path: assets/images/other.svg
   String get other => 'assets/images/other.svg';
 
@@ -77,6 +89,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/searsh.svg
   String get searsh => 'assets/images/searsh.svg';
 
+  /// File path: assets/images/setting-2.svg
+  String get setting2 => 'assets/images/setting-2.svg';
+
+  /// File path: assets/images/share.svg
+  String get share => 'assets/images/share.svg';
+
   /// File path: assets/images/splaasg-bouttom-left.png
   AssetGenImage get splaasgBouttomLeft =>
       const AssetGenImage('assets/images/splaasg-bouttom-left.png');
@@ -91,6 +109,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/trip.svg
   String get trip => 'assets/images/trip.svg';
 
+  /// File path: assets/images/user-04.svg
+  String get user04 => 'assets/images/user-04.svg';
+
+  /// File path: assets/images/user-tick.svg
+  String get userTick => 'assets/images/user-tick.svg';
+
   /// File path: assets/images/users-03.svg
   String get users03 => 'assets/images/users-03.svg';
 
@@ -101,7 +125,9 @@ class $AssetsImagesGen {
         activity,
         airplane,
         briefcase02,
+        calendarExpnses,
         calendar,
+        currencyPound,
         doneSuccesfly,
         export,
         filter,
@@ -111,16 +137,22 @@ class $AssetsImagesGen {
         homeLine,
         house,
         love,
+        messageText,
+        moneys,
         other,
         people,
         plus,
         profile,
         remove,
         searsh,
+        setting2,
+        share,
         splaasgBouttomLeft,
         splashTopRight,
         status,
         trip,
+        user04,
+        userTick,
         users03
       ];
 }

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
+import 'package:splitwise_flutter/screens/expense_list_screen.dart';
 import 'package:splitwise_flutter/widgets/balance_card_widget.dart';
 import 'package:splitwise_flutter/widgets/expense_card_widget.dart';
 import '../models/group.dart';
@@ -101,53 +102,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     );
   }
 
-  Column _buildExpensesTab() {
-    return Column(
-      children: [
-        buildHeader(
-          "Expenses",
-          actionText: "Add Expense",
-          onAction: () {},
-          color: AllColors.globalAppColor,
-          colorText: AllColors.white,
-        ),
-        _expenses.isEmpty
-            ? Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                      width: 0.2, color: Colors.grey.withOpacity(0.3)),
-                ),
-                child: const Text('No expenses yet'),
-              )
-            : Expanded(
-                child: ListView(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  children: _expenses.map((expense) {
-                    final date = expense.date;
-                    final formattedDate =
-                        '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 4),
-                      child: ListTile(
-                        title: Text(expense.description),
-                        subtitle: Text(
-                            'Paid by ${expense.paidBy.name} • $formattedDate'),
-                        trailing:
-                            Text('\$${expense.amount.toStringAsFixed(2)}'),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-      ],
-    );
+  ExpenseListScreen _buildExpensesTab() {
+    return ExpenseListScreen(group: widget.group);
   }
 
   Column _buildStatisticsTab() {

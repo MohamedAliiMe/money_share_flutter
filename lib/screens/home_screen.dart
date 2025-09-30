@@ -118,13 +118,32 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(width: 8.w),
               Expanded(
-                child: Text(
-                  _selectedGroupName ?? "",
-                  style: tsb20,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
+                  child: Row(
+                children: [
+                  Builder(
+                    builder: (context) {
+                      final screenWidth = MediaQuery.of(context).size.width;
+
+                      int maxChars = (screenWidth / 40).floor();
+                      maxChars = maxChars.clamp(5, 15);
+
+                      final text = _selectedGroupName ?? "";
+                      final displayText = text.length > maxChars
+                          ? "${text.substring(0, maxChars)}..."
+                          : text;
+
+                      return Text(
+                        displayText,
+                        style: tsb20,
+                      );
+                    },
+                  ),
+                  const Spacer(),
+                  SvgPicture.asset(Assets.images.setting2),
+                  12.w.horizontalSpace,
+                  SvgPicture.asset(Assets.images.share),
+                ],
+              ))
             ] else ...[
               Image.asset(
                 Assets.images.iconInterfaceSolid.path,
@@ -134,6 +153,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(width: 8.w),
               Text(LocaleKeys.splitsmart.tr(), style: tsb20),
+              Spacer(),
+              SvgPicture.asset(Assets.images.searsh)
             ],
           ],
         ),

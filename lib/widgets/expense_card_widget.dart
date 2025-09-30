@@ -12,13 +12,13 @@ class ExpenseOverviewCard extends StatelessWidget {
   final void Function(String?)? onPersonChanged;
 
   const ExpenseOverviewCard({
-    Key? key,
+    super.key,
     required this.data,
     required this.total,
     required this.selectedPerson,
     this.onExport,
     this.onPersonChanged,
-  }) : super(key: key);
+  });
 
   static const Map<String, Color> _defaultColors = {
     'You': Color(0xFF6C5CE7),
@@ -54,7 +54,7 @@ class ExpenseOverviewCard extends StatelessWidget {
       children: [
         Container(
           margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
           decoration: BoxDecoration(
             color: AllColors.grey.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(20.r),
@@ -64,7 +64,6 @@ class ExpenseOverviewCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 16.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

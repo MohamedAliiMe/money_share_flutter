@@ -110,6 +110,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       final token =
           await _dataStorage.getData(AppStringConstants.userAccessToken);
       emit(state.copyWith(userAccessToken: token));
+      log(token);
       return token;
     } catch (e) {
       log('Error retrieving token: $e');

@@ -11,6 +11,7 @@ import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart
 import 'package:splitwise_flutter/features/authentication/data/models/login_params/login_params.dart';
 import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
+import 'package:splitwise_flutter/features/authentication/widget/app_loading_widget.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_text_field_widget.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
@@ -52,136 +53,151 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
+    return Stack(
+      children: [
+        Scaffold(
+          resizeToAvoidBottomInset: true,
+          body: SafeArea(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Image.asset(
-                      Assets.images.iconInterfaceSolid.path,
-                      width: 32.w,
-                      height: 32.h,
-                      color: AllColors.globalAppColor,
+                    Row(
+                      children: [
+                        Image.asset(
+                          Assets.images.iconInterfaceSolid.path,
+                          width: 32.w,
+                          height: 32.h,
+                          color: AllColors.globalAppColor,
+                        ),
+                        SizedBox(width: 8.w),
+                        Text(LocaleKeys.splitsmart.tr(), style: tsb25),
+                      ],
                     ),
-                    SizedBox(width: 8.w),
-                    Text(LocaleKeys.splitsmart.tr(), style: tsb25),
+                    SizedBox(height: 40.h),
+                    Text(LocaleKeys.login.tr(), style: tsb25),
+                    SizedBox(height: 6.h),
+                    Text(
+                      LocaleKeys.letsGetStart.tr(),
+                      style: tr13.copyWith(color: AllColors.grey),
+                    ),
+                    SizedBox(height: 24.h),
+                    AppTextField(
+                      controller: _emailController,
+                      label: LocaleKeys.email.tr(),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) =>
+                          value == null || !value.contains('@')
+                              ? LocaleKeys.enterValidEmail.tr()
+                              : null,
+                    ),
+                    SizedBox(height: 16.h),
+                    AppTextField(
+                      controller: _passwordController,
+                      label: LocaleKeys.password.tr(),
+                      obscureText: _obscurePassword,
+                      validator: (value) => value == null || value.length < 6
+                          ? LocaleKeys.passwordIsWrong.tr()
+                          : null,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: AllColors.globalAppColor,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    GestureDetector(
+                      onTap: () {
+                        pushName(context, AppRoute.forgetPasswordScreen);
+                      },
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(LocaleKeys.forgetPassword.tr(),
+                            style: tsb10.copyWith(
+                                color: AllColors.globalAppColor)),
+                      ),
+                    ),
+                    SizedBox(height: 24.h),
+                    BlocConsumer<AuthenticationCubit, AuthenticationState>(
+                      bloc: _authenticationCubit,
+                      listener: (context, state) {
+                        if (state.errorMessage != null) {
+                          AppAlertDialog.showErrorBar(
+                              errorMessage: state.errorMessage);
+                          return;
+                        }
+                        if (state.failedLoginState == true &&
+                            state.loginErrorMessage != null) {
+                          AppAlertDialog.showErrorBar(
+                              errorMessage: state.loginErrorMessage);
+                          return;
+                        }
+                        if (state.successMessage != null ||
+                            state.getLogin != null) {
+                          AppAlertDialog.showSuccessBar(
+                              message: state.successMessage);
+                          popAllAndPushName(context, AppRoute.navPage);
+                        }
+                      },
+                      builder: (context, state) {
+                        return AppButton(
+                          text: LocaleKeys.login.tr(),
+                          icon: Icons.login,
+                          onPressed: _handleLogin,
+                          color: AllColors.globalAppColor,
+                          textColor: AllColors.white,
+                        );
+                      },
+                    ),
                   ],
                 ),
-                SizedBox(height: 40.h),
-                Text(LocaleKeys.login.tr(), style: tsb25),
-                SizedBox(height: 6.h),
-                Text(
-                  LocaleKeys.letsGetStart.tr(),
-                  style: tr13.copyWith(color: AllColors.grey),
-                ),
-                SizedBox(height: 24.h),
-                AppTextField(
-                  controller: _emailController,
-                  label: LocaleKeys.email.tr(),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) => value == null || !value.contains('@')
-                      ? LocaleKeys.enterValidEmail.tr()
-                      : null,
-                ),
-                SizedBox(height: 16.h),
-                AppTextField(
-                  controller: _passwordController,
-                  label: LocaleKeys.password.tr(),
-                  obscureText: _obscurePassword,
-                  validator: (value) => value == null || value.length < 6
-                      ? LocaleKeys.passwordIsWrong.tr()
-                      : null,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: AllColors.globalAppColor,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                ),
-                SizedBox(height: 8.h),
+              ),
+            ),
+          ),
+          bottomNavigationBar: Padding(
+            padding: EdgeInsets.only(bottom: 20.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(LocaleKeys.newUser.tr()),
                 GestureDetector(
                   onTap: () {
-                    pushName(context, AppRoute.forgetPasswordScreen);
+                    pushName(context, AppRoute.registerScreen);
                   },
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(LocaleKeys.forgetPassword.tr(),
-                        style: tsb10.copyWith(color: AllColors.globalAppColor)),
+                  child: Text(
+                    LocaleKeys.createAccount.tr(),
+                    style: TextStyle(
+                      color: AllColors.globalAppColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                SizedBox(height: 24.h),
-                BlocConsumer<AuthenticationCubit, AuthenticationState>(
-                  bloc: _authenticationCubit,
-                  listener: (context, state) {
-                    if (state.errorMessage != null) {
-                      AppAlertDialog.showErrorBar(
-                          errorMessage: state.errorMessage);
-                      return;
-                    }
-                    if (state.failedLoginState == true &&
-                        state.loginErrorMessage != null) {
-                      AppAlertDialog.showErrorBar(
-                          errorMessage: state.loginErrorMessage);
-                      return;
-                    }
-
-                    if (state.successMessage != null ||
-                        state.getLogin != null) {
-                      AppAlertDialog.showSuccessBar(
-                          message: state.successMessage);
-                      popAllAndPushName(context, AppRoute.navPage);
-                    }
-                  },
-                  builder: (context, state) {
-                    return AppButton(
-                      text: LocaleKeys.login.tr(),
-                      icon: Icons.login,
-                      onPressed: _handleLogin,
-                      color: AllColors.globalAppColor,
-                      textColor: AllColors.white,
-                    );
-                  },
-                )
               ],
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(bottom: 20.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(LocaleKeys.newUser.tr()),
-            GestureDetector(
-              onTap: () {
-                pushName(context, AppRoute.registerScreen);
-              },
-              child: Text(
-                LocaleKeys.createAccount.tr(),
-                style: TextStyle(
-                  color: AllColors.globalAppColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
+
+        BlocBuilder<AuthenticationCubit, AuthenticationState>(
+          bloc: _authenticationCubit,
+          builder: (context, state) {
+            if (state.isLoading) {
+              return AppLoadingWidget(isLoading: true);
+            }
+            return const SizedBox.shrink();
+          },
         ),
-      ),
+      ],
     );
   }
 }

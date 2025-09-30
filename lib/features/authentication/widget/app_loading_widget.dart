@@ -5,22 +5,32 @@ import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 
 class AppLoadingWidget extends StatefulWidget {
-  const AppLoadingWidget({super.key});
+  final bool isLoading;
+
+  const AppLoadingWidget({
+    super.key,
+    required this.isLoading,
+  });
 
   @override
   State<AppLoadingWidget> createState() => _AppLoadingWidgetState();
 }
 
 class _AppLoadingWidgetState extends State<AppLoadingWidget> {
-  int activeIndex = 0;
+  int _currentDot = 0;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
+    _startAnimation();
+  }
+
+  void _startAnimation() {
     _timer = Timer.periodic(const Duration(milliseconds: 400), (timer) {
+      if (!mounted) return;
       setState(() {
-        activeIndex = (activeIndex + 1) % 3;
+        _currentDot = (_currentDot + 1) % 3;
       });
     });
   }
@@ -33,6 +43,8 @@ class _AppLoadingWidgetState extends State<AppLoadingWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.isLoading) return const SizedBox.shrink();
+
     return Container(
       color: AllColors.black.withOpacity(0.4),
       child: Center(
@@ -59,16 +71,17 @@ class _AppLoadingWidgetState extends State<AppLoadingWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(3, (index) {
-                return AnimatedContainer(
+                return AnimatedOpacity(
+                  opacity: _currentDot == index ? 1.0 : 0.3,
                   duration: const Duration(milliseconds: 300),
-                  margin: EdgeInsets.symmetric(horizontal: 4.w),
-                  width: 10.w,
-                  height: 10.w,
-                  decoration: BoxDecoration(
-                    color: index == activeIndex
-                        ? AllColors.globalAppColor
-                        : AllColors.globalAppColor.withOpacity(0.3),
-                    shape: BoxShape.circle,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 4.w),
+                    width: 10.w,
+                    height: 10.w,
+                    decoration: BoxDecoration(
+                      color: AllColors.globalAppColor,
+                      shape: BoxShape.circle,
+                    ),
                   ),
                 );
               }),

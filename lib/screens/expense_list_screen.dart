@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/expense_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
+import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
+import 'package:splitwise_flutter/gen/assets.gen.dart';
+import 'package:splitwise_flutter/models/user.dart';
+import 'package:splitwise_flutter/screens/group_details_screen.dart';
+import 'package:splitwise_flutter/widgets/add_expense_sheet_widget.dart';
 import '../models/expense.dart';
 import '../models/group.dart';
-import 'create_expense_screen.dart';
 
 class ExpenseListScreen extends StatefulWidget {
   final Group group;
@@ -15,57 +20,71 @@ class ExpenseListScreen extends StatefulWidget {
 }
 
 class _ExpenseListScreenState extends State<ExpenseListScreen> {
+  final List<Expense> _expenses = [
+    Expense(
+      groupId: 1,
+      id: 1,
+      paidBy: User(id: 1, name: "name", email: "email"),
+      splits: [],
+      description: 'Dinner with friends',
+      amount: 250.75,
+      date: DateTime.now().subtract(const Duration(days: 1)),
+    ),
+  ];
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ExpenseProvider>(context, listen: false)
-          .loadGroupExpenses(widget.group.id);
-    });
+  }
+
+  void _openAddExpenseSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => const AddExpenseSheet(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.group.name),
-      ),
-      body: Consumer<ExpenseProvider>(
-        builder: (context, expenseProvider, _) {
-          if (expenseProvider.loading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (expenseProvider.error != null) {
-            return Center(child: Text(expenseProvider.error!));
-          }
-
-          if (expenseProvider.expenses.isEmpty) {
-            return const Center(
-              child: Text('No expenses yet. Add one to get started!'),
-            );
-          }
-
-          return ListView.builder(
-            itemCount: expenseProvider.expenses.length,
-            itemBuilder: (context, index) {
-              final expense = expenseProvider.expenses[index];
-              return ExpenseListItem(expense: expense);
-            },
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CreateExpenseScreen(group: widget.group),
+    return Column(
+      children: [
+        buildHeader(
+          "Expenses",
+          actionText: "Add Expense",
+          onAction: () => _openAddExpenseSheet(),
+          color: AllColors.globalAppColor,
+          colorText: AllColors.white,
+        ),
+        if (_expenses.isEmpty)
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+            decoration: BoxDecoration(
+              color: AllColors.grey.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20.r),
+              border: Border.all(
+                  width: 0.2.w, color: AllColors.grey.withOpacity(0.3)),
             ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
+            child: Text(
+              'No expenses yet',
+              style: tr16,
+            ),
+          ),
+        if (_expenses.isNotEmpty)
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+              itemCount: _expenses.length,
+              itemBuilder: (context, index) {
+                final expense = _expenses[index];
+                return ExpenseListItem(expense: expense);
+              },
+            ),
+          )
+      ],
     );
   }
 }
@@ -77,30 +96,66 @@ class ExpenseListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final date = expense.date;
+    final formattedDate =
+        '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Theme.of(context).primaryColor,
-          child: Text(
-            expense.description[0].toUpperCase(),
-            style: const TextStyle(color: Colors.white),
-          ),
+      color: AllColors.grey.withValues(alpha: 0.09),
+      margin: EdgeInsets.symmetric(vertical: 6.h),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.r),
+        side: BorderSide(
+          color: AllColors.grey.withValues(alpha: 0.4),
+          width: 0.7.w,
         ),
-        title: Text(expense.description),
-        subtitle: Text(
-          'Paid by ${expense.paidBy.name} • ${expense.date}',
+      ),
+      elevation: 0,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    expense.description,
+                    style: tr16,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Text(
+                  '\$${expense.amount.toStringAsFixed(2)}',
+                  style: tr16,
+                ),
+              ],
+            ),
+            SizedBox(height: 6.h),
+            Row(
+              children: [
+                SvgPicture.asset(Assets.images.user04),
+                4.w.horizontalSpace,
+                Text(
+                  'Paid by ${expense.paidBy.name}',
+                  style: tr13,
+                ),
+              ],
+            ),
+            SizedBox(height: 6.h),
+            Row(
+              children: [
+                SvgPicture.asset(Assets.images.calendarExpnses),
+                4.w.horizontalSpace,
+                Text(
+                  formattedDate,
+                  style: tr13,
+                ),
+              ],
+            ),
+          ],
         ),
-        trailing: Text(
-          '\$${expense.amount.toStringAsFixed(2)}',
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        onTap: () {
-          // TODO: Navigate to expense details screen
-        },
       ),
     );
   }

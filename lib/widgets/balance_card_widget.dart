@@ -49,7 +49,7 @@ class BalanceCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
             decoration: BoxDecoration(
-              color: AllColors.grey.withOpacity(0.2),
+              color: AllColors.grey.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10.r),
               border: Border.all(
                 color: AllColors.grey.withOpacity(0.2),

@@ -205,7 +205,10 @@ class _CreateNewPasswordSceenState extends State<CreateNewPasswordSceen> {
             ),
           ),
         ),
-        if (_newPassword) AppLoadingWidget()
+        if (_newPassword)
+          AppLoadingWidget(
+            isLoading: false,
+          )
       ],
     );
   }
