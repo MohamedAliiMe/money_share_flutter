@@ -4,21 +4,30 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 
-class ExpenseOverviewCard extends StatelessWidget {
+class ExpenseOverviewCard extends StatefulWidget {
   final Map<String, double> data;
+  final Map<String, double> dropdownValue;
   final double total;
-  final String selectedPerson;
-  final void Function()? onExport;
-  final void Function(String?)? onPersonChanged;
 
   const ExpenseOverviewCard({
     super.key,
     required this.data,
     required this.total,
-    required this.selectedPerson,
-    this.onExport,
-    this.onPersonChanged,
+    required this.dropdownValue,
   });
+
+  @override
+  State<ExpenseOverviewCard> createState() => _ExpenseOverviewCardState();
+}
+
+class _ExpenseOverviewCardState extends State<ExpenseOverviewCard> {
+  late String selectedPerson;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedPerson = widget.dropdownValue.keys.first;
+  }
 
   static const Map<String, Color> _defaultColors = {
     'You': Color(0xFF6C5CE7),
@@ -47,7 +56,7 @@ class ExpenseOverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sections = _buildSections(data);
+    final sections = _buildSections(widget.data);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,35 +77,39 @@ class ExpenseOverviewCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Expense Overview', style: tr16),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.r),
-                        color: AllColors.white.withValues(alpha: 0.1),
-                        border: Border.all(
-                          color:
-                              AllColors.globalAppColor.withValues(alpha: 0.1),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AllColors.globalAppColor
-                                .withValues(alpha: 0.01),
-                          ),
-                        ],
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                    height: 34.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(
+                        color: AllColors.globalAppColor.withValues(alpha: 0.2),
                       ),
-                      child: Row(
-                        children: [
-                          Text("Person", style: tr13),
-                          SizedBox(width: 8.w),
-                          Icon(Icons.keyboard_arrow_down_sharp,
-                              color: AllColors.black),
-                        ],
+                      color: AllColors.white.withValues(alpha: 0.05),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedPerson,
+                        icon: const Icon(Icons.keyboard_arrow_down_sharp,
+                            size: 20),
+                        isDense: true,
+                        style: tr13,
+                        items: widget.dropdownValue.keys.map((person) {
+                          return DropdownMenuItem(
+                            value: person,
+                            child: Text(person, style: tr13),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          if (value != null) {
+                            setState(() {
+                              selectedPerson = value;
+                            });
+                          }
+                        },
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               SizedBox(height: 24.h),
@@ -120,7 +133,7 @@ class ExpenseOverviewCard extends StatelessWidget {
                   Spacer(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: data.entries.map((entry) {
+                    children: widget.data.entries.map((entry) {
                       final color = _defaultColors[entry.key] ?? Colors.grey;
                       return Padding(
                         padding: EdgeInsets.symmetric(vertical: 4.h),
@@ -151,13 +164,14 @@ class ExpenseOverviewCard extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             decoration: BoxDecoration(
-                color: AllColors.grey.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12.r)),
+              color: AllColors.grey.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12.r),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Total", style: tr16),
-                Text("400 EGP", style: tr16),
+                Text("${widget.total} EGP", style: tr16),
               ],
             ),
           ),

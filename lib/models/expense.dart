@@ -4,7 +4,7 @@ import 'expense_split.dart';
 class Expense {
   final int id;
   final int groupId;
-  final User paidBy;
+  final UserModel paidBy;
   final String description;
   final double amount;
   final DateTime date;
@@ -24,7 +24,7 @@ class Expense {
     return Expense(
       id: json['id'],
       groupId: json['group_id'],
-      paidBy: User.fromJson(json['paid_by']),
+      paidBy: UserModel.fromJson(json['paid_by']),
       description: json['description'],
       amount: double.parse(json['amount'].toString()),
       date: DateTime.parse(json['date']),

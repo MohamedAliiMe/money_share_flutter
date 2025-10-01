@@ -7,4 +7,5 @@ class AppApiPaths {
   static const String resetPassword = '/reset-password';
   static const String verifyEmail = '/verify-email';
   static const String verifyEmailCode = '/verify-email-code';
+  static const String groups = '/groups';
 }

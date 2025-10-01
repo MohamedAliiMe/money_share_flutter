@@ -1,66 +1,49 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:splitwise_flutter/models/pivot.dart';
 import 'user.dart';
 
-class Group {
-  final double totalSpent;
-  final int totalExpenses;
-  final List<Map<String, dynamic>>? monthlyExpenses;
-  final List<Map<String, dynamic>>? memberStats;
-  final int id;
-  final String name;
-  final String? description;
-  final List<User> members;
+part 'group.g.dart';
 
-  Group({
-    required this.id,
-    required this.name,
-    required this.members,
-    this.description,
-    this.totalSpent = 0,
+@JsonSerializable(explicitToJson: true)
+class GroupModel {
+  int? id;
+  String? name;
+  @JsonKey(name: 'created_at')
+  String? createdAt;
+
+  @JsonKey(name: 'updated_at')
+  String? updatedAt;
+
+  @JsonKey(name: 'total_spent')
+  String? totalSpent;
+
+  @JsonKey(name: 'total_expenses')
+  int? totalExpenses;
+
+  @JsonKey(name: 'monthly_expenses')
+  List<dynamic>? monthlyExpenses;
+
+  @JsonKey(name: 'member_stats')
+  List<dynamic>? memberStats;
+
+  List<UserModel>? members;
+  PivotModel? pivot;
+
+  GroupModel({
+    this.id,
+    this.name,
+    this.pivot,
+    this.createdAt,
+    this.updatedAt,
+    this.totalSpent,
     this.totalExpenses = 0,
     this.monthlyExpenses,
     this.memberStats,
+    this.members = const [],
   });
 
-  factory Group.fromJson(Map<String, dynamic> json) {
-    var membersList = json['members'] as List<dynamic>?;
-    return Group(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'] as String?,
-      totalSpent: json['total_spent'] is String 
-          ? double.parse(json['total_spent']) 
-          : (json['total_spent'] as num?)?.toDouble() ?? 0,
-      totalExpenses: json['total_expenses'] as int? ?? 0,
-      monthlyExpenses: json['monthly_expenses'] != null
-          ? List<Map<String, dynamic>>.from(json['monthly_expenses'] as List)
-          : null,
-      memberStats: json['member_stats'] != null
-          ? List<Map<String, dynamic>>.from(json['member_stats'] as List)
-          : null,
-      members: membersList != null
-          ? membersList.map((x) => User.fromJson(x as Map<String, dynamic>)).toList()
-          : [],
-    );
-  }
+  factory GroupModel.fromJson(Map<String, dynamic> json) =>
+      _$GroupModelFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'description': description,
-      'total_spent': totalSpent,
-      'members': members.map((user) => user.toJson()).toList(),
-    };
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Group &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          name == other.name;
-
-  @override
-  int get hashCode => id.hashCode ^ name.hashCode;
+  Map<String, dynamic> toJson() => _$GroupModelToJson(this);
 }

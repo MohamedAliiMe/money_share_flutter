@@ -3,7 +3,7 @@ import 'user.dart';
 class ExpenseSplit {
   final int id;
   final int expenseId;
-  final User user;
+  final UserModel user;
   final double amount;
 
   ExpenseSplit({
@@ -17,7 +17,7 @@ class ExpenseSplit {
     return ExpenseSplit(
       id: json['id'],
       expenseId: json['expense_id'],
-      user: User.fromJson(json['user']),
+      user: UserModel.fromJson(json['user']),
       amount: double.parse(json['amount'].toString()),
     );
   }

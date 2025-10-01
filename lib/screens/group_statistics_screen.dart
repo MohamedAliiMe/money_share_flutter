@@ -8,7 +8,7 @@ import '../providers/statistics_provider.dart';
 import '../models/group.dart';
 
 class GroupStatisticsScreen extends StatefulWidget {
-  final Group group;
+  final GroupModel group;
 
   const GroupStatisticsScreen({super.key, required this.group});
 
@@ -21,7 +21,7 @@ class _GroupStatisticsScreenState extends State<GroupStatisticsScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<StatisticsProvider>().loadGroupStatistics(widget.group.id);
+      context.read<StatisticsProvider>().loadGroupStatistics(widget.group.id ?? 0);
     });
   }
 
@@ -315,7 +315,7 @@ class _GroupStatisticsScreenState extends State<GroupStatisticsScreen> {
       }
 
       final provider = context.read<StatisticsProvider>();
-      final bytes = await provider.exportToExcel(widget.group.id);
+      final bytes = await provider.exportToExcel(widget.group.id ?? 0);
       
       final directory = Platform.isAndroid
           ? Directory('/storage/emulated/0/Download')

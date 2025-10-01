@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/user.dart';
+import 'package:splitwise_flutter/features/authentication/data/models/user_model/usermodel.dart';
 import '../services/user_service.dart';
 
 class AddMemberDialog extends StatefulWidget {
@@ -12,7 +12,7 @@ class AddMemberDialog extends StatefulWidget {
 class _AddMemberDialogState extends State<AddMemberDialog> {
   final _searchController = TextEditingController();
   final _userService = UserService();
-  List<User> _searchResults = [];
+  List<UserModel> _searchResults = [];
   bool _isLoading = false;
 
   @override
@@ -36,7 +36,13 @@ class _AddMemberDialogState extends State<AddMemberDialog> {
     try {
       final results = await _userService.searchUsers(query);
       setState(() {
-        _searchResults = results;
+        _searchResults = results
+            .map((user) => UserModel(
+                  id: user.id,
+                  name: user.name,
+                  email: user.email,
+                ))
+            .toList();
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -77,8 +83,8 @@ class _AddMemberDialogState extends State<AddMemberDialog> {
                   itemBuilder: (context, index) {
                     final user = _searchResults[index];
                     return ListTile(
-                      title: Text(user.name),
-                      subtitle: Text(user.email),
+                      title: Text(user.name ?? ''),
+                      subtitle: Text(user.email ?? ''),
                       onTap: () => Navigator.of(context).pop(user),
                     );
                   },

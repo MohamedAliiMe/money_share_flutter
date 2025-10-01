@@ -23,7 +23,7 @@ class RouteGenerator {
       case AppRoute.splasAuthScreen:
         return _screenInit(const SplashAuthScreen(), settings);
       case AppRoute.groupDetailsScreen:
-        final arg = settings.arguments as Group;
+        final arg = settings.arguments as GroupModel;
 
         return _screenInit(
             GroupDetailsScreen(

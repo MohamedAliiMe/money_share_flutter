@@ -1,39 +1,31 @@
-class User {
-  final int id;
-  final String name;
-  final String email;
+import 'package:json_annotation/json_annotation.dart';
+import 'package:splitwise_flutter/models/pivot.dart';
 
-  User({
-    required this.id,
-    required this.name,
-    required this.email,
+part 'user.g.dart';
+
+@JsonSerializable()
+class UserModel {
+  int? id;
+  String? name;
+  String? email;
+
+  @JsonKey(name: 'created_at')
+  String? createdAt;
+
+  @JsonKey(name: 'updated_at')
+  String? updatedAt;
+  PivotModel? pivot;
+
+  UserModel({
+    this.id,
+    this.pivot,
+    this.name,
+    this.email,
+    this.createdAt,
+    this.updatedAt,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-    );
-  }
+  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'email': email,
-    };
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is User &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          name == other.name &&
-          email == other.email;
-
-  @override
-  int get hashCode => id.hashCode ^ name.hashCode ^ email.hashCode;
+  Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }

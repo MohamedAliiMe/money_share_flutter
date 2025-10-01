@@ -92,6 +92,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/setting-2.svg
   String get setting2 => 'assets/images/setting-2.svg';
 
+  /// File path: assets/images/share-copy-link.svg
+  String get shareCopyLink => 'assets/images/share-copy-link.svg';
+
+  /// File path: assets/images/share-cq.svg
+  String get shareCq => 'assets/images/share-cq.svg';
+
   /// File path: assets/images/share.svg
   String get share => 'assets/images/share.svg';
 
@@ -146,6 +152,8 @@ class $AssetsImagesGen {
         remove,
         searsh,
         setting2,
+        shareCopyLink,
+        shareCq,
         share,
         splaasgBouttomLeft,
         splashTopRight,

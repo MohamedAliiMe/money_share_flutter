@@ -11,7 +11,7 @@ import '../models/expense.dart';
 import '../models/group.dart';
 
 class ExpenseListScreen extends StatefulWidget {
-  final Group group;
+  final GroupModel group;
 
   const ExpenseListScreen({super.key, required this.group});
 
@@ -24,7 +24,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
     Expense(
       groupId: 1,
       id: 1,
-      paidBy: User(id: 1, name: "name", email: "email"),
+      paidBy: UserModel(id: 1, name: "name", email: "email"),
       splits: [],
       description: 'Dinner with friends',
       amount: 250.75,

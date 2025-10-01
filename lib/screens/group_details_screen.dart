@@ -13,7 +13,7 @@ import '../services/expense_service.dart';
 import 'manage_members_screen.dart';
 
 class GroupDetailsScreen extends StatefulWidget {
-  final Group group;
+  final GroupModel group;
 
   const GroupDetailsScreen({super.key, required this.group});
 
@@ -37,8 +37,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
     try {
-      final expenses = await _expenseService.getGroupExpenses(widget.group.id);
-      final balances = await _expenseService.getGroupBalances(widget.group.id);
+      final expenses = await _expenseService.getGroupExpenses(widget.group.id ?? 0);
+      final balances = await _expenseService.getGroupBalances(widget.group.id ?? 0);
       if (mounted) {
         setState(() {
           _expenses = expenses;
@@ -137,11 +137,14 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
               )
             : Expanded(
                 child: ExpenseOverviewCard(
+
                   data: chartData,
+                  dropdownValue:{
+                    "Person": 12,
+                    "Category": 13,
+                  },
+                  
                   total: 400,
-                  selectedPerson: 'You',
-                  onExport: () {},
-                  onPersonChanged: (value) {},
                 ),
               ),
       ],

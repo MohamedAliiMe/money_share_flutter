@@ -23,7 +23,7 @@ class CreateGroupScreen extends StatefulWidget {
 class _CreateGroupScreenState extends State<CreateGroupScreen> {
   final formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  List<User> selectedMembers = [];
+  List<UserModel> selectedMembers = [];
   String? selectedCategory;
 
   final List<Map<String, dynamic>> categories = [

@@ -11,7 +11,7 @@ class GroupsTab extends StatefulWidget {
 }
 
 class _GroupsTabState extends State<GroupsTab> {
-  List<Group> groups = [];
+  List<GroupModel> groups = [];
 
   @override
   void initState() {
@@ -20,24 +20,24 @@ class _GroupsTabState extends State<GroupsTab> {
   }
 
   Future<void> _loadGroups() async {
-    setState(() {
-      groups = [
-        Group(
-          id: 1,
-          name: 'Family',
-          description: 'Family expenses',
-          totalSpent: 120.50,
-          members: [], // Add mock members here if needed
-        ),
-        Group(
-          id: 2,
-          name: 'Friends',
-          description: 'Trip expenses',
-          totalSpent: 300.00,
-          members: [], // Add mock members here if needed
-        ),
-      ];
-    });
+    // setState(() {
+    // groups = [
+    //   Group(
+    //     id: 1,
+    //     name: 'Family',
+    //     description: 'Family expenses',
+    //     totalSpent: 120.50,
+    //     members: [], // Add mock members here if needed
+    //   ),
+    //   Group(
+    //     id: 2,
+    //     name: 'Friends',
+    //     description: 'Trip expenses',
+    //     totalSpent: 300.00,
+    //     members: [], // Add mock members here if needed
+    //   ),
+    // ];
+    // });
   }
 
   Future<void> _refreshGroups() async {
@@ -73,21 +73,21 @@ class _GroupsTabState extends State<GroupsTab> {
               : ListView.builder(
                   itemCount: groups.length,
                   itemBuilder: (context, index) {
-                    final Group group = groups[index];
+                    final GroupModel group = groups[index];
                     return ListTile(
                       leading: const CircleAvatar(
                         child: Icon(Icons.group),
                       ),
-                      title: Text(group.name),
-                      subtitle: Text(group.description ?? ''),
-                      trailing: Text(
-                        group.totalSpent > 0
-                            ? '\$${group.totalSpent.toStringAsFixed(2)}'
-                            : '',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      // title: Text(group.name),
+                      // subtitle: Text(group.description ?? ''),
+                      // trailing: Text(
+                      //   group.totalSpent > 0
+                      //       ? '\$${group.totalSpent.toStringAsFixed(2)}'
+                      //       : '',
+                      //   style: const TextStyle(
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
                       onTap: () {
                         Navigator.push(
                           context,

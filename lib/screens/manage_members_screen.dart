@@ -10,7 +10,7 @@ import '../models/group.dart';
 import '../models/user.dart';
 
 class ManageMembersScreen extends StatefulWidget {
-  final Group group;
+  final GroupModel group;
 
   const ManageMembersScreen({
     super.key,
@@ -24,16 +24,16 @@ class ManageMembersScreen extends StatefulWidget {
 class _ManageMembersScreenState extends State<ManageMembersScreen> {
   bool _isLoading = false;
 
-  final List<User> _dummyMembers = [
-    User(id: 1, name: "You", email: "mohamed@gmail.com"),
-    User(id: 2, name: "Ahmed", email: "ahmed@gmail.com"),
-    User(id: 3, name: "Ali", email: "ali@gmail.com"),
-    User(id: 4, name: "Hassan", email: "hassan@gmail.com"),
+  final List<UserModel> _dummyMembers = [
+    UserModel(id: 1, name: "You", email: "mohamed@gmail.com"),
+    UserModel(id: 2, name: "Ahmed", email: "ahmed@gmail.com"),
+    UserModel(id: 3, name: "Ali", email: "ali@gmail.com"),
+    UserModel(id: 4, name: "Hassan", email: "hassan@gmail.com"),
   ];
 
-  final List<User> _dummyFriends = [
-    User(id: 5, name: "Omar", email: "omar@gmail.com"),
-    User(id: 6, name: "Sara", email: "sara@gmail.com"),
+  final List<UserModel> _dummyFriends = [
+    UserModel(id: 5, name: "Omar", email: "omar@gmail.com"),
+    UserModel(id: 6, name: "Sara", email: "sara@gmail.com"),
   ];
 
   @override
@@ -64,16 +64,16 @@ class _ManageMembersScreenState extends State<ManageMembersScreen> {
                           backgroundColor:
                               AllColors.globalAppColor.withOpacity(0.2),
                           child: Text(
-                            member.name[0],
+                            member.name?[0] ?? '',
                             style: tr20,
                           ),
                         ),
                         title: Text(
-                          member.name,
+                          member.name ?? '',
                           style: tr20,
                         ),
                         subtitle: Text(
-                          member.email,
+                          member.email ?? '',
                           style: tr13.copyWith(
                               color: AllColors.grey.withOpacity(0.9)),
                         ),
@@ -114,16 +114,16 @@ class _ManageMembersScreenState extends State<ManageMembersScreen> {
                           backgroundColor:
                               AllColors.globalAppColor.withOpacity(0.2),
                           child: Text(
-                            friend.name[0],
+                            friend.name?[0] ?? '',
                             style: tr20,
                           ),
                         ),
                         title: Text(
-                          friend.name,
+                          friend.name ?? '',
                           style: tr20,
                         ),
                         subtitle: Text(
-                          friend.email,
+                          friend.email ?? '',
                           style: tr13.copyWith(
                               color: AllColors.grey.withOpacity(0.9)),
                         ),

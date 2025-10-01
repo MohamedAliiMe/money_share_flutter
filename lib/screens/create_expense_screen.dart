@@ -5,7 +5,7 @@ import '../models/user.dart';
 import '../services/expense_service.dart';
 
 class CreateExpenseScreen extends StatefulWidget {
-  final Group group;
+  final GroupModel group;
 
   const CreateExpenseScreen({
     super.key,
@@ -22,27 +22,27 @@ class _CreateExpenseScreenState extends State<CreateExpenseScreen> {
   final _amountController = TextEditingController();
   final _expenseService = ExpenseService();
   late DateTime _selectedDate;
-  late User _selectedPayer;
-  Map<User, double> _splits = {};
+  late UserModel _selectedPayer;
+  Map<UserModel, double> _splits = {};
 
   @override
   void initState() {
     super.initState();
     _selectedDate = DateTime.now();
-    
-    if (widget.group.members.isEmpty) {
+
+    if (widget.group.members == null || widget.group.members!.isEmpty) {
       throw Exception('Group has no members');
     }
 
-    // Initialize with the first member as payer
-    _selectedPayer = widget.group.members.first;
+    _selectedPayer = widget.group.members!.first;
     _initializeSplits();
   }
 
   void _initializeSplits() {
     _splits = {
-      for (var member in widget.group.members)
-        member: 1.0 / widget.group.members.length, // Equal split by default
+      for (var member in widget.group.members ?? [])
+        member:
+            1.0 / (widget.group.members?.length ?? 1), 
     };
   }
 
@@ -69,15 +69,18 @@ class _CreateExpenseScreenState extends State<CreateExpenseScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     final amount = double.parse(_amountController.text);
-    final splits = _splits.entries.map((entry) => {
-      'user_id': entry.key.id,
-      'amount': amount * entry.value, // Calculate actual amount for each split
-    }).toList();
+    final splits = _splits.entries
+        .map((entry) => {
+              'user_id': entry.key.id,
+              'amount': amount *
+                  entry.value, // Calculate actual amount for each split
+            })
+        .toList();
 
     try {
       await _expenseService.createExpense(
-        groupId: widget.group.id,
-        paidById: _selectedPayer.id,
+        groupId: widget.group.id ?? 0,
+        paidById: _selectedPayer.id ?? 0,
         description: _descriptionController.text,
         amount: amount,
         date: _selectedDate,
@@ -106,16 +109,17 @@ class _CreateExpenseScreenState extends State<CreateExpenseScreen> {
           child: ListView(
             shrinkWrap: true,
             children: [
-              for (var member in widget.group.members)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      children: [
-                        Expanded(child: Text(member.name)),
-                        SizedBox(
+              for (var member in widget.group.members ?? [])
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    children: [
+                      Expanded(child: Text(member.name)),
+                      SizedBox(
                         width: 100,
                         child: TextFormField(
-                          initialValue: (_splits[member]! * 100).toStringAsFixed(0),
+                          initialValue:
+                              (_splits[member]! * 100).toStringAsFixed(0),
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
@@ -194,11 +198,12 @@ class _CreateExpenseScreenState extends State<CreateExpenseScreen> {
             const SizedBox(height: 24),
             ListTile(
               title: const Text('Paid by'),
-              trailing: DropdownButton<User>(
+              trailing: DropdownButton<UserModel>(
                 value: _selectedPayer,
-                items: widget.group.members.map((member) => DropdownMenuItem(
+                items: (widget.group.members ?? [])
+                    .map((member) => DropdownMenuItem(
                           value: member,
-                          child: Text(member.name),
+                          child: Text(member.name ?? ''),
                         ))
                     .toList(),
                 onChanged: (user) {
