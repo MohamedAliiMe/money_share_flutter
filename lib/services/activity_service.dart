@@ -6,7 +6,7 @@ import '../utils/constants.dart';
 import 'dart:developer' as developer;
 
 class ActivityService {
-  Future<List<Activity>> getActivities() async {
+  Future<List<ActivityModel>> getActivities() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
@@ -27,7 +27,7 @@ class ActivityService {
       developer.log('Activities response body: ${response.body}');
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)['data'];
-        return data.map((json) => Activity.fromJson(json)).toList();
+        return data.map((json) => ActivityModel.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load activities');
       }

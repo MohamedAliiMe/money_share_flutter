@@ -13,6 +13,8 @@ import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart
 import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
 import 'package:splitwise_flutter/features/nav/domain/entity/nav_entity.dart';
 import 'package:splitwise_flutter/features/nav/logic/nav_cubit.dart';
+import 'package:splitwise_flutter/gen/assets.gen.dart';
+import 'package:splitwise_flutter/widgets/searsh_friendes_dialog_widget.dart';
 
 class NavPage extends StatefulWidget {
   const NavPage({super.key});
@@ -46,6 +48,90 @@ class _NavPageState extends State<NavPage> {
           }
 
           return Scaffold(
+            appBar: AppBar(
+              title: Row(
+                children: [
+                  if (state.isDetailsPage) ...[
+                    if (state.appBarIcon != null)
+                      SvgPicture.asset(
+                        state.appBarIcon!,
+                        width: 28.w,
+                        height: 28.h,
+                      ),
+                    SizedBox(width: 8.w),
+                    Expanded(
+                        child: Text(state.appBarTitle ?? "", style: tsb20)),
+                    const Spacer(),
+                    SvgPicture.asset(Assets.images.setting2),
+                    12.w.horizontalSpace,
+                    GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) => Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.r)),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 16.w, vertical: 24.h),
+                                child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Share Group",
+                                            style: tr20,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () => Navigator.pop(context),
+                                            child: const Icon(Icons.close,
+                                                color: AllColors.grey),
+                                          ),
+                                        ],
+                                      ),
+                                      12.h.verticalSpace,
+                                      Divider(
+                                        height: 0,
+                                        color: AllColors.grey
+                                            .withValues(alpha: 0.2),
+                                      ),
+                                      24.h.verticalSpace,
+                                      _contantShareDialog(Assets.images.shareCq,
+                                          "Share Qr Code"),
+                                      _contantShareDialog(
+                                          Assets.images.shareCopyLink,
+                                          "Share Group Link"),
+                                    ]),
+                              ),
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(Assets.images.share)),
+                  ] else ...[
+                    Image.asset(
+                      Assets.images.iconInterfaceSolid.path,
+                      width: 35.w,
+                      height: 35.h,
+                      color: AllColors.globalAppColor,
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(state.appBarTitle ?? "", style: tsb20),
+                    const Spacer(),
+                    if (state.currentIndex != 4)
+                      GestureDetector(
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (_) => const SearchFriendsDialog());
+                          },
+                          child: SvgPicture.asset(Assets.images.searsh)),
+                  ],
+                ],
+              ),
+            ),
             body: state.currentPage?.page,
             bottomNavigationBar: SizedBox(
               height: 90.h,
@@ -113,6 +199,28 @@ class _NavPageState extends State<NavPage> {
     );
   }
 
+  Container _contantShareDialog(String icon, String description) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+      decoration: BoxDecoration(
+        color: AllColors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(
+          color: AllColors.grey.withValues(alpha: 0.3),
+          width: 1.w,
+        ),
+      ),
+      child: Row(
+        children: [
+          SvgPicture.asset(icon),
+          SizedBox(width: 8.w),
+          Text(description, style: tr16),
+        ],
+      ),
+    );
+  }
+
   Widget _buildNavItem(
     BuildContext context,
     NavEntity item,
@@ -123,9 +231,11 @@ class _NavPageState extends State<NavPage> {
       onTap: () {
         if (index == createIndex) {
           context.read<NavCubit>().changePage(createIndex);
+
           setState(() => isCreating = true);
           return;
         }
+        context.read<NavCubit>().resetAppBarToHome();
 
         context.read<NavCubit>().changePage(index);
         if (isCreating) setState(() => isCreating = false);

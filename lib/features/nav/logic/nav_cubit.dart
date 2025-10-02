@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:splitwise_flutter/features/nav/domain/entity/nav_entity.dart';
+import 'package:splitwise_flutter/screens/activity_screen.dart';
 import 'package:splitwise_flutter/screens/create_expense_screen.dart';
 import 'package:splitwise_flutter/screens/create_group_screen.dart';
 import 'package:splitwise_flutter/screens/home_screen.dart';
@@ -104,5 +105,21 @@ class NavCubit extends Cubit<NavState> {
 
   void resetCreateGroupRequest() {
     emit(state.copyWith(createGroupRequested: false));
+  }
+
+  void updateAppBarForDetails({required String title, String? icon}) {
+    emit(state.copyWith(
+      appBarTitle: title,
+      appBarIcon: icon,
+      isDetailsPage: true,
+    ));
+  }
+
+  void resetAppBarToHome() {
+    emit(state.copyWith(
+      appBarTitle: "Splitsmart",
+      appBarIcon: null,
+      isDetailsPage: false,
+    ));
   }
 }

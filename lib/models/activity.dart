@@ -1,4 +1,4 @@
-class Activity {
+class ActivityModel {
   final int id;
   final String description;
   final String type;
@@ -9,7 +9,7 @@ class Activity {
   final int userId;
   final String userName;
 
-  Activity({
+  ActivityModel({
     required this.id,
     required this.description,
     required this.type,
@@ -21,8 +21,8 @@ class Activity {
     required this.userName,
   });
 
-  factory Activity.fromJson(Map<String, dynamic> json) {
-    return Activity(
+  factory ActivityModel.fromJson(Map<String, dynamic> json) {
+    return ActivityModel(
       id: json['id'],
       description: json['description'],
       type: json['type'],

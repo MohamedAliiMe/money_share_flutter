@@ -17,6 +17,9 @@ class NavState with _$NavState {
     bool? createGroupRequested,
     @Default(false) bool failedState,
     @Default(false) bool showOngoingProjects,
+    String? appBarTitle,
+    String? appBarIcon,
+    @Default(false) bool isDetailsPage,
   }) = _NavState;
 
   factory NavState.initial() => NavState(
@@ -24,14 +27,14 @@ class NavState with _$NavState {
         createGroupRequested: false,
         pages: [
           const HomeScreen(),
-          const ActivityTab(),
+          const ActivityScreen(),
           CreateGroupScreen(),
           const ActivityTab(),
           const ProfileScreen(),
         ],
         navPages: [
           NavEntity(Assets.images.home02, 'Home', const HomeScreen()),
-          NavEntity(Assets.images.activity, 'Activity', const ActivityTab()),
+          NavEntity(Assets.images.activity, 'Activity', const ActivityScreen()),
           NavEntity('', '', CreateGroupScreen()),
           NavEntity(Assets.images.friends, 'Friends', const ActivityTab()),
           NavEntity(Assets.images.profile, 'Profile', const ProfileScreen()),
@@ -41,5 +44,7 @@ class NavState with _$NavState {
           'Home',
           HomeScreen(),
         ),
+        appBarTitle: "Splitsmart",
+        isDetailsPage: false,
       );
 }

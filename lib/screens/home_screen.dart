@@ -12,6 +12,7 @@ import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart
 import 'package:splitwise_flutter/cubit/groups_cubit.dart';
 import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
+import 'package:splitwise_flutter/features/nav/logic/nav_cubit.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 import 'package:splitwise_flutter/models/group.dart';
 import 'package:splitwise_flutter/models/user.dart';
@@ -42,11 +43,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _showGroupDetails(GroupModel group) {
+    context.read<NavCubit>().updateAppBarForDetails(
+          title: group.name ?? "",
+          icon: Assets.images.house,
+        );
+
     setState(() {
       _currentBody = GroupDetailsScreen(group: group);
       _isHomePage = false;
-      _selectedGroupName = group.name;
-      _selectedGroupIcon = Assets.images.house;
     });
   }
 
@@ -62,40 +66,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AllColors.white,
-      appBar: AppBar(
-        title: Row(
-          children: [
-            if (_selectedGroupName != null) ...[
-              SvgPicture.asset(
-                _selectedGroupIcon ?? Assets.images.house,
-                width: 28.w,
-                height: 28.h,
-              ),
-              SizedBox(width: 8.w),
-              Expanded(child: Text(_selectedGroupName ?? "", style: tsb20)),
-            ] else ...[
-              Image.asset(
-                Assets.images.iconInterfaceSolid.path,
-                width: 35.w,
-                height: 35.h,
-                color: AllColors.globalAppColor,
-              ),
-              SizedBox(width: 8.w),
-              Text(LocaleKeys.splitsmart.tr(), style: tsb20),
-            ],
-          ],
-        ),
-      ),
       body: WillPopScope(
         onWillPop: () async {
           if (!_isHomePage) {
             _showGroupsList();
+            context.read<NavCubit>().resetAppBarToHome();
             return false;
           }
           return true;
         },
-        child: _buildGroupsList(),
+        child: _currentBody ?? _buildGroupsList(),
       ),
     );
   }
@@ -117,53 +97,95 @@ class _HomeScreenState extends State<HomeScreen> {
           return _buildEmptyState(context);
         }
 
-        return ListView.builder(
-          padding: EdgeInsets.all(16.w),
-          itemCount: groups.length,
-          itemBuilder: (context, index) {
-            final group = groups[index];
-            return GestureDetector(
-              onTap: () => _showGroupDetails(group),
-              child: Container(
-                margin: EdgeInsets.only(bottom: 16.h),
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
-                decoration: BoxDecoration(
-                  color: AllColors.grey.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(20.r),
-                  border: Border.all(
-                    color: AllColors.grey.withOpacity(0.03),
-                    width: 1,
-                  ),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 20.r,
-                      backgroundColor:
-                          AllColors.globalAppColor.withOpacity(0.15),
-                      child: SvgPicture.asset(Assets.images.house),
-                    ),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: Column(
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Groups", style: tr20),
+                  GestureDetector(
+                      onTap: () {},
+                      child: SvgPicture.asset(Assets.images.filter)),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.all(16.w),
+                itemCount: groups.length,
+                itemBuilder: (context, index) {
+                  final group = groups[index];
+                  return GestureDetector(
+                    onTap: () => _showGroupDetails(group),
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 16.h),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 12.w, vertical: 16.h),
+                      decoration: BoxDecoration(
+                        color: AllColors.grey.withOpacity(0.05),
+                        borderRadius: BorderRadius.circular(20.r),
+                        border: Border.all(
+                          color: AllColors.grey.withOpacity(0.03),
+                          width: 1,
+                        ),
+                      ),
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(group.name ?? "", style: tr16),
-                          SizedBox(height: 4.h),
-                          Text("${group.members?.length ?? 0} members",
-                              style: tr13.copyWith(color: AllColors.grey)),
-                          if (group.totalSpent != null)
-                            Text("Total Spent: ${group.totalSpent}",
-                                style: tr13.copyWith(color: AllColors.grey)),
+                          CircleAvatar(
+                            radius: 20.r,
+                            backgroundColor:
+                                AllColors.globalAppColor.withOpacity(0.15),
+                            child: SvgPicture.asset(Assets.images.house),
+                          ),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        group.name?.toString() ?? '',
+                                        style: tr16,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Expanded(
+                                      child: Text(
+                                        group.createdAt?.substring(0, 10) ?? '',
+                                        style: tr13,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 4.h),
+                                Text(
+                                    "${group.members?.length.toString()} Members",
+                                    style:
+                                        tr13.copyWith(color: AllColors.grey)),
+                                Text(group.totalSpent?.toString() ?? '',
+                                    style:
+                                        tr13.copyWith(color: AllColors.grey)),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
-            );
-          },
+            ),
+          ],
         );
       },
     );

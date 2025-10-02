@@ -37,8 +37,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
     try {
-      final expenses = await _expenseService.getGroupExpenses(widget.group.id ?? 0);
-      final balances = await _expenseService.getGroupBalances(widget.group.id ?? 0);
+      final expenses =
+          await _expenseService.getGroupExpenses(widget.group.id ?? 0);
+      final balances =
+          await _expenseService.getGroupBalances(widget.group.id ?? 0);
       if (mounted) {
         setState(() {
           _expenses = expenses;
@@ -137,13 +139,11 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
               )
             : Expanded(
                 child: ExpenseOverviewCard(
-
                   data: chartData,
-                  dropdownValue:{
+                  dropdownValue: {
                     "Person": 12,
                     "Category": 13,
                   },
-                  
                   total: 400,
                 ),
               ),
@@ -248,9 +248,12 @@ Padding buildHeader(
   Color? colorText,
   String? assetName,
   bool? hasIcon,
+  bool? hasBadding,
 }) {
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+    padding: hasBadding == true
+        ? EdgeInsetsGeometry.all(0.w)
+        : EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

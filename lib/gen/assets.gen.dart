@@ -34,6 +34,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
 
+  /// File path: assets/images/clock.svg
+  String get clock => 'assets/images/clock.svg';
+
   /// File path: assets/images/currency-pound.svg
   String get currencyPound => 'assets/images/currency-pound.svg';
 
@@ -47,8 +50,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/filter.svg
   String get filter => 'assets/images/filter.svg';
 
+  /// File path: assets/images/flag-01.svg
+  String get flag01 => 'assets/images/flag-01.svg';
+
   /// File path: assets/images/friends.svg
   String get friends => 'assets/images/friends.svg';
+
+  /// File path: assets/images/globe-02.svg
+  String get globe02 => 'assets/images/globe-02.svg';
 
   /// File path: assets/images/heart.svg
   String get heart => 'assets/images/heart.svg';
@@ -59,8 +68,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/home-line.svg
   String get homeLine => 'assets/images/home-line.svg';
 
+  /// File path: assets/images/home-purr.svg
+  String get homePurr => 'assets/images/home-purr.svg';
+
   /// File path: assets/images/house.svg
   String get house => 'assets/images/house.svg';
+
+  /// File path: assets/images/log-out-01.svg
+  String get logOut01 => 'assets/images/log-out-01.svg';
 
   /// File path: assets/images/love.svg
   String get love => 'assets/images/love.svg';
@@ -71,17 +86,31 @@ class $AssetsImagesGen {
   /// File path: assets/images/moneys.svg
   String get moneys => 'assets/images/moneys.svg';
 
+  /// File path: assets/images/no-activity-here.png
+  AssetGenImage get noActivityHere =>
+      const AssetGenImage('assets/images/no-activity-here.png');
+
+  /// File path: assets/images/no-friendes-here.png
+  AssetGenImage get noFriendesHere =>
+      const AssetGenImage('assets/images/no-friendes-here.png');
+
   /// File path: assets/images/other.svg
   String get other => 'assets/images/other.svg';
 
   /// File path: assets/images/people.svg
   String get people => 'assets/images/people.svg';
 
+  /// File path: assets/images/plane.svg
+  String get plane => 'assets/images/plane.svg';
+
   /// File path: assets/images/plus.svg
   String get plus => 'assets/images/plus.svg';
 
   /// File path: assets/images/profile.svg
   String get profile => 'assets/images/profile.svg';
+
+  /// File path: assets/images/qr-code-01.svg
+  String get qrCode01 => 'assets/images/qr-code-01.svg';
 
   /// File path: assets/images/remove.svg
   String get remove => 'assets/images/remove.svg';
@@ -109,8 +138,14 @@ class $AssetsImagesGen {
   AssetGenImage get splashTopRight =>
       const AssetGenImage('assets/images/splash-top-right.png');
 
+  /// File path: assets/images/star-01.svg
+  String get star01 => 'assets/images/star-01.svg';
+
   /// File path: assets/images/status.svg
   String get status => 'assets/images/status.svg';
+
+  /// File path: assets/images/touch-the-profile.svg
+  String get touchTheProfile => 'assets/images/touch-the-profile.svg';
 
   /// File path: assets/images/trip.svg
   String get trip => 'assets/images/trip.svg';
@@ -133,22 +168,31 @@ class $AssetsImagesGen {
         briefcase02,
         calendarExpnses,
         calendar,
+        clock,
         currencyPound,
         doneSuccesfly,
         export,
         filter,
+        flag01,
         friends,
+        globe02,
         heart,
         home02,
         homeLine,
+        homePurr,
         house,
+        logOut01,
         love,
         messageText,
         moneys,
+        noActivityHere,
+        noFriendesHere,
         other,
         people,
+        plane,
         plus,
         profile,
+        qrCode01,
         remove,
         searsh,
         setting2,
@@ -157,7 +201,9 @@ class $AssetsImagesGen {
         share,
         splaasgBouttomLeft,
         splashTopRight,
+        star01,
         status,
+        touchTheProfile,
         trip,
         user04,
         userTick,

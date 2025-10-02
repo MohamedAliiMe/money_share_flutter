@@ -1,10 +1,12 @@
-import 'dart:developer';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
-import '../providers/groups_provider.dart';
-import '../services/expense_service.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
+import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
+import 'package:splitwise_flutter/gen/assets.gen.dart';
+import 'package:splitwise_flutter/screens/group_details_screen.dart';
+import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -14,178 +16,125 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final _formKey = GlobalKey<FormState>();
-  late TextEditingController _nameController;
-  late TextEditingController _emailController;
-  final _expenseService = ExpenseService();
-  bool _isEditing = false;
-  int _totalExpenses = 0;
-
-  Future<void> _loadTotalExpenses() async {
-    try {
-      final count = await _expenseService.getTotalExpenses();
-      if (mounted) {
-        setState(() {
-          _totalExpenses = count;
-        });
-      }
-    } catch (e) {
-      log('Failed to load total expenses: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load total expenses: $e')),
-        );
-      }
-    }
-  }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   final user = Provider.of<AuthProvider>(context, listen: false).currentUser!;
-  //   _nameController = TextEditingController(text: user.name);
-  //   _emailController = TextEditingController(text: user.email);
-  //   _loadTotalExpenses();
-  // }
-
-  // @override
-  // void dispose() {
-  //   _nameController.dispose();
-  //   _emailController.dispose();
-  //   super.dispose();
-  // }
-
-  // void _toggleEdit() {
-  //   setState(() {
-  //     _isEditing = !_isEditing;
-  //     if (!_isEditing) {
-  //       // Reset controllers to original values
-  //       final user =
-  //           Provider.of<AuthProvider>(context, listen: false).currentUser!;
-  //       _nameController.text = user.name;
-  //       _emailController.text = user.email;
-  //     }
-  //   });
-  // }
-
-
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Profile Screen - Under Construction'),
+    return Scaffold(
+      body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildHeader(
+              "Profile",
+              actionText: "QR Code",
+              onAction: () {},
+              hasIcon: true,
+              assetName: Assets.images.qrCode01,
+              hasBadding: true,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+              margin: EdgeInsets.symmetric(vertical: 24.h),
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: AllColors.grey.withOpacity(0.2), width: 1.w),
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 28.r,
+                    backgroundColor:
+                        AllColors.globalAppColor.withValues(alpha: 0.2),
+                    child: Text(
+                      "M",
+                      style: tr20,
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Mohamed Ahmed", style: tsb16),
+                        SizedBox(height: 4.h),
+                        Text("mohamedahmed@gmail.com",
+                            style: tr13.copyWith(color: AllColors.grey)),
+                      ],
+                    ),
+                  ),
+                  Icon(Icons.mode_edit_outlined,
+                      size: 24.sp, color: AllColors.globalAppColor),
+                ],
+              ),
+            ),
+
+            Divider(color: AllColors.grey.withOpacity(0.3), height: 0),
+            SizedBox(height: 24.h),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 24.h),
+              decoration: BoxDecoration(
+                color: AllColors.globalAppColor,
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Splitsmart Pro",
+                            style: tsb16.copyWith(color: Colors.white)),
+                        SizedBox(height: 4.h),
+                        Text("Go Pro for smarter expense sharing",
+                            style: tr13.copyWith(color: Colors.white)),
+                      ]),
+                  SvgPicture.asset(Assets.images.touchTheProfile),
+                ],
+              ),
+            ),
+            SizedBox(height: 20.h),
+
+            _buildSettingItem(Assets.images.currencyPound, "EGP"),
+            _buildSettingItem(Assets.images.flag01, "Egypt"),
+            _buildSettingItem(Assets.images.globe02, "English"),
+            _buildSettingItem(Assets.images.star01, "Rating Us"),
+            _buildSettingItem(Assets.images.logOut01, "Logout"),
+            SizedBox(height: 40.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  Assets.images.iconInterfaceSolid.path,
+                  width: 32.w,
+                  height: 32.h,
+                  color: AllColors.globalAppColor,
+                ),
+                SizedBox(width: 8.w),
+                Text(LocaleKeys.splitsmart.tr(), style: tsb16),
+              ],
+            ),
+            SizedBox(height: 40.h),
+          ],
+        ),
       ),
     );
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: const Text('Profile'),
-    //     actions: [
-    //       IconButton(
-    //         icon: Icon(_isEditing ? Icons.close : Icons.edit),
-    //         onPressed: _toggleEdit,
-    //       ),
-    //       if (_isEditing)
-    //         IconButton(
-    //           icon: const Icon(Icons.check),
-    //           onPressed: _saveChanges,
-    //         ),
-    //     ],
-    //   ),
-    //   body: Consumer<AuthProvider>(
-    //     builder: (context, auth, _) {
-    //       final user = auth.currentUser!;
-    //       return SingleChildScrollView(
-    //         padding: const EdgeInsets.all(16.0),
-    //         child: Form(
-    //           key: _formKey,
-    //           child: Column(
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: [
-    //               Center(
-    //                 child: CircleAvatar(
-    //                   radius: 50,
-    //                   backgroundColor: Theme.of(context).primaryColor,
-    //                   child: Text(
-    //                     user.name[0].toUpperCase(),
-    //                     style: const TextStyle(
-    //                       fontSize: 36,
-    //                       color: Colors.white,
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ),
-    //               const SizedBox(height: 32),
-    //               TextFormField(
-    //                 controller: _nameController,
-    //                 decoration: const InputDecoration(
-    //                   labelText: 'Name',
-    //                   border: OutlineInputBorder(),
-    //                 ),
-    //                 enabled: _isEditing,
-    //                 validator: (value) {
-    //                   if (value == null || value.isEmpty) {
-    //                     return 'Please enter your name';
-    //                   }
-    //                   return null;
-    //                 },
-    //               ),
-    //               const SizedBox(height: 16),
-    //               TextFormField(
-    //                 controller: _emailController,
-    //                 decoration: const InputDecoration(
-    //                   labelText: 'Email',
-    //                   border: OutlineInputBorder(),
-    //                 ),
-    //                 enabled: _isEditing,
-    //                 keyboardType: TextInputType.emailAddress,
-    //                 validator: (value) {
-    //                   if (value == null || value.isEmpty) {
-    //                     return 'Please enter your email';
-    //                   }
-    //                   if (!value.contains('@')) {
-    //                     return 'Please enter a valid email';
-    //                   }
-    //                   return null;
-    //                 },
-    //               ),
-    //               const SizedBox(height: 32),
-    //               if (!_isEditing) ...[
-    //                 const Text(
-    //                   'Account Statistics',
-    //                   style: TextStyle(
-    //                     fontSize: 18,
-    //                     fontWeight: FontWeight.bold,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 16),
-    //                 ListTile(
-    //                   leading: const Icon(Icons.group),
-    //                   title: const Text('Total Groups'),
-    //                   trailing: Consumer<GroupsProvider>(
-    //                     builder: (context, groupsProvider, child) {
-    //                       return Text(
-    //                         '${groupsProvider.groups.length}',
-    //                         style: const TextStyle(fontSize: 18),
-    //                       );
-    //                     },
-    //                   ),
-    //                 ),
-    //                 const Divider(),
-    //                 ListTile(
-    //                   leading: const Icon(Icons.receipt_long),
-    //                   title: const Text('Total Expenses'),
-    //                   trailing: Text(
-    //                     '$_totalExpenses',
-    //                     style: const TextStyle(fontSize: 18),
-    //                   ),
-    //                 ),
-    //               ],
-    //             ],
-    //           ),
-    //         ),
-    //       );
-    //     },
-    //   ),
-    // );
+  }
+
+  Widget _buildSettingItem(String icon, String title, {Color? color}) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 14.h),
+      child: Row(
+        children: [
+          SvgPicture.asset(icon),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Text(title, style: tsb16),
+          ),
+          const Icon(Icons.chevron_right, color: Colors.grey),
+        ],
+      ),
+    );
   }
 }

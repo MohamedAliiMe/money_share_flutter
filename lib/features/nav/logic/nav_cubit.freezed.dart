@@ -30,6 +30,9 @@ mixin _$NavState {
   bool? get createGroupRequested => throw _privateConstructorUsedError;
   bool get failedState => throw _privateConstructorUsedError;
   bool get showOngoingProjects => throw _privateConstructorUsedError;
+  String? get appBarTitle => throw _privateConstructorUsedError;
+  String? get appBarIcon => throw _privateConstructorUsedError;
+  bool get isDetailsPage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NavStateCopyWith<NavState> get copyWith =>
@@ -55,7 +58,10 @@ abstract class $NavStateCopyWith<$Res> {
       String? description,
       bool? createGroupRequested,
       bool failedState,
-      bool showOngoingProjects});
+      bool showOngoingProjects,
+      String? appBarTitle,
+      String? appBarIcon,
+      bool isDetailsPage});
 }
 
 /// @nodoc
@@ -85,6 +91,9 @@ class _$NavStateCopyWithImpl<$Res, $Val extends NavState>
     Object? createGroupRequested = freezed,
     Object? failedState = null,
     Object? showOngoingProjects = null,
+    Object? appBarTitle = freezed,
+    Object? appBarIcon = freezed,
+    Object? isDetailsPage = null,
   }) {
     return _then(_value.copyWith(
       currentIndex: null == currentIndex
@@ -143,6 +152,18 @@ class _$NavStateCopyWithImpl<$Res, $Val extends NavState>
           ? _value.showOngoingProjects
           : showOngoingProjects // ignore: cast_nullable_to_non_nullable
               as bool,
+      appBarTitle: freezed == appBarTitle
+          ? _value.appBarTitle
+          : appBarTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      appBarIcon: freezed == appBarIcon
+          ? _value.appBarIcon
+          : appBarIcon // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isDetailsPage: null == isDetailsPage
+          ? _value.isDetailsPage
+          : isDetailsPage // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -169,7 +190,10 @@ abstract class _$$NavStateImplCopyWith<$Res>
       String? description,
       bool? createGroupRequested,
       bool failedState,
-      bool showOngoingProjects});
+      bool showOngoingProjects,
+      String? appBarTitle,
+      String? appBarIcon,
+      bool isDetailsPage});
 }
 
 /// @nodoc
@@ -197,6 +221,9 @@ class __$$NavStateImplCopyWithImpl<$Res>
     Object? createGroupRequested = freezed,
     Object? failedState = null,
     Object? showOngoingProjects = null,
+    Object? appBarTitle = freezed,
+    Object? appBarIcon = freezed,
+    Object? isDetailsPage = null,
   }) {
     return _then(_$NavStateImpl(
       currentIndex: null == currentIndex
@@ -255,6 +282,18 @@ class __$$NavStateImplCopyWithImpl<$Res>
           ? _value.showOngoingProjects
           : showOngoingProjects // ignore: cast_nullable_to_non_nullable
               as bool,
+      appBarTitle: freezed == appBarTitle
+          ? _value.appBarTitle
+          : appBarTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      appBarIcon: freezed == appBarIcon
+          ? _value.appBarIcon
+          : appBarIcon // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isDetailsPage: null == isDetailsPage
+          ? _value.isDetailsPage
+          : isDetailsPage // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -276,7 +315,10 @@ class _$NavStateImpl implements _NavState {
       this.description,
       this.createGroupRequested,
       this.failedState = false,
-      this.showOngoingProjects = false})
+      this.showOngoingProjects = false,
+      this.appBarTitle,
+      this.appBarIcon,
+      this.isDetailsPage = false})
       : _pages = pages,
         _navPages = navPages,
         _pageKeys = pageKeys;
@@ -334,10 +376,17 @@ class _$NavStateImpl implements _NavState {
   @override
   @JsonKey()
   final bool showOngoingProjects;
+  @override
+  final String? appBarTitle;
+  @override
+  final String? appBarIcon;
+  @override
+  @JsonKey()
+  final bool isDetailsPage;
 
   @override
   String toString() {
-    return 'NavState(currentIndex: $currentIndex, pages: $pages, navPages: $navPages, currentPage: $currentPage, pageKeys: $pageKeys, isLoading: $isLoading, errorMessage: $errorMessage, succses: $succses, createGroup: $createGroup, groupName: $groupName, description: $description, createGroupRequested: $createGroupRequested, failedState: $failedState, showOngoingProjects: $showOngoingProjects)';
+    return 'NavState(currentIndex: $currentIndex, pages: $pages, navPages: $navPages, currentPage: $currentPage, pageKeys: $pageKeys, isLoading: $isLoading, errorMessage: $errorMessage, succses: $succses, createGroup: $createGroup, groupName: $groupName, description: $description, createGroupRequested: $createGroupRequested, failedState: $failedState, showOngoingProjects: $showOngoingProjects, appBarTitle: $appBarTitle, appBarIcon: $appBarIcon, isDetailsPage: $isDetailsPage)';
   }
 
   @override
@@ -368,7 +417,13 @@ class _$NavStateImpl implements _NavState {
             (identical(other.failedState, failedState) ||
                 other.failedState == failedState) &&
             (identical(other.showOngoingProjects, showOngoingProjects) ||
-                other.showOngoingProjects == showOngoingProjects));
+                other.showOngoingProjects == showOngoingProjects) &&
+            (identical(other.appBarTitle, appBarTitle) ||
+                other.appBarTitle == appBarTitle) &&
+            (identical(other.appBarIcon, appBarIcon) ||
+                other.appBarIcon == appBarIcon) &&
+            (identical(other.isDetailsPage, isDetailsPage) ||
+                other.isDetailsPage == isDetailsPage));
   }
 
   @override
@@ -387,7 +442,10 @@ class _$NavStateImpl implements _NavState {
       description,
       createGroupRequested,
       failedState,
-      showOngoingProjects);
+      showOngoingProjects,
+      appBarTitle,
+      appBarIcon,
+      isDetailsPage);
 
   @JsonKey(ignore: true)
   @override
@@ -411,7 +469,10 @@ abstract class _NavState implements NavState {
       final String? description,
       final bool? createGroupRequested,
       final bool failedState,
-      final bool showOngoingProjects}) = _$NavStateImpl;
+      final bool showOngoingProjects,
+      final String? appBarTitle,
+      final String? appBarIcon,
+      final bool isDetailsPage}) = _$NavStateImpl;
 
   @override
   int get currentIndex;
@@ -441,6 +502,12 @@ abstract class _NavState implements NavState {
   bool get failedState;
   @override
   bool get showOngoingProjects;
+  @override
+  String? get appBarTitle;
+  @override
+  String? get appBarIcon;
+  @override
+  bool get isDetailsPage;
   @override
   @JsonKey(ignore: true)
   _$$NavStateImplCopyWith<_$NavStateImpl> get copyWith =>
