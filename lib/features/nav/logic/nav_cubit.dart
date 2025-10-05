@@ -19,7 +19,6 @@ part 'nav_state.dart';
 part 'nav_cubit.freezed.dart';
 
 @Injectable()
-@Injectable()
 class NavCubit extends Cubit<NavState> {
   final _pageRefreshTimes = <int, DateTime>{};
 

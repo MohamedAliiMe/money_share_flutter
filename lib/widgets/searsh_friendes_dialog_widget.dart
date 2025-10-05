@@ -7,7 +7,12 @@ import 'package:splitwise_flutter/gen/assets.gen.dart';
 import 'package:splitwise_flutter/widgets/add_expense_sheet_widget.dart';
 
 class SearchFriendsDialog extends StatefulWidget {
-  const SearchFriendsDialog({super.key});
+  final String? title;
+  final String? hintText;
+  final String? textButton;
+  final String? imagePath;
+  const SearchFriendsDialog(
+      {super.key, this.title, this.hintText, this.textButton, this.imagePath});
 
   @override
   State<SearchFriendsDialog> createState() => _SearchFriendsDialogState();
@@ -36,7 +41,7 @@ class _SearchFriendsDialogState extends State<SearchFriendsDialog> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Add Member",
+                  widget.title ?? "Add Member",
                   style: tr20,
                 ),
                 IconButton(
@@ -52,7 +57,7 @@ class _SearchFriendsDialogState extends State<SearchFriendsDialog> {
             ),
             24.h.verticalSpace,
             LabeledTextField(
-              label: "Search Members",
+              label: widget.hintText ?? "Search Members",
               hint: "Search Friends..",
               keyboardType: TextInputType.text,
               prefixIcon: SvgPicture.asset(
@@ -86,8 +91,8 @@ class _SearchFriendsDialogState extends State<SearchFriendsDialog> {
                   child: Row(
                     children: [
                       CircleAvatar(
-                        backgroundColor: AllColors.globalAppColor
-                            .withValues(alpha: 0.2), 
+                        backgroundColor:
+                            AllColors.globalAppColor.withValues(alpha: 0.2),
                         child: Text(m["name"]![0], style: tr16),
                       ),
                       8.w.horizontalSpace,
@@ -127,18 +132,21 @@ class _SearchFriendsDialogState extends State<SearchFriendsDialog> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "Add",
+                        widget.textButton ?? "Add",
                         style: tr13.copyWith(color: AllColors.white),
                       ),
                       8.w.horizontalSpace,
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white,
+                            color:
+                                widget.textButton != null ? null : Colors.white,
                           ),
                           child: SvgPicture.asset(
-                            Assets.images.plus,
-                            color: AllColors.grey,
+                            widget.imagePath ?? Assets.images.plus,
+                            color: widget.textButton != null
+                                ? null
+                                : AllColors.grey,
                           )),
                     ],
                   ),

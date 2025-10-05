@@ -22,6 +22,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/activity.svg
   String get activity => 'assets/images/activity.svg';
 
+  /// File path: assets/images/add.svg
+  String get add => 'assets/images/add.svg';
+
   /// File path: assets/images/airplane.svg
   String get airplane => 'assets/images/airplane.svg';
 
@@ -43,6 +46,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/done-succesfly.png
   AssetGenImage get doneSuccesfly =>
       const AssetGenImage('assets/images/done-succesfly.png');
+
+  /// File path: assets/images/download-02.svg
+  String get download02 => 'assets/images/download-02.svg';
+
+  /// File path: assets/images/email.svg
+  String get email => 'assets/images/email.svg';
 
   /// File path: assets/images/export.svg
   String get export => 'assets/images/export.svg';
@@ -80,6 +89,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/love.svg
   String get love => 'assets/images/love.svg';
 
+  /// File path: assets/images/maximize-02.svg
+  String get maximize02 => 'assets/images/maximize-02.svg';
+
   /// File path: assets/images/message-text.svg
   String get messageText => 'assets/images/message-text.svg';
 
@@ -93,6 +105,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/no-friendes-here.png
   AssetGenImage get noFriendesHere =>
       const AssetGenImage('assets/images/no-friendes-here.png');
+
+  /// File path: assets/images/no-friends.png
+  AssetGenImage get noFriends =>
+      const AssetGenImage('assets/images/no-friends.png');
 
   /// File path: assets/images/other.svg
   String get other => 'assets/images/other.svg';
@@ -117,6 +133,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/searsh.svg
   String get searsh => 'assets/images/searsh.svg';
+
+  /// File path: assets/images/send-01.svg
+  String get send01 => 'assets/images/send-01.svg';
 
   /// File path: assets/images/setting-2.svg
   String get setting2 => 'assets/images/setting-2.svg';
@@ -164,6 +183,7 @@ class $AssetsImagesGen {
         iconInterfaceSolid,
         icon,
         activity,
+        add,
         airplane,
         briefcase02,
         calendarExpnses,
@@ -171,6 +191,8 @@ class $AssetsImagesGen {
         clock,
         currencyPound,
         doneSuccesfly,
+        download02,
+        email,
         export,
         filter,
         flag01,
@@ -183,10 +205,12 @@ class $AssetsImagesGen {
         house,
         logOut01,
         love,
+        maximize02,
         messageText,
         moneys,
         noActivityHere,
         noFriendesHere,
+        noFriends,
         other,
         people,
         plane,
@@ -195,6 +219,7 @@ class $AssetsImagesGen {
         qrCode01,
         remove,
         searsh,
+        send01,
         setting2,
         shareCopyLink,
         shareCq,
