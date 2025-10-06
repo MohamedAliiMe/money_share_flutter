@@ -10,6 +10,7 @@ class AppButton extends StatelessWidget {
   final Color color;
   final Color textColor;
   final double? width;
+  final double? iconSize;
 
   const AppButton({
     super.key,
@@ -18,6 +19,7 @@ class AppButton extends StatelessWidget {
     this.color = AllColors.white,
     this.textColor = AllColors.black,
     this.icon,
+    this.iconSize,
     this.width,
   });
 
@@ -43,7 +45,7 @@ class AppButton extends StatelessWidget {
                 Icon(
                   icon,
                   color: textColor,
-                  size: 15.sp,
+                  size: iconSize ?? 15.sp,
                 ),
               ],
             ],

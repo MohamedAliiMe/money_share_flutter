@@ -9,4 +9,5 @@ class AppRoute {
   static const String createNewPasswordSceen = '/createNewPasswordSceen';
   static const String navPage = '/navPage';
   static const String groupDetailsScreen = '/groupDetailsScreen';
+  static const String editProfileScreen = '/editProfileScreen';
 }

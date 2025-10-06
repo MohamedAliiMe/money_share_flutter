@@ -179,15 +179,21 @@ class AddExpenseSheet extends StatelessWidget {
 class LabeledTextField extends StatelessWidget {
   final String label;
   final String hint;
+  final TextStyle? labelStyle;
   final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final TextInputType? keyboardType;
+  final TextEditingController? controller;
 
   const LabeledTextField({
     super.key,
     required this.label,
     required this.hint,
     this.prefixIcon,
+    this.labelStyle,
+    this.suffixIcon,
     this.keyboardType,
+    this.controller,
   });
 
   @override
@@ -195,17 +201,18 @@ class LabeledTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: tsb13),
-        6.h.verticalSpace,
+        Text(label, style: labelStyle ?? tsb13),
+        SizedBox(height: 6.h),
         TextField(
+          controller: controller,
           keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hint,
             contentPadding:
                 EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
-            hintStyle:
-                tr16.copyWith(color: AllColors.grey.withValues(alpha: 0.8)),
+            hintStyle: tr16.copyWith(color: AllColors.grey.withOpacity(0.8)),
             prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
               borderSide: BorderSide(color: AllColors.grey, width: 0.2.w),
@@ -219,7 +226,7 @@ class LabeledTextField extends StatelessWidget {
               borderSide: BorderSide(color: AllColors.red, width: 0.2.w),
             ),
           ),
-        )
+        ),
       ],
     );
   }

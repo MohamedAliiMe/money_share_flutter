@@ -11,6 +11,7 @@ import 'package:splitwise_flutter/features/authentication/pages/view/splash_auth
 import 'package:splitwise_flutter/features/authentication/pages/view/splash_screen.dart';
 import 'package:splitwise_flutter/features/nav/pages/view/nav_page.dart';
 import 'package:splitwise_flutter/models/group.dart';
+import 'package:splitwise_flutter/screens/edit_profile_screen.dart';
 import 'package:splitwise_flutter/screens/group_details_screen.dart';
 import 'package:splitwise_flutter/screens/home_screen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
@@ -36,6 +37,8 @@ class RouteGenerator {
         return _screenInit(const RegisterScreen(), settings);
       case AppRoute.congratulationScreen:
         return _screenInit(const CongratulationScreen(), settings);
+         case AppRoute.editProfileScreen:
+        return _screenInit(const EditProfileScreen(), settings);
       case AppRoute.homeScreen:
         return _screenInit(const HomeScreen(), settings);
       case AppRoute.forgetPasswordScreen:

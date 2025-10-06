@@ -16,6 +16,9 @@ class $AssetsImagesGen {
   AssetGenImage get iconInterfaceSolid =>
       const AssetGenImage('assets/images/Icon Interface Solid.png');
 
+  /// File path: assets/images/Icon-Interface-outline.svg
+  String get iconInterfaceOutline => 'assets/images/Icon-Interface-outline.svg';
+
   /// File path: assets/images/Icon.png
   AssetGenImage get icon => const AssetGenImage('assets/images/Icon.png');
 
@@ -49,6 +52,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/download-02.svg
   String get download02 => 'assets/images/download-02.svg';
+
+  /// File path: assets/images/edit-05.svg
+  String get edit05 => 'assets/images/edit-05.svg';
 
   /// File path: assets/images/email.svg
   String get email => 'assets/images/email.svg';
@@ -86,8 +92,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/log-out-01.svg
   String get logOut01 => 'assets/images/log-out-01.svg';
 
+  /// File path: assets/images/log-out-dialog.svg
+  String get logOutDialog => 'assets/images/log-out-dialog.svg';
+
   /// File path: assets/images/love.svg
   String get love => 'assets/images/love.svg';
+
+  /// File path: assets/images/mail-01.svg
+  String get mail01 => 'assets/images/mail-01.svg';
 
   /// File path: assets/images/maximize-02.svg
   String get maximize02 => 'assets/images/maximize-02.svg';
@@ -172,6 +184,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/user-04.svg
   String get user04 => 'assets/images/user-04.svg';
 
+  /// File path: assets/images/user-05.svg
+  String get user05 => 'assets/images/user-05.svg';
+
   /// File path: assets/images/user-tick.svg
   String get userTick => 'assets/images/user-tick.svg';
 
@@ -181,6 +196,7 @@ class $AssetsImagesGen {
   /// List of all assets
   List<dynamic> get values => [
         iconInterfaceSolid,
+        iconInterfaceOutline,
         icon,
         activity,
         add,
@@ -192,6 +208,7 @@ class $AssetsImagesGen {
         currencyPound,
         doneSuccesfly,
         download02,
+        edit05,
         email,
         export,
         filter,
@@ -204,7 +221,9 @@ class $AssetsImagesGen {
         homePurr,
         house,
         logOut01,
+        logOutDialog,
         love,
+        mail01,
         maximize02,
         messageText,
         moneys,
@@ -231,6 +250,7 @@ class $AssetsImagesGen {
         touchTheProfile,
         trip,
         user04,
+        user05,
         userTick,
         users03
       ];

@@ -1,9 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
+import 'package:splitwise_flutter/core/utilities/app_data_storage.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
+import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
+import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart';
+import 'package:splitwise_flutter/core/utilities/static_data.dart';
+import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
+import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 import 'package:splitwise_flutter/screens/group_details_screen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
@@ -63,12 +71,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  Icon(Icons.mode_edit_outlined,
-                      size: 24.sp, color: AllColors.globalAppColor),
+                  GestureDetector(
+                    onTap: () {
+                      pushName(context, AppRoute.editProfileScreen);
+                    },
+                    child: Icon(Icons.mode_edit_outlined,
+                        size: 24.sp, color: AllColors.globalAppColor),
+                  ),
                 ],
               ),
             ),
-
             Divider(color: AllColors.grey.withOpacity(0.3), height: 0),
             SizedBox(height: 24.h),
             Container(
@@ -95,12 +107,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             SizedBox(height: 20.h),
-
             _buildSettingItem(Assets.images.currencyPound, "EGP"),
             _buildSettingItem(Assets.images.flag01, "Egypt"),
             _buildSettingItem(Assets.images.globe02, "English"),
             _buildSettingItem(Assets.images.star01, "Rating Us"),
-            _buildSettingItem(Assets.images.logOut01, "Logout"),
+            GestureDetector(
+              onTap: () => showLogoutDialog(context),
+              child: _buildSettingItem(Assets.images.logOut01, "Logout"),
+            ),
             SizedBox(height: 40.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -135,6 +149,73 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const Icon(Icons.chevron_right, color: Colors.grey),
         ],
       ),
+    );
+  }
+
+  void showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: SvgPicture.asset(
+                    Assets.images.logOutDialog,
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                Text("Log Out", style: tsb16),
+                SizedBox(height: 4.h),
+                Text(
+                  "Are you sure to Log Out?",
+                  style: tr13.copyWith(color: AllColors.grey),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 24.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppButton(
+                        text: "Logout",
+                        onPressed: () async {
+                          final cubit = context.read<AuthenticationCubit>();
+                          await cubit.logout();
+
+                          Navigator.pop(context); 
+
+                          popAllAndPushName(
+                            context,
+                            AppRoute.loginScreen,
+                          );
+                        },
+                        color: AllColors.globalAppColor,
+                        textColor: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: AppButton(
+                        text: "Cancel",
+                        onPressed: () => Navigator.pop(context),
+                        color: Colors.white,
+                        textColor: AllColors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
