@@ -12,7 +12,7 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../../cubit/groups_cubit.dart' as _i489;
+import '../../features/home/logic/groups_cubit.dart' as _i489;
 import '../../features/authentication/data/repositories/authentication_repository.dart'
     as _i914;
 import '../../features/authentication/data/services/authentication_service.dart'
@@ -21,8 +21,8 @@ import '../../features/authentication/logic/authentication_cubit.dart' as _i854;
 import '../../features/nav/logic/nav_cubit.dart' as _i106;
 import '../../features/profile/data/services/profile_service.dart' as _i510;
 import '../../features/profile/logic/profile_cubit.dart' as _i559;
-import '../../repositories/group_repository.dart' as _i879;
-import '../../services/group_service.dart' as _i607;
+import '../../features/home/domain/repositories/group_repository.dart' as _i879;
+import '../../features/home/domain/service/group_service.dart' as _i607;
 import '../utilities/app_data_storage.dart' as _i102;
 import '../utilities/configs/themes/theme_cubit.dart' as _i691;
 import 'Module/register_module.dart' as _i773;

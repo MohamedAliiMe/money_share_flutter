@@ -10,4 +10,5 @@ class AppRoute {
   static const String navPage = '/navPage';
   static const String groupDetailsScreen = '/groupDetailsScreen';
   static const String editProfileScreen = '/editProfileScreen';
+  static const String profileQrCodeScreen = '/profileQrCodeScreen';
 }

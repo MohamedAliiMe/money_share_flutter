@@ -10,10 +10,11 @@ import 'package:splitwise_flutter/features/authentication/pages/view/register_sc
 import 'package:splitwise_flutter/features/authentication/pages/view/splash_auth_screen.dart';
 import 'package:splitwise_flutter/features/authentication/pages/view/splash_screen.dart';
 import 'package:splitwise_flutter/features/nav/pages/view/nav_page.dart';
-import 'package:splitwise_flutter/models/group.dart';
-import 'package:splitwise_flutter/screens/edit_profile_screen.dart';
-import 'package:splitwise_flutter/screens/group_details_screen.dart';
-import 'package:splitwise_flutter/screens/home_screen.dart';
+import 'package:splitwise_flutter/features/home/domain/model/group.dart';
+import 'package:splitwise_flutter/features/profile/pages/edit_profile_screen.dart';
+import 'package:splitwise_flutter/features/home/pages/group_details_screen.dart';
+import 'package:splitwise_flutter/features/home/pages/home_screen.dart';
+import 'package:splitwise_flutter/features/profile/pages/profile_qr_cood_screen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 
 class RouteGenerator {
@@ -37,7 +38,9 @@ class RouteGenerator {
         return _screenInit(const RegisterScreen(), settings);
       case AppRoute.congratulationScreen:
         return _screenInit(const CongratulationScreen(), settings);
-         case AppRoute.editProfileScreen:
+      case AppRoute.profileQrCodeScreen:
+        return _screenInit(const ProfileQrCoodScreen(), settings);
+      case AppRoute.editProfileScreen:
         return _screenInit(const EditProfileScreen(), settings);
       case AppRoute.homeScreen:
         return _screenInit(const HomeScreen(), settings);

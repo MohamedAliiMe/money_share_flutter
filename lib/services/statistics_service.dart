@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:excel/excel.dart';
-import '../utils/api_constants.dart';
+import '../core/utils/api_constants.dart';
 import 'dart:developer' as developer;
 
 class StatisticsService {

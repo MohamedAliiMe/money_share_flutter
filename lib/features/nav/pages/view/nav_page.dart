@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +15,8 @@ import 'package:splitwise_flutter/features/authentication/logic/authentication_c
 import 'package:splitwise_flutter/features/nav/domain/entity/nav_entity.dart';
 import 'package:splitwise_flutter/features/nav/logic/nav_cubit.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
-import 'package:splitwise_flutter/widgets/searsh_friendes_dialog_widget.dart';
+import 'package:splitwise_flutter/features/home/widget/searsh_friendes_dialog_widget.dart';
+import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 
 class NavPage extends StatefulWidget {
   const NavPage({super.key});
@@ -81,10 +83,8 @@ class _NavPageState extends State<NavPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            "Share Group",
-                                            style: tr20,
-                                          ),
+                                          Text(LocaleKeys.shareGroup.tr(),
+                                              style: tr20),
                                           GestureDetector(
                                             onTap: () => Navigator.pop(context),
                                             child: const Icon(Icons.close,
@@ -100,10 +100,10 @@ class _NavPageState extends State<NavPage> {
                                       ),
                                       24.h.verticalSpace,
                                       _contantShareDialog(Assets.images.shareCq,
-                                          "Share Qr Code"),
+                                          LocaleKeys.shareQrCode.tr()),
                                       _contantShareDialog(
                                           Assets.images.shareCopyLink,
-                                          "Share Group Link"),
+                                          LocaleKeys.shareGroupLink.tr()),
                                     ]),
                               ),
                             ),

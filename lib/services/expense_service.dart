@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import '../models/expense.dart';
-import '../utils/constants.dart';
+import '../core/utils/constants.dart';
 
 class ExpenseService {
   final String baseUrl = Constants.apiUrl;

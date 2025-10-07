@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/user.dart';
-import '../utils/constants.dart';
+import '../features/home/domain/model/user.dart';
+import '../core/utils/constants.dart';
 
 class UserService {
   final String baseUrl = Constants.apiUrl;

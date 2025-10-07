@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/activity.dart';
-import '../utils/constants.dart';
+import '../core/utils/constants.dart';
 import 'dart:developer' as developer;
 
 class ActivityService {

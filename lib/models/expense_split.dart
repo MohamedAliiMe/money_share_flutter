@@ -1,4 +1,4 @@
-import 'user.dart';
+import '../features/home/domain/model/user.dart';
 
 class ExpenseSplit {
   final int id;

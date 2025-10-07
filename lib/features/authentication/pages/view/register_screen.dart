@@ -15,7 +15,6 @@ import 'package:splitwise_flutter/features/authentication/widget/app_button_widg
 import 'package:splitwise_flutter/features/authentication/widget/app_text_field_widget.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
-import '../../../../providers/auth_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

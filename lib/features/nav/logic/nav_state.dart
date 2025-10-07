@@ -33,18 +33,18 @@ class NavState with _$NavState {
           const ProfileScreen(),
         ],
         navPages: [
-          NavEntity(Assets.images.home02, 'Home', const HomeScreen()),
-          NavEntity(Assets.images.activity, 'Activity', const ActivityScreen()),
+          NavEntity(Assets.images.home02, LocaleKeys.home.tr(), const HomeScreen()),
+          NavEntity(Assets.images.activity, LocaleKeys.activity.tr(), const ActivityScreen()),
           NavEntity('', '', CreateGroupScreen()),
-          NavEntity(Assets.images.friends, 'Friends', const ActivityTab()),
-          NavEntity(Assets.images.profile, 'Profile', const ProfileScreen()),
+          NavEntity(Assets.images.friends, LocaleKeys.friends.tr(), const ActivityTab()),
+          NavEntity(Assets.images.profile, LocaleKeys.profile.tr(), const ProfileScreen()),
         ],
         currentPage: NavEntity(
           Assets.images.home02,
-          'Home',
+          LocaleKeys.home.tr(),
           HomeScreen(),
         ),
-        appBarTitle: "Splitsmart",
+        appBarTitle: LocaleKeys.appTitle.tr(),
         isDetailsPage: false,
       );
 }

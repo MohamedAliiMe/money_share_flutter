@@ -1,17 +1,18 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:splitwise_flutter/features/nav/domain/entity/nav_entity.dart';
-import 'package:splitwise_flutter/screens/activity_screen.dart';
-import 'package:splitwise_flutter/screens/create_expense_screen.dart';
-import 'package:splitwise_flutter/screens/create_group_screen.dart';
-import 'package:splitwise_flutter/screens/home_screen.dart';
-import 'package:splitwise_flutter/screens/profile_screen.dart';
-import 'package:splitwise_flutter/screens/tabs/activity_tab.dart';
-import 'package:splitwise_flutter/screens/tabs/groups_tab.dart';
+import 'package:splitwise_flutter/features/activity/pages/activity_screen.dart';
+import 'package:splitwise_flutter/features/home/pages/create_expense_screen.dart';
+import 'package:splitwise_flutter/features/home/pages/create_group_screen.dart';
+import 'package:splitwise_flutter/features/home/pages/home_screen.dart';
+import 'package:splitwise_flutter/features/profile/pages/profile_screen.dart';
+import 'package:splitwise_flutter/features/friends/pages/activity_tab.dart';
+import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 
 import '../../../../../gen/assets.gen.dart';
 

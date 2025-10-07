@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import '../models/friend.dart';
-import '../utils/constants.dart';
+import '../core/utils/constants.dart';
 
 class FriendService {
   final String baseUrl = Constants.apiUrl;
