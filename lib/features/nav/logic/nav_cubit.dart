@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:splitwise_flutter/core/networking/data_state.dart';
+import 'package:splitwise_flutter/features/home/domain/model/create_group/create_group_model.dart';
+import 'package:splitwise_flutter/features/home/domain/model/groups/group.dart';
+import 'package:splitwise_flutter/features/home/domain/repositories/group_repository.dart';
 import 'package:splitwise_flutter/features/nav/domain/entity/nav_entity.dart';
 import 'package:splitwise_flutter/features/activity/pages/activity_screen.dart';
 import 'package:splitwise_flutter/features/home/pages/create_expense_screen.dart';
@@ -22,8 +26,9 @@ part 'nav_cubit.freezed.dart';
 @Injectable()
 class NavCubit extends Cubit<NavState> {
   final _pageRefreshTimes = <int, DateTime>{};
+  final GroupRepository _groupRepository;
 
-  NavCubit() : super(NavState.initial());
+  NavCubit(this._groupRepository) : super(NavState.initial());
 
   void changePage(int index) {
     if (index < 0 || index >= state.navPages.length) return;
@@ -75,31 +80,31 @@ class NavCubit extends Cubit<NavState> {
     }
   }
 
-  void addGroup(String groupName, String description) {
-    if (groupName.isNotEmpty && description.isNotEmpty) {
+  void setSelectedGroup(GroupModel group) {
+    emit(state.copyWith(selectedGroup: group));
+  }
+
+  void addGroup(CreateGroupModel createGroupModel) async {
+    emit(state.copyWith(isLoading: true, errorMessage: null));
+    final DataState<CreateGroupModel> dataState =
+        await _groupRepository.createGroup(createGroupModel);
+    if (dataState is DataSuccess) {
       emit(state.copyWith(
+        isLoading: false,
+        createdGroup: dataState.data,
         succses: true,
         createGroup: true,
-        groupName: groupName,
-        description: description,
-        errorMessage: null,
       ));
-      log(state.groupName.toString());
-      log(state.description.toString());
     } else {
       emit(state.copyWith(
-        succses: false,
-        createGroup: false,
-        errorMessage: "Something went wrong",
-      ));
+          isLoading: false, errorMessage: dataState.error ?? "Unknown error"));
     }
   }
 
-  void requestCreateGroup(String groupName, String description) {
+  void requestCreateGroup(CreateGroupModel createGroupModel) {
     emit(state.copyWith(
       createGroupRequested: true,
-      groupName: groupName,
-      description: description,
+      createdGroup: createGroupModel,
     ));
   }
 

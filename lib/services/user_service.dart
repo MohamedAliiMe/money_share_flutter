@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../features/home/domain/model/user.dart';
+import '../features/home/domain/model/groups/user.dart';
 import '../core/utils/constants.dart';
 
 class UserService {

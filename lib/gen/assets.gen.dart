@@ -40,6 +40,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/calendar.svg
   String get calendar => 'assets/images/calendar.svg';
 
+  /// File path: assets/images/clock-refresh.svg
+  String get clockRefresh => 'assets/images/clock-refresh.svg';
+
   /// File path: assets/images/clock.svg
   String get clock => 'assets/images/clock.svg';
 
@@ -204,6 +207,7 @@ class $AssetsImagesGen {
         briefcase02,
         calendarExpnses,
         calendar,
+        clockRefresh,
         clock,
         currencyPound,
         doneSuccesfly,

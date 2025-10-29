@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
-import '../domain/model/group.dart';
-import '../domain/model/user.dart';
+import '../domain/model/groups/group.dart';
+import '../domain/model/groups/user.dart';
 import '../../../services/expense_service.dart';
 
 class CreateExpenseScreen extends StatefulWidget {

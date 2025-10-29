@@ -1,2 +1,0 @@
-/Users/mohamedali/Work/Freelance/splitwise_app/frontend/splitwise_flutter/android/app/.cxx/Debug/x3k3o554/x86_64/CMakeFiles/rebuild_cache.dir
-/Users/mohamedali/Work/Freelance/splitwise_app/frontend/splitwise_flutter/android/app/.cxx/Debug/x3k3o554/x86_64/CMakeFiles/edit_cache.dir

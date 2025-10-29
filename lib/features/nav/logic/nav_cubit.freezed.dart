@@ -25,13 +25,13 @@ mixin _$NavState {
   String? get errorMessage => throw _privateConstructorUsedError;
   bool? get succses => throw _privateConstructorUsedError;
   bool? get createGroup => throw _privateConstructorUsedError;
-  String? get groupName => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
+  CreateGroupModel? get createdGroup => throw _privateConstructorUsedError;
   bool? get createGroupRequested => throw _privateConstructorUsedError;
   bool get failedState => throw _privateConstructorUsedError;
   bool get showOngoingProjects => throw _privateConstructorUsedError;
   String? get appBarTitle => throw _privateConstructorUsedError;
   String? get appBarIcon => throw _privateConstructorUsedError;
+  GroupModel? get selectedGroup => throw _privateConstructorUsedError;
   bool get isDetailsPage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -54,13 +54,13 @@ abstract class $NavStateCopyWith<$Res> {
       String? errorMessage,
       bool? succses,
       bool? createGroup,
-      String? groupName,
-      String? description,
+      CreateGroupModel? createdGroup,
       bool? createGroupRequested,
       bool failedState,
       bool showOngoingProjects,
       String? appBarTitle,
       String? appBarIcon,
+      GroupModel? selectedGroup,
       bool isDetailsPage});
 }
 
@@ -86,13 +86,13 @@ class _$NavStateCopyWithImpl<$Res, $Val extends NavState>
     Object? errorMessage = freezed,
     Object? succses = freezed,
     Object? createGroup = freezed,
-    Object? groupName = freezed,
-    Object? description = freezed,
+    Object? createdGroup = freezed,
     Object? createGroupRequested = freezed,
     Object? failedState = null,
     Object? showOngoingProjects = null,
     Object? appBarTitle = freezed,
     Object? appBarIcon = freezed,
+    Object? selectedGroup = freezed,
     Object? isDetailsPage = null,
   }) {
     return _then(_value.copyWith(
@@ -132,14 +132,10 @@ class _$NavStateCopyWithImpl<$Res, $Val extends NavState>
           ? _value.createGroup
           : createGroup // ignore: cast_nullable_to_non_nullable
               as bool?,
-      groupName: freezed == groupName
-          ? _value.groupName
-          : groupName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
+      createdGroup: freezed == createdGroup
+          ? _value.createdGroup
+          : createdGroup // ignore: cast_nullable_to_non_nullable
+              as CreateGroupModel?,
       createGroupRequested: freezed == createGroupRequested
           ? _value.createGroupRequested
           : createGroupRequested // ignore: cast_nullable_to_non_nullable
@@ -160,6 +156,10 @@ class _$NavStateCopyWithImpl<$Res, $Val extends NavState>
           ? _value.appBarIcon
           : appBarIcon // ignore: cast_nullable_to_non_nullable
               as String?,
+      selectedGroup: freezed == selectedGroup
+          ? _value.selectedGroup
+          : selectedGroup // ignore: cast_nullable_to_non_nullable
+              as GroupModel?,
       isDetailsPage: null == isDetailsPage
           ? _value.isDetailsPage
           : isDetailsPage // ignore: cast_nullable_to_non_nullable
@@ -186,13 +186,13 @@ abstract class _$$NavStateImplCopyWith<$Res>
       String? errorMessage,
       bool? succses,
       bool? createGroup,
-      String? groupName,
-      String? description,
+      CreateGroupModel? createdGroup,
       bool? createGroupRequested,
       bool failedState,
       bool showOngoingProjects,
       String? appBarTitle,
       String? appBarIcon,
+      GroupModel? selectedGroup,
       bool isDetailsPage});
 }
 
@@ -216,13 +216,13 @@ class __$$NavStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? succses = freezed,
     Object? createGroup = freezed,
-    Object? groupName = freezed,
-    Object? description = freezed,
+    Object? createdGroup = freezed,
     Object? createGroupRequested = freezed,
     Object? failedState = null,
     Object? showOngoingProjects = null,
     Object? appBarTitle = freezed,
     Object? appBarIcon = freezed,
+    Object? selectedGroup = freezed,
     Object? isDetailsPage = null,
   }) {
     return _then(_$NavStateImpl(
@@ -262,14 +262,10 @@ class __$$NavStateImplCopyWithImpl<$Res>
           ? _value.createGroup
           : createGroup // ignore: cast_nullable_to_non_nullable
               as bool?,
-      groupName: freezed == groupName
-          ? _value.groupName
-          : groupName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
+      createdGroup: freezed == createdGroup
+          ? _value.createdGroup
+          : createdGroup // ignore: cast_nullable_to_non_nullable
+              as CreateGroupModel?,
       createGroupRequested: freezed == createGroupRequested
           ? _value.createGroupRequested
           : createGroupRequested // ignore: cast_nullable_to_non_nullable
@@ -290,6 +286,10 @@ class __$$NavStateImplCopyWithImpl<$Res>
           ? _value.appBarIcon
           : appBarIcon // ignore: cast_nullable_to_non_nullable
               as String?,
+      selectedGroup: freezed == selectedGroup
+          ? _value.selectedGroup
+          : selectedGroup // ignore: cast_nullable_to_non_nullable
+              as GroupModel?,
       isDetailsPage: null == isDetailsPage
           ? _value.isDetailsPage
           : isDetailsPage // ignore: cast_nullable_to_non_nullable
@@ -311,13 +311,13 @@ class _$NavStateImpl implements _NavState {
       this.errorMessage,
       this.succses,
       this.createGroup,
-      this.groupName,
-      this.description,
+      this.createdGroup,
       this.createGroupRequested,
       this.failedState = false,
       this.showOngoingProjects = false,
       this.appBarTitle,
       this.appBarIcon,
+      this.selectedGroup,
       this.isDetailsPage = false})
       : _pages = pages,
         _navPages = navPages,
@@ -365,9 +365,7 @@ class _$NavStateImpl implements _NavState {
   @override
   final bool? createGroup;
   @override
-  final String? groupName;
-  @override
-  final String? description;
+  final CreateGroupModel? createdGroup;
   @override
   final bool? createGroupRequested;
   @override
@@ -381,12 +379,14 @@ class _$NavStateImpl implements _NavState {
   @override
   final String? appBarIcon;
   @override
+  final GroupModel? selectedGroup;
+  @override
   @JsonKey()
   final bool isDetailsPage;
 
   @override
   String toString() {
-    return 'NavState(currentIndex: $currentIndex, pages: $pages, navPages: $navPages, currentPage: $currentPage, pageKeys: $pageKeys, isLoading: $isLoading, errorMessage: $errorMessage, succses: $succses, createGroup: $createGroup, groupName: $groupName, description: $description, createGroupRequested: $createGroupRequested, failedState: $failedState, showOngoingProjects: $showOngoingProjects, appBarTitle: $appBarTitle, appBarIcon: $appBarIcon, isDetailsPage: $isDetailsPage)';
+    return 'NavState(currentIndex: $currentIndex, pages: $pages, navPages: $navPages, currentPage: $currentPage, pageKeys: $pageKeys, isLoading: $isLoading, errorMessage: $errorMessage, succses: $succses, createGroup: $createGroup, createdGroup: $createdGroup, createGroupRequested: $createGroupRequested, failedState: $failedState, showOngoingProjects: $showOngoingProjects, appBarTitle: $appBarTitle, appBarIcon: $appBarIcon, selectedGroup: $selectedGroup, isDetailsPage: $isDetailsPage)';
   }
 
   @override
@@ -408,10 +408,8 @@ class _$NavStateImpl implements _NavState {
             (identical(other.succses, succses) || other.succses == succses) &&
             (identical(other.createGroup, createGroup) ||
                 other.createGroup == createGroup) &&
-            (identical(other.groupName, groupName) ||
-                other.groupName == groupName) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
+            (identical(other.createdGroup, createdGroup) ||
+                other.createdGroup == createdGroup) &&
             (identical(other.createGroupRequested, createGroupRequested) ||
                 other.createGroupRequested == createGroupRequested) &&
             (identical(other.failedState, failedState) ||
@@ -422,6 +420,8 @@ class _$NavStateImpl implements _NavState {
                 other.appBarTitle == appBarTitle) &&
             (identical(other.appBarIcon, appBarIcon) ||
                 other.appBarIcon == appBarIcon) &&
+            (identical(other.selectedGroup, selectedGroup) ||
+                other.selectedGroup == selectedGroup) &&
             (identical(other.isDetailsPage, isDetailsPage) ||
                 other.isDetailsPage == isDetailsPage));
   }
@@ -438,13 +438,13 @@ class _$NavStateImpl implements _NavState {
       errorMessage,
       succses,
       createGroup,
-      groupName,
-      description,
+      createdGroup,
       createGroupRequested,
       failedState,
       showOngoingProjects,
       appBarTitle,
       appBarIcon,
+      selectedGroup,
       isDetailsPage);
 
   @JsonKey(ignore: true)
@@ -465,13 +465,13 @@ abstract class _NavState implements NavState {
       final String? errorMessage,
       final bool? succses,
       final bool? createGroup,
-      final String? groupName,
-      final String? description,
+      final CreateGroupModel? createdGroup,
       final bool? createGroupRequested,
       final bool failedState,
       final bool showOngoingProjects,
       final String? appBarTitle,
       final String? appBarIcon,
+      final GroupModel? selectedGroup,
       final bool isDetailsPage}) = _$NavStateImpl;
 
   @override
@@ -493,9 +493,7 @@ abstract class _NavState implements NavState {
   @override
   bool? get createGroup;
   @override
-  String? get groupName;
-  @override
-  String? get description;
+  CreateGroupModel? get createdGroup;
   @override
   bool? get createGroupRequested;
   @override
@@ -506,6 +504,8 @@ abstract class _NavState implements NavState {
   String? get appBarTitle;
   @override
   String? get appBarIcon;
+  @override
+  GroupModel? get selectedGroup;
   @override
   bool get isDetailsPage;
   @override

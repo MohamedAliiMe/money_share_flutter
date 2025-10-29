@@ -12,13 +12,13 @@ class NavState with _$NavState {
     String? errorMessage,
     bool? succses,
     bool? createGroup,
-    String? groupName,
-    String? description,
+    CreateGroupModel? createdGroup,
     bool? createGroupRequested,
     @Default(false) bool failedState,
     @Default(false) bool showOngoingProjects,
     String? appBarTitle,
     String? appBarIcon,
+    GroupModel? selectedGroup,
     @Default(false) bool isDetailsPage,
   }) = _NavState;
 
@@ -33,11 +33,15 @@ class NavState with _$NavState {
           const ProfileScreen(),
         ],
         navPages: [
-          NavEntity(Assets.images.home02, LocaleKeys.home.tr(), const HomeScreen()),
-          NavEntity(Assets.images.activity, LocaleKeys.activity.tr(), const ActivityScreen()),
+          NavEntity(
+              Assets.images.home02, LocaleKeys.home.tr(), const HomeScreen()),
+          NavEntity(Assets.images.activity, LocaleKeys.activity.tr(),
+              const ActivityScreen()),
           NavEntity('', '', CreateGroupScreen()),
-          NavEntity(Assets.images.friends, LocaleKeys.friends.tr(), const ActivityTab()),
-          NavEntity(Assets.images.profile, LocaleKeys.profile.tr(), const ProfileScreen()),
+          NavEntity(Assets.images.friends, LocaleKeys.friends.tr(),
+              const ActivityTab()),
+          NavEntity(Assets.images.profile, LocaleKeys.profile.tr(),
+              const ProfileScreen()),
         ],
         currentPage: NavEntity(
           Assets.images.home02,

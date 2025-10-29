@@ -8,4 +8,6 @@ class AppApiPaths {
   static const String verifyEmail = '/verify-email';
   static const String verifyEmailCode = '/verify-email-code';
   static const String groups = '/groups';
+  static const String deleteGroups = '/groups/{groupId}';
+  static const String updateGroups = '/groups/{groupId}';
 }

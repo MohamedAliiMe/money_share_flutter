@@ -29,7 +29,7 @@ class CongratulationScreen extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Text(
               LocaleKeys.yourAccountIsCreated.tr(),
               style: tr13.copyWith(
@@ -41,8 +41,7 @@ class CongratulationScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 50.w),
               child: AppButton(
                 text: LocaleKeys.getStarted.tr(),
-                onPressed: () =>
-                    popAllAndPushName(context, AppRoute.homeScreen),
+                onPressed: () => popAllAndPushName(context, AppRoute.navPage),
               ),
             ),
           ],

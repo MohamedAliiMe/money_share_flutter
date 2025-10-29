@@ -158,4 +158,15 @@ const Map<String, String> en = {
   "groupHasNoMembers": "Group has no members",
   "activity": "Activity",
   "appTitle": "Splitsmart",
+  "groupDeleted": "Group deleted successfully",
+  "deleteGroupFailed ": "Failed to delete group:",
+  "deleteGroupConfirmation": "Are you sure you want to delete this group?",
+  "delete": "Delete",
+  "group": "Group",
+  "editGroup": "Edit Group",
+  "category": "Category",
+  "edit": "Edit",
+
+
+
 };

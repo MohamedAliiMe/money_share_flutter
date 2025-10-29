@@ -156,7 +156,16 @@ const Map<String, String> ar = {
   "done": "تم",
   "groupHasNoMembers": "لا يوجد أعضاء في المجموعة",
   "activity": "النشاط",
-  "appTitle": "سبليتسمارت"
+  "appTitle": "سبليتسمارت",
+  "groupDeleted": "تم حذف المجموعة بنجاح",
+  "deleteGroupFailed ": "فشل في حذف المجموعة:",
+  "deleteGroupConfirmation": "هل أنت متأكد أنك تريد حذف هذه المجموعة؟",
+  "delete": "حذف",
+  "group": "مجموعة",
+  "editGroup": "تعديل الجروب",
+  "category": "الفئة",
+  "edit": "تعديل",
+
 
 
 };

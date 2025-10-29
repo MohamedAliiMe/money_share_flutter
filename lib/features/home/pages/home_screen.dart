@@ -14,8 +14,8 @@ import 'package:splitwise_flutter/features/authentication/logic/authentication_c
 import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
 import 'package:splitwise_flutter/features/nav/logic/nav_cubit.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
-import 'package:splitwise_flutter/features/home/domain/model/group.dart';
-import 'package:splitwise_flutter/features/home/domain/model/user.dart';
+import 'package:splitwise_flutter/features/home/domain/model/groups/group.dart';
+import 'package:splitwise_flutter/features/home/domain/model/groups/user.dart';
 import 'package:splitwise_flutter/features/home/pages/group_details_screen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 import 'package:splitwise_flutter/features/home/widget/add_member_dialog.dart';
@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
           title: group.name ?? "",
           icon: Assets.images.house,
         );
+    context.read<NavCubit>().setSelectedGroup(group);
 
     setState(() {
       _currentBody = GroupDetailsScreen(group: group);
@@ -65,17 +66,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: WillPopScope(
-        onWillPop: () async {
-          if (!_isHomePage) {
-            _showGroupsList();
-            context.read<NavCubit>().resetAppBarToHome();
-            return false;
-          }
-          return true;
-        },
-        child: _currentBody ?? _buildGroupsList(),
+    return RefreshIndicator(
+      color: AllColors.globalAppColor,
+      onRefresh: () async {
+        await _groupsCubit.fetchGroups();
+      },
+      child: Scaffold(
+        body: WillPopScope(
+          onWillPop: () async {
+            if (!_isHomePage) {
+              _showGroupsList();
+              context.read<NavCubit>().resetAppBarToHome();
+              await _groupsCubit.fetchGroups();
+
+              return false;
+            }
+            return true;
+          },
+          child: _currentBody ?? _buildGroupsList(),
+        ),
       ),
     );
   }
@@ -85,7 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
       bloc: _groupsCubit,
       builder: (context, state) {
         if (state.isLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+              child:
+                  CircularProgressIndicator(color: AllColors.globalAppColor));
         }
         if (state.errorMessage != null) {
           return Center(child: Text(state.errorMessage!));
@@ -137,8 +148,35 @@ class _HomeScreenState extends State<HomeScreen> {
                           CircleAvatar(
                             radius: 20.r,
                             backgroundColor:
-                                AllColors.globalAppColor.withOpacity(0.15),
-                            child: SvgPicture.asset(Assets.images.house),
+                                AllColors.globalAppColor.withOpacity(0.7),
+                            child: group.categoryId == 1
+                                ? SvgPicture.asset(
+                                    Assets.images.trip,
+                                    width: 24.w,
+                                    height: 24.h,
+                                    color: AllColors.white,
+                                  )
+                                : group.categoryId == 2
+                                    ? SvgPicture.asset(
+                                        Assets.images.friends,
+                                        width: 24.w,
+                                        height: 24.h,
+                                        color: AllColors.white,
+                                      )
+                                    : group.categoryId == 3
+                                        ? SvgPicture.asset(
+                                            Assets.images.heart,
+                                            width: 24.w,
+                                            height: 24.h,
+                                          )
+                                        : group.categoryId == 4
+                                            ? SvgPicture.asset(
+                                                Assets.images.other,
+                                                width: 24.w,
+                                                height: 24.h,
+                                                color: AllColors.white,
+                                              )
+                                            : SizedBox.shrink(),
                           ),
                           SizedBox(width: 12.w),
                           Expanded(
@@ -160,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     SizedBox(width: 8.w),
                                     Expanded(
                                       child: Text(
-                                        group.createdAt?.substring(0, 10) ?? '',
+                                        group.monthlyExpenses?.toString() ?? '',
                                         style: tr13,
                                         textAlign: TextAlign.right,
                                       ),
@@ -168,13 +206,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                                 SizedBox(height: 4.h),
-                                Text(
-                                  "${group.members?.length.toString()} ${LocaleKeys.members.tr()}",
-                                  style: tr13.copyWith(color: AllColors.grey),
+                                Row(
+                                  children: [
+                                    if (group.members != null)
+                                      SvgPicture.asset(
+                                        Assets.images.people,
+                                        width: 16.w,
+                                        height: 16.h,
+                                      ),
+                                    SizedBox(width: 4.w),
+                                    Text(
+                                      "${group.members?.length.toString()} ${LocaleKeys.members.tr()}",
+                                      style:
+                                          tr13.copyWith(color: AllColors.grey),
+                                    ),
+                                  ],
                                 ),
-                                Text(group.totalSpent?.toString() ?? '',
-                                    style:
-                                        tr13.copyWith(color: AllColors.grey)),
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      Assets.images.clockRefresh,
+                                      width: 16.w,
+                                      height: 16.h,
+                                      color: AllColors.black,
+                                    ),
+                                    SizedBox(width: 4.w),
+                                    Text(group.totalSpent?.toString() ?? '',
+                                        style: tr13.copyWith(
+                                            color: AllColors.grey)),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -255,7 +316,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 text: LocaleKeys.addGroup.tr(),
                 color: AllColors.globalAppColor,
                 textColor: AllColors.white,
-                onPressed: () {},
+                onPressed: () {
+                  context.read<NavCubit>().changePage(2);
+                },
                 width: 182.w,
               ),
             ],

@@ -19,6 +19,11 @@ mixin _$GroupsState {
   bool get isLoading => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   List<GroupModel>? get groups => throw _privateConstructorUsedError;
+  int? get deletedGroupId => throw _privateConstructorUsedError;
+  String? get successMessage => throw _privateConstructorUsedError;
+  DeleteGroupModel? get deleteGroupModel => throw _privateConstructorUsedError;
+  UpdateGroupsModel? get updateGroupsModel =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GroupsStateCopyWith<GroupsState> get copyWith =>
@@ -31,7 +36,14 @@ abstract class $GroupsStateCopyWith<$Res> {
           GroupsState value, $Res Function(GroupsState) then) =
       _$GroupsStateCopyWithImpl<$Res, GroupsState>;
   @useResult
-  $Res call({bool isLoading, String? errorMessage, List<GroupModel>? groups});
+  $Res call(
+      {bool isLoading,
+      String? errorMessage,
+      List<GroupModel>? groups,
+      int? deletedGroupId,
+      String? successMessage,
+      DeleteGroupModel? deleteGroupModel,
+      UpdateGroupsModel? updateGroupsModel});
 }
 
 /// @nodoc
@@ -50,6 +62,10 @@ class _$GroupsStateCopyWithImpl<$Res, $Val extends GroupsState>
     Object? isLoading = null,
     Object? errorMessage = freezed,
     Object? groups = freezed,
+    Object? deletedGroupId = freezed,
+    Object? successMessage = freezed,
+    Object? deleteGroupModel = freezed,
+    Object? updateGroupsModel = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -64,6 +80,22 @@ class _$GroupsStateCopyWithImpl<$Res, $Val extends GroupsState>
           ? _value.groups
           : groups // ignore: cast_nullable_to_non_nullable
               as List<GroupModel>?,
+      deletedGroupId: freezed == deletedGroupId
+          ? _value.deletedGroupId
+          : deletedGroupId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      successMessage: freezed == successMessage
+          ? _value.successMessage
+          : successMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deleteGroupModel: freezed == deleteGroupModel
+          ? _value.deleteGroupModel
+          : deleteGroupModel // ignore: cast_nullable_to_non_nullable
+              as DeleteGroupModel?,
+      updateGroupsModel: freezed == updateGroupsModel
+          ? _value.updateGroupsModel
+          : updateGroupsModel // ignore: cast_nullable_to_non_nullable
+              as UpdateGroupsModel?,
     ) as $Val);
   }
 }
@@ -76,7 +108,14 @@ abstract class _$$GroupsStateImplCopyWith<$Res>
       __$$GroupsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, String? errorMessage, List<GroupModel>? groups});
+  $Res call(
+      {bool isLoading,
+      String? errorMessage,
+      List<GroupModel>? groups,
+      int? deletedGroupId,
+      String? successMessage,
+      DeleteGroupModel? deleteGroupModel,
+      UpdateGroupsModel? updateGroupsModel});
 }
 
 /// @nodoc
@@ -93,6 +132,10 @@ class __$$GroupsStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? errorMessage = freezed,
     Object? groups = freezed,
+    Object? deletedGroupId = freezed,
+    Object? successMessage = freezed,
+    Object? deleteGroupModel = freezed,
+    Object? updateGroupsModel = freezed,
   }) {
     return _then(_$GroupsStateImpl(
       isLoading: null == isLoading
@@ -107,6 +150,22 @@ class __$$GroupsStateImplCopyWithImpl<$Res>
           ? _value._groups
           : groups // ignore: cast_nullable_to_non_nullable
               as List<GroupModel>?,
+      deletedGroupId: freezed == deletedGroupId
+          ? _value.deletedGroupId
+          : deletedGroupId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      successMessage: freezed == successMessage
+          ? _value.successMessage
+          : successMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deleteGroupModel: freezed == deleteGroupModel
+          ? _value.deleteGroupModel
+          : deleteGroupModel // ignore: cast_nullable_to_non_nullable
+              as DeleteGroupModel?,
+      updateGroupsModel: freezed == updateGroupsModel
+          ? _value.updateGroupsModel
+          : updateGroupsModel // ignore: cast_nullable_to_non_nullable
+              as UpdateGroupsModel?,
     ));
   }
 }
@@ -117,7 +176,11 @@ class _$GroupsStateImpl implements _GroupsState {
   const _$GroupsStateImpl(
       {this.isLoading = false,
       this.errorMessage,
-      final List<GroupModel>? groups})
+      final List<GroupModel>? groups,
+      this.deletedGroupId,
+      this.successMessage,
+      this.deleteGroupModel,
+      this.updateGroupsModel})
       : _groups = groups;
 
   @override
@@ -136,8 +199,17 @@ class _$GroupsStateImpl implements _GroupsState {
   }
 
   @override
+  final int? deletedGroupId;
+  @override
+  final String? successMessage;
+  @override
+  final DeleteGroupModel? deleteGroupModel;
+  @override
+  final UpdateGroupsModel? updateGroupsModel;
+
+  @override
   String toString() {
-    return 'GroupsState(isLoading: $isLoading, errorMessage: $errorMessage, groups: $groups)';
+    return 'GroupsState(isLoading: $isLoading, errorMessage: $errorMessage, groups: $groups, deletedGroupId: $deletedGroupId, successMessage: $successMessage, deleteGroupModel: $deleteGroupModel, updateGroupsModel: $updateGroupsModel)';
   }
 
   @override
@@ -149,12 +221,27 @@ class _$GroupsStateImpl implements _GroupsState {
                 other.isLoading == isLoading) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
-            const DeepCollectionEquality().equals(other._groups, _groups));
+            const DeepCollectionEquality().equals(other._groups, _groups) &&
+            (identical(other.deletedGroupId, deletedGroupId) ||
+                other.deletedGroupId == deletedGroupId) &&
+            (identical(other.successMessage, successMessage) ||
+                other.successMessage == successMessage) &&
+            (identical(other.deleteGroupModel, deleteGroupModel) ||
+                other.deleteGroupModel == deleteGroupModel) &&
+            (identical(other.updateGroupsModel, updateGroupsModel) ||
+                other.updateGroupsModel == updateGroupsModel));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, errorMessage,
-      const DeepCollectionEquality().hash(_groups));
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      errorMessage,
+      const DeepCollectionEquality().hash(_groups),
+      deletedGroupId,
+      successMessage,
+      deleteGroupModel,
+      updateGroupsModel);
 
   @JsonKey(ignore: true)
   @override
@@ -167,7 +254,11 @@ abstract class _GroupsState implements GroupsState {
   const factory _GroupsState(
       {final bool isLoading,
       final String? errorMessage,
-      final List<GroupModel>? groups}) = _$GroupsStateImpl;
+      final List<GroupModel>? groups,
+      final int? deletedGroupId,
+      final String? successMessage,
+      final DeleteGroupModel? deleteGroupModel,
+      final UpdateGroupsModel? updateGroupsModel}) = _$GroupsStateImpl;
 
   @override
   bool get isLoading;
@@ -175,6 +266,14 @@ abstract class _GroupsState implements GroupsState {
   String? get errorMessage;
   @override
   List<GroupModel>? get groups;
+  @override
+  int? get deletedGroupId;
+  @override
+  String? get successMessage;
+  @override
+  DeleteGroupModel? get deleteGroupModel;
+  @override
+  UpdateGroupsModel? get updateGroupsModel;
   @override
   @JsonKey(ignore: true)
   _$$GroupsStateImplCopyWith<_$GroupsStateImpl> get copyWith =>

@@ -12,6 +12,13 @@ import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/core/utilities/routes_navigator/app_routes.dart';
 import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart';
 import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
+import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
+import 'package:splitwise_flutter/features/authentication/widget/app_text_field_widget.dart';
+import 'package:splitwise_flutter/features/home/domain/model/create_group/create_group_model.dart';
+import 'package:splitwise_flutter/features/home/domain/model/groups/group.dart';
+import 'package:splitwise_flutter/features/home/domain/model/update_groups/update_groups_model.dart';
+import 'package:splitwise_flutter/features/home/domain/repositories/group_repository.dart';
+import 'package:splitwise_flutter/features/home/logic/groups_cubit.dart';
 import 'package:splitwise_flutter/features/nav/domain/entity/nav_entity.dart';
 import 'package:splitwise_flutter/features/nav/logic/nav_cubit.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
@@ -32,11 +39,174 @@ class _NavPageState extends State<NavPage> {
 
   static const int createIndex = 2;
   static const int homeIndex = 0;
+  final GroupsCubit _groupsCubit = getIt<GroupsCubit>();
+
+  void _showUpdateDialog(GroupModel group) {
+    final nameController = TextEditingController(text: group.name);
+    int selectedCategoryId = group.categoryId ?? 1;
+
+    showDialog(
+      context: context,
+      builder: (_) => Dialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(LocaleKeys.editGroup.tr(), style: tr20),
+              SizedBox(height: 16.h),
+              AppTextField(
+                controller: nameController,
+                label: LocaleKeys.groupName.tr(),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return LocaleKeys.groupNameValidation.tr();
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 16.h),
+              // DropdownButtonFormField<int>(
+              //   value: selectedCategoryId,
+              //   decoration: InputDecoration(
+              //     labelText: LocaleKeys.category.tr(),
+              //     border: OutlineInputBorder(),
+              //   ),
+              //   items: List.generate(8, (index) {
+              //     final id = index + 1;
+              //     return DropdownMenuItem(
+              //       value: id,
+              //       child: Text("${LocaleKeys.category.tr()} $id"),
+              //     );
+              //   }),
+              //   onChanged: (value) {
+              //     if (value != null) selectedCategoryId = value;
+              //   },
+              // ),
+              SizedBox(height: 24.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  AppButton(
+                    text: LocaleKeys.cancel.tr(),
+                    color: AllColors.grey.withOpacity(0.2),
+                    textColor: AllColors.black,
+                    onPressed: () => Navigator.pop(context),
+                    width: 100.w,
+                  ),
+                  BlocListener<GroupsCubit, GroupsState>(
+                    bloc: _groupsCubit,
+                    listener: (context, state) {
+                      if (state.successMessage != null) {
+                        AppAlertDialog.showSuccessBar(
+                            message: state.successMessage);
+                      }
+                      if (state.errorMessage != null) {
+                        AppAlertDialog.showErrorBar(
+                            errorMessage: state.errorMessage!);
+                      }
+                    },
+                    child: AppButton(
+                      text: LocaleKeys.edit.tr(),
+                      color: AllColors.globalAppColor,
+                      textColor: AllColors.white,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        final updatedModel = UpdateGroupsModel(
+                          name: nameController.text.trim(),
+                          description: "selectedCategoryId",
+                        );
+                        getIt<GroupsCubit>()
+                            .updateGroup(group.id!, updatedModel);
+                      },
+                      width: 100.w,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showDeleteDialog(GroupModel group) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: LocaleKeys.delete.tr(),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (_, __, ___) {
+        return Center(
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              width: 300.w,
+              padding: EdgeInsets.all(20.w),
+              decoration: BoxDecoration(
+                color: AllColors.white,
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(child: SvgPicture.asset(Assets.images.logOutDialog)),
+                  SizedBox(height: 16.h),
+                  Text(
+                    "${LocaleKeys.delete.tr()} ${LocaleKeys.group.tr()} ${group.name} ?",
+                    style: tr16.copyWith(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      AppButton(
+                        text: LocaleKeys.cancel.tr(),
+                        color: AllColors.grey.withOpacity(0.2),
+                        textColor: AllColors.black,
+                        onPressed: () => Navigator.pop(context),
+                        width: 100.w,
+                      ),
+                      AppButton(
+                        text: LocaleKeys.delete.tr(),
+                        color: AllColors.globalAppColor,
+                        textColor: AllColors.white,
+                        onPressed: () {
+                          Navigator.pop(context);
+                          _handleDeleteGroup(group);
+                        },
+                        width: 100.w,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (_, anim, __, child) {
+        return Transform.scale(
+          scale: anim.value,
+          child: Opacity(opacity: anim.value, child: child),
+        );
+      },
+    );
+  }
+
+  void _handleDeleteGroup(GroupModel group) async {
+    await _groupsCubit.deleteGroup(group.id!);
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NavCubit(),
+      create: (_) => NavCubit(GroupRepository(getIt())),
       child: BlocBuilder<NavCubit, NavState>(
         builder: (context, state) {
           if (state.currentIndex != createIndex && isCreating) {
@@ -64,7 +234,38 @@ class _NavPageState extends State<NavPage> {
                     Expanded(
                         child: Text(state.appBarTitle ?? "", style: tsb20)),
                     const Spacer(),
-                    SvgPicture.asset(Assets.images.setting2),
+                    PopupMenuButton<String>(
+                      icon: SvgPicture.asset(Assets.images.setting2),
+                      onSelected: (value) {
+                        if (value == 'edit') {
+                          _showUpdateDialog(state.selectedGroup!);
+                        } else if (value == 'delete') {
+                          _showDeleteDialog(state.selectedGroup!);
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: 'edit',
+                          child: Row(
+                            children: [
+                              Icon(Icons.edit, color: AllColors.globalAppColor),
+                              SizedBox(width: 8.w),
+                              Text("edit"),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 'delete',
+                          child: Row(
+                            children: [
+                              Icon(Icons.delete, color: AllColors.error),
+                              SizedBox(width: 8.w),
+                              Text(LocaleKeys.delete.tr()),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                     12.w.horizontalSpace,
                     GestureDetector(
                         onTap: () {
@@ -256,13 +457,17 @@ class _NavPageState extends State<NavPage> {
 
   void _onMiddleButtonPressed(BuildContext context, NavState state) {
     if (state.currentIndex == 2) {
-      context.read<NavCubit>().requestCreateGroup(
-            "New Group Name",
-            "Description",
-          );
+      context
+          .read<NavCubit>()
+          .requestCreateGroup(state.createdGroup ?? CreateGroupModel());
     } else {
       context.read<NavCubit>().changePage(2);
     }
+  }
+
+  void _handleEditGroup(NavState state) {
+    final group = state.selectedGroup;
+    if (group != null) {}
   }
 }
 

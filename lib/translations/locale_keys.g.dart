@@ -161,4 +161,13 @@ abstract class LocaleKeys {
   static const groupHasNoMembers = 'groupHasNoMembers';
   static const activity = 'activity';
   static const appTitle = 'appTitle';
+  static const groupDeleted = 'groupDeleted';
+  static const deleteGroupFailed = 'deleteGroupFailed';
+  static const deleteGroupConfirmation = 'deleteGroupConfirmation';
+  static const delete = 'delete';
+  static const group = 'group';
+  static const editGroup = 'editGroup';
+static const category = 'category';
+static const edit = 'edit';
+
 }

@@ -1,4 +1,4 @@
-import '../features/home/domain/model/user.dart';
+import '../features/home/domain/model/groups/user.dart';
 import 'expense_split.dart';
 
 class Expense {

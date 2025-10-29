@@ -10,7 +10,7 @@ import 'package:splitwise_flutter/features/authentication/pages/view/register_sc
 import 'package:splitwise_flutter/features/authentication/pages/view/splash_auth_screen.dart';
 import 'package:splitwise_flutter/features/authentication/pages/view/splash_screen.dart';
 import 'package:splitwise_flutter/features/nav/pages/view/nav_page.dart';
-import 'package:splitwise_flutter/features/home/domain/model/group.dart';
+import 'package:splitwise_flutter/features/home/domain/model/groups/group.dart';
 import 'package:splitwise_flutter/features/profile/pages/edit_profile_screen.dart';
 import 'package:splitwise_flutter/features/home/pages/group_details_screen.dart';
 import 'package:splitwise_flutter/features/home/pages/home_screen.dart';

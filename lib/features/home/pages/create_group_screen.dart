@@ -7,10 +7,11 @@ import 'package:splitwise_flutter/core/functions/app_alert_dialog.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_text_field_widget.dart';
+import 'package:splitwise_flutter/features/home/domain/model/create_group/create_group_model.dart';
 import 'package:splitwise_flutter/features/nav/logic/nav_cubit.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
-import '../domain/model/user.dart';
+import '../domain/model/groups/user.dart';
 import '../domain/service/group_service.dart';
 
 class CreateGroupScreen extends StatefulWidget {
@@ -31,7 +32,10 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
     {"icon": Assets.images.people, "title": LocaleKeys.categoryFriends.tr()},
     {"icon": Assets.images.love, "title": LocaleKeys.categoryCouple.tr()},
     {"icon": Assets.images.home02, "title": LocaleKeys.categoryHome.tr()},
-    {"icon": Assets.images.briefcase02, "title": LocaleKeys.categoryOffice.tr()},
+    {
+      "icon": Assets.images.briefcase02,
+      "title": LocaleKeys.categoryOffice.tr()
+    },
     {"icon": Assets.images.calendar, "title": LocaleKeys.categoryEvent.tr()},
     {"icon": Assets.images.users03, "title": LocaleKeys.categoryFamily.tr()},
     {"icon": Assets.images.other, "title": LocaleKeys.categoryOther.tr()},
@@ -39,6 +43,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
 
   static const int createIndex = 2;
   static const int homeIndex = 0;
+  List<int>? membersIds = [1];
 
   bool isCreating = false;
 
@@ -58,7 +63,14 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
       }
 
       try {
-        context.read<NavCubit>().addGroup(_nameController.text, "Hello");
+        context.read<NavCubit>().addGroup(
+              CreateGroupModel(
+                name: _nameController.text.trim(),
+                members: membersIds,
+                categoryId: _categoryIdFromTitle(selectedCategory!),
+                description: "Group Description",
+              ),
+            );
         AppAlertDialog.showSuccessBar(
           message: LocaleKeys.doneSuccessfully.tr(),
         );
@@ -75,6 +87,29 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
           );
         }
       }
+    }
+  }
+
+  int _categoryIdFromTitle(String title) {
+    switch (title) {
+      case 'Trip':
+        return 1;
+      case 'Friends':
+        return 2;
+      case 'Couple':
+        return 3;
+      case 'Home':
+        return 4;
+      case 'Office':
+        return 5;
+      case 'Event':
+        return 6;
+      case 'Family':
+        return 7;
+      case 'Other':
+        return 8;
+      default:
+        return 0;
     }
   }
 

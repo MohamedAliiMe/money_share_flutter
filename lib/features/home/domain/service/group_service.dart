@@ -3,7 +3,10 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:splitwise_flutter/core/data/data_list_response/base_data_list_response.dart';
 import 'package:splitwise_flutter/core/networking/api_path.dart';
-import 'package:splitwise_flutter/features/home/domain/model/group.dart';
+import 'package:splitwise_flutter/features/home/domain/model/create_group/create_group_model.dart';
+import 'package:splitwise_flutter/features/home/domain/model/delete_group/delete_group_model.dart';
+import 'package:splitwise_flutter/features/home/domain/model/groups/group.dart';
+import 'package:splitwise_flutter/features/home/domain/model/update_groups/update_groups_model.dart';
 
 part 'group_service.g.dart';
 
@@ -17,7 +20,31 @@ abstract class GroupService {
   Future<HttpResponse<List<GroupModel>>> getGroups();
 
   @POST(AppApiPaths.groups)
-  Future<HttpResponse<GroupModel>> createGroup();
+  Future<HttpResponse<CreateGroupModel>> createGroup({
+    @Body() required CreateGroupModel body,
+  });
+
+  @DELETE(AppApiPaths.deleteGroups)
+  Future<HttpResponse<DeleteGroupModel>> deleteGroup({
+    @Path("groupId") required int groupId,
+  });
+
+  @PUT(AppApiPaths.updateGroups)
+  Future<HttpResponse<UpdateGroupsModel>> updateGroup({
+    @Path("groupId") required int groupId,
+    @Body() required UpdateGroupsModel body,
+  });
+
+
+
+
+
+
+
+
+
+
+
 
   @POST("${AppApiPaths.groups}/{groupId}/members")
   Future<HttpResponse<void>> addMemberToGroup({
