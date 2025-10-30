@@ -7,12 +7,12 @@ import 'package:splitwise_flutter/core/functions/app_alert_dialog.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_text_field_widget.dart';
-import 'package:splitwise_flutter/features/home/domain/model/create_group/create_group_model.dart';
+import 'package:splitwise_flutter/features/home/data/model/create_group/create_group_model.dart';
 import 'package:splitwise_flutter/features/nav/logic/nav_cubit.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
-import '../domain/model/groups/user.dart';
-import '../domain/service/group_service.dart';
+import '../data/model/groups/user.dart';
+import '../data/service/group_service.dart';
 
 class CreateGroupScreen extends StatefulWidget {
   const CreateGroupScreen({super.key});

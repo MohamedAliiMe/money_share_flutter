@@ -3,10 +3,10 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:splitwise_flutter/core/data/data_list_response/base_data_list_response.dart';
 import 'package:splitwise_flutter/core/networking/api_path.dart';
-import 'package:splitwise_flutter/features/home/domain/model/create_group/create_group_model.dart';
-import 'package:splitwise_flutter/features/home/domain/model/delete_group/delete_group_model.dart';
-import 'package:splitwise_flutter/features/home/domain/model/groups/group.dart';
-import 'package:splitwise_flutter/features/home/domain/model/update_groups/update_groups_model.dart';
+import 'package:splitwise_flutter/features/home/data/model/create_group/create_group_model.dart';
+import 'package:splitwise_flutter/features/home/data/model/delete_group/delete_group_model.dart';
+import 'package:splitwise_flutter/features/home/data/model/groups/group.dart';
+import 'package:splitwise_flutter/features/home/data/model/update_groups/update_groups_model.dart';
 
 part 'group_service.g.dart';
 

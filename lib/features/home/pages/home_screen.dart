@@ -14,8 +14,8 @@ import 'package:splitwise_flutter/features/authentication/logic/authentication_c
 import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
 import 'package:splitwise_flutter/features/nav/logic/nav_cubit.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
-import 'package:splitwise_flutter/features/home/domain/model/groups/group.dart';
-import 'package:splitwise_flutter/features/home/domain/model/groups/user.dart';
+import 'package:splitwise_flutter/features/home/data/model/groups/group.dart';
+import 'package:splitwise_flutter/features/home/data/model/groups/user.dart';
 import 'package:splitwise_flutter/features/home/pages/group_details_screen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 import 'package:splitwise_flutter/features/home/widget/add_member_dialog.dart';

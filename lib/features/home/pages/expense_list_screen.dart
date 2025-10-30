@@ -5,12 +5,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
-import 'package:splitwise_flutter/features/home/domain/model/groups/user.dart';
+import 'package:splitwise_flutter/features/home/data/model/groups/user.dart';
 import 'package:splitwise_flutter/features/home/pages/group_details_screen.dart';
 import 'package:splitwise_flutter/features/home/widget/add_expense_sheet_widget.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 import '../../../models/expense.dart';
-import '../domain/model/groups/group.dart';
+import '../data/model/groups/group.dart';
 
 class ExpenseListScreen extends StatefulWidget {
   final GroupModel group;

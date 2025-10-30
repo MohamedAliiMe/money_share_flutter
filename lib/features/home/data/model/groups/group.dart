@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:splitwise_flutter/features/home/domain/model/groups/pivot.dart';
+import 'package:splitwise_flutter/features/home/data/model/groups/pivot.dart';
 import 'user.dart';
 
 part 'group.g.dart';

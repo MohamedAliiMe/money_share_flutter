@@ -17,10 +17,12 @@ import '../../features/authentication/data/repositories/authentication_repositor
 import '../../features/authentication/data/services/authentication_service.dart'
     as _i894;
 import '../../features/authentication/logic/authentication_cubit.dart' as _i854;
-import '../../features/home/domain/repositories/group_repository.dart' as _i569;
-import '../../features/home/domain/service/group_service.dart' as _i796;
+import '../../features/home/data/repositories/group_repository.dart' as _i130;
+import '../../features/home/data/service/group_service.dart' as _i362;
 import '../../features/home/logic/groups_cubit.dart' as _i141;
 import '../../features/nav/logic/nav_cubit.dart' as _i106;
+import '../../features/profile/data/repositories/profile_repositories.dart'
+    as _i996;
 import '../../features/profile/data/services/profile_service.dart' as _i510;
 import '../../features/profile/logic/profile_cubit.dart' as _i559;
 import '../utilities/app_data_storage.dart' as _i102;
@@ -41,7 +43,6 @@ _i174.GetIt $initGetIt(
   final registerModule = _$RegisterModule();
   gh.factory<_i102.DataStorage>(() => _i102.DataStorage());
   gh.factory<_i691.ThemeCubit>(() => _i691.ThemeCubit());
-  gh.factory<_i559.ProfileCubit>(() => _i559.ProfileCubit());
   gh.factory<String>(
     () => registerModule.baseUrl,
     instanceName: 'BaseUrl',
@@ -54,8 +55,8 @@ _i174.GetIt $initGetIt(
       () => _i894.AuthenticationService(gh<_i361.Dio>(instanceName: 'Dio')));
   gh.lazySingleton<_i510.ProfileService>(
       () => _i510.ProfileService(gh<_i361.Dio>(instanceName: 'Dio')));
-  gh.lazySingleton<_i796.GroupService>(
-      () => _i796.GroupService(gh<_i361.Dio>(instanceName: 'Dio')));
+  gh.lazySingleton<_i362.GroupService>(
+      () => _i362.GroupService(gh<_i361.Dio>(instanceName: 'Dio')));
   gh.lazySingleton<_i361.Dio>(
     () => registerModule.dioInterceptor(gh<String>(instanceName: 'BaseUrl')),
     instanceName: 'Interceptor',
@@ -64,11 +65,15 @@ _i174.GetIt $initGetIt(
       () => _i914.AuthenticationRepository(gh<_i894.AuthenticationService>()));
   gh.factory<_i854.AuthenticationCubit>(
       () => _i854.AuthenticationCubit(gh<_i914.AuthenticationRepository>()));
-  gh.lazySingleton<_i569.GroupRepository>(
-      () => _i569.GroupRepository(gh<_i796.GroupService>()));
-  gh.factory<_i106.NavCubit>(() => _i106.NavCubit(gh<_i569.GroupRepository>()));
+  gh.lazySingleton<_i996.ProfileRepositories>(
+      () => _i996.ProfileRepositories(gh<_i510.ProfileService>()));
+  gh.lazySingleton<_i130.GroupRepository>(
+      () => _i130.GroupRepository(gh<_i362.GroupService>()));
+  gh.factory<_i559.ProfileCubit>(
+      () => _i559.ProfileCubit(gh<_i996.ProfileRepositories>()));
+  gh.factory<_i106.NavCubit>(() => _i106.NavCubit(gh<_i130.GroupRepository>()));
   gh.factory<_i141.GroupsCubit>(
-      () => _i141.GroupsCubit(gh<_i569.GroupRepository>()));
+      () => _i141.GroupsCubit(gh<_i130.GroupRepository>()));
   return getIt;
 }
 

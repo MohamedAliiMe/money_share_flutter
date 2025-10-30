@@ -8,23 +8,23 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
+import 'package:splitwise_flutter/features/profile/data/model/profile_model.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 import 'package:splitwise_flutter/features/home/widget/add_expense_sheet_widget.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+  final ProfileModel profile;
+  const EditProfileScreen({super.key, required this.profile});
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  TextEditingController fullNameController =
-      TextEditingController(text: "Mohamed Ahmed");
-  TextEditingController emailController =
-      TextEditingController(text: "mohamedahmed@gmail.com");
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
   String selectedCurrency = "EGP";
@@ -41,6 +41,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     "Hindi"
   ];
   double progress = 0.75;
+  @override
+  void initState() {
+    final user = widget.profile.user;
+
+    fullNameController.text = user?.name ?? "";
+    emailController.text = user?.email ?? "";
+    phoneController.text = user?.phone ?? "";
+
+    selectedCurrency = user?.currency?['name'] ?? "EGP";
+    selectedCountry = user?.country?['name'] ?? "Egypt";
+    selectedLanguage = user?.language ?? "English";
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +129,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               radius: 40.r,
               backgroundColor: AllColors.globalAppColor.withValues(alpha: 0.3),
               child: Text(
-                "M",
+                widget.profile.user?.name?.isNotEmpty == true
+                    ? widget.profile.user!.name![0]
+                    : "?",
                 style: tr20,
               ),
             ),
@@ -232,7 +248,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
-
 
 class CustomSearchDropdown extends StatefulWidget {
   final String label;

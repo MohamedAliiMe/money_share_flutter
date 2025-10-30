@@ -9,7 +9,7 @@ import 'package:splitwise_flutter/features/home/pages/expense_list_screen.dart';
 import 'package:splitwise_flutter/features/home/widget/balance_card_widget.dart';
 import 'package:splitwise_flutter/features/home/widget/expense_card_widget.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
-import '../domain/model/groups/group.dart';
+import '../data/model/groups/group.dart';
 import '../../../models/expense.dart';
 import '../../../services/expense_service.dart';
 import 'manage_members_screen.dart';

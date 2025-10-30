@@ -8,8 +8,8 @@ import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 import 'package:splitwise_flutter/features/home/pages/group_details_screen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
-import '../domain/model/groups/group.dart';
-import '../domain/model/groups/user.dart';
+import '../data/model/groups/group.dart';
+import '../data/model/groups/user.dart';
 
 class ManageMembersScreen extends StatefulWidget {
   final GroupModel group;

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
+import 'package:splitwise_flutter/core/functions/app_alert_dialog.dart';
 import 'package:splitwise_flutter/core/utilities/app_data_storage.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
@@ -12,10 +13,10 @@ import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart
 import 'package:splitwise_flutter/core/utilities/static_data.dart';
 import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
+import 'package:splitwise_flutter/features/profile/logic/profile_cubit.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 import 'package:splitwise_flutter/features/home/pages/group_details_screen.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
-
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -24,113 +25,140 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
+final ProfileCubit _profileCubit = getIt<ProfileCubit>();
+
 class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    _profileCubit.getProfile();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildHeader(
-              LocaleKeys.profile.tr(),
-              actionText: LocaleKeys.qrCode.tr(),
-              onAction: () {
-                pushName(context, AppRoute.profileQrCodeScreen);
-              },
-              hasIcon: true,
-              assetName: Assets.images.qrCode01,
-              hasBadding: true,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
-              margin: EdgeInsets.symmetric(vertical: 24.h),
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: AllColors.grey.withOpacity(0.2), width: 1.w),
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 28.r,
-                    backgroundColor:
-                        AllColors.globalAppColor.withValues(alpha: 0.2),
-                    child: Text("M", style: tr20),
-                  ),
-                  SizedBox(width: 8.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Mohamed Ahmed", style: tsb16),
-                        SizedBox(height: 4.h),
-                        Text("mohamedahmed@gmail.com",
-                            style: tr13.copyWith(color: AllColors.grey)),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      pushName(context, AppRoute.editProfileScreen);
-                    },
-                    child: Icon(Icons.mode_edit_outlined,
-                        size: 24.sp, color: AllColors.globalAppColor),
-                  ),
-                ],
-              ),
-            ),
-            Divider(color: AllColors.grey.withOpacity(0.3), height: 0),
-            SizedBox(height: 24.h),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 24.h),
-              decoration: BoxDecoration(
-                color: AllColors.globalAppColor,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(LocaleKeys.splitsmartPro.tr(),
-                            style: tsb16.copyWith(color: Colors.white)),
-                        SizedBox(height: 4.h),
-                        Text(LocaleKeys.goProDescription.tr(),
-                            style: tr13.copyWith(color: Colors.white)),
-                      ]),
-                  SvgPicture.asset(Assets.images.touchTheProfile),
-                ],
-              ),
-            ),
-            SizedBox(height: 20.h),
-            _buildSettingItem(Assets.images.currencyPound, "EGP"),
-            _buildSettingItem(Assets.images.flag01, "Egypt"),
-            _buildSettingItem(Assets.images.globe02, "English"),
-            _buildSettingItem(Assets.images.star01, LocaleKeys.ratingUs.tr()),
-            GestureDetector(
-              onTap: () => showLogoutDialog(context),
-              child: _buildSettingItem(Assets.images.logOut01, LocaleKeys.logout.tr()),
-            ),
-            SizedBox(height: 40.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  Assets.images.iconInterfaceSolid.path,
-                  width: 32.w,
-                  height: 32.h,
+        child: BlocBuilder<ProfileCubit, ProfileState>(
+          bloc: _profileCubit,
+          builder: (context, state) {
+            if (state.isLoading) {
+              return Center(
+                child: CircularProgressIndicator(
                   color: AllColors.globalAppColor,
                 ),
-                SizedBox(width: 8.w),
-                Text(LocaleKeys.splitsmart.tr(), style: tsb16),
+              );
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildHeader(
+                  LocaleKeys.profile.tr(),
+                  actionText: LocaleKeys.qrCode.tr(),
+                  onAction: () {
+                    pushName(context, AppRoute.profileQrCodeScreen);
+                  },
+                  hasIcon: true,
+                  assetName: Assets.images.qrCode01,
+                  hasBadding: true,
+                ),
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+                  margin: EdgeInsets.symmetric(vertical: 24.h),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: AllColors.grey.withOpacity(0.2), width: 1.w),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 28.r,
+                        backgroundColor:
+                            AllColors.globalAppColor.withValues(alpha: 0.2),
+                        child: Text(
+                            state.profile?.user?.name?.substring(0, 1) ?? "",
+                            style: tr20),
+                      ),
+                      SizedBox(width: 8.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(state.profile?.user?.name ?? "", style: tsb16),
+                            SizedBox(height: 4.h),
+                            Text(state.profile?.user?.email ?? "",
+                                style: tr13.copyWith(color: AllColors.grey)),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          pushNameWithArguments(context,
+                              AppRoute.editProfileScreen, state.profile);
+                        },
+                        child: Icon(Icons.mode_edit_outlined,
+                            size: 24.sp, color: AllColors.globalAppColor),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(color: AllColors.grey.withOpacity(0.3), height: 0),
+                SizedBox(height: 24.h),
+                Container(
+                  width: double.infinity,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 24.h),
+                  decoration: BoxDecoration(
+                    color: AllColors.globalAppColor,
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(LocaleKeys.splitsmartPro.tr(),
+                                style: tsb16.copyWith(color: Colors.white)),
+                            SizedBox(height: 4.h),
+                            Text(LocaleKeys.goProDescription.tr(),
+                                style: tr13.copyWith(color: Colors.white)),
+                          ]),
+                      SvgPicture.asset(Assets.images.touchTheProfile),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                _buildSettingItem(Assets.images.currencyPound, "EGP"),
+                _buildSettingItem(Assets.images.flag01, "Egypt"),
+                _buildSettingItem(Assets.images.globe02, "English"),
+                _buildSettingItem(
+                    Assets.images.star01, LocaleKeys.ratingUs.tr()),
+                GestureDetector(
+                  onTap: () => showLogoutDialog(context),
+                  child: _buildSettingItem(
+                      Assets.images.logOut01, LocaleKeys.logout.tr()),
+                ),
+                SizedBox(height: 40.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      Assets.images.iconInterfaceSolid.path,
+                      width: 32.w,
+                      height: 32.h,
+                      color: AllColors.globalAppColor,
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(LocaleKeys.splitsmart.tr(), style: tsb16),
+                  ],
+                ),
+                SizedBox(height: 40.h),
               ],
-            ),
-            SizedBox(height: 40.h),
-          ],
+            );
+          },
         ),
       ),
     );

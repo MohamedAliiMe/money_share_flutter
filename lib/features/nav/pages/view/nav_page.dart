@@ -14,10 +14,10 @@ import 'package:splitwise_flutter/core/utilities/routes_navigator/navigator.dart
 import 'package:splitwise_flutter/features/authentication/logic/authentication_cubit.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_text_field_widget.dart';
-import 'package:splitwise_flutter/features/home/domain/model/create_group/create_group_model.dart';
-import 'package:splitwise_flutter/features/home/domain/model/groups/group.dart';
-import 'package:splitwise_flutter/features/home/domain/model/update_groups/update_groups_model.dart';
-import 'package:splitwise_flutter/features/home/domain/repositories/group_repository.dart';
+import 'package:splitwise_flutter/features/home/data/model/create_group/create_group_model.dart';
+import 'package:splitwise_flutter/features/home/data/model/groups/group.dart';
+import 'package:splitwise_flutter/features/home/data/model/update_groups/update_groups_model.dart';
+import 'package:splitwise_flutter/features/home/data/repositories/group_repository.dart';
 import 'package:splitwise_flutter/features/home/logic/groups_cubit.dart';
 import 'package:splitwise_flutter/features/nav/domain/entity/nav_entity.dart';
 import 'package:splitwise_flutter/features/nav/logic/nav_cubit.dart';
