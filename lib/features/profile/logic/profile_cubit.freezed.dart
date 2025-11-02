@@ -20,6 +20,9 @@ mixin _$ProfileState {
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get failedState => throw _privateConstructorUsedError;
   ProfileModel? get profile => throw _privateConstructorUsedError;
+  CurrencyListModel? get currencies => throw _privateConstructorUsedError;
+  CountryListModel? get countries => throw _privateConstructorUsedError;
+  CategoryListModel? get categories => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -36,7 +39,10 @@ abstract class $ProfileStateCopyWith<$Res> {
       {bool isLoading,
       String? errorMessage,
       bool failedState,
-      ProfileModel? profile});
+      ProfileModel? profile,
+      CurrencyListModel? currencies,
+      CountryListModel? countries,
+      CategoryListModel? categories});
 }
 
 /// @nodoc
@@ -56,6 +62,9 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? errorMessage = freezed,
     Object? failedState = null,
     Object? profile = freezed,
+    Object? currencies = freezed,
+    Object? countries = freezed,
+    Object? categories = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -74,6 +83,18 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.profile
           : profile // ignore: cast_nullable_to_non_nullable
               as ProfileModel?,
+      currencies: freezed == currencies
+          ? _value.currencies
+          : currencies // ignore: cast_nullable_to_non_nullable
+              as CurrencyListModel?,
+      countries: freezed == countries
+          ? _value.countries
+          : countries // ignore: cast_nullable_to_non_nullable
+              as CountryListModel?,
+      categories: freezed == categories
+          ? _value.categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as CategoryListModel?,
     ) as $Val);
   }
 }
@@ -90,7 +111,10 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       {bool isLoading,
       String? errorMessage,
       bool failedState,
-      ProfileModel? profile});
+      ProfileModel? profile,
+      CurrencyListModel? currencies,
+      CountryListModel? countries,
+      CategoryListModel? categories});
 }
 
 /// @nodoc
@@ -108,6 +132,9 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? failedState = null,
     Object? profile = freezed,
+    Object? currencies = freezed,
+    Object? countries = freezed,
+    Object? categories = freezed,
   }) {
     return _then(_$ProfileStateImpl(
       isLoading: null == isLoading
@@ -126,6 +153,18 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.profile
           : profile // ignore: cast_nullable_to_non_nullable
               as ProfileModel?,
+      currencies: freezed == currencies
+          ? _value.currencies
+          : currencies // ignore: cast_nullable_to_non_nullable
+              as CurrencyListModel?,
+      countries: freezed == countries
+          ? _value.countries
+          : countries // ignore: cast_nullable_to_non_nullable
+              as CountryListModel?,
+      categories: freezed == categories
+          ? _value.categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as CategoryListModel?,
     ));
   }
 }
@@ -137,7 +176,10 @@ class _$ProfileStateImpl implements _ProfileState {
       {this.isLoading = false,
       this.errorMessage,
       this.failedState = false,
-      this.profile});
+      this.profile,
+      this.currencies,
+      this.countries,
+      this.categories});
 
   @override
   @JsonKey()
@@ -149,10 +191,16 @@ class _$ProfileStateImpl implements _ProfileState {
   final bool failedState;
   @override
   final ProfileModel? profile;
+  @override
+  final CurrencyListModel? currencies;
+  @override
+  final CountryListModel? countries;
+  @override
+  final CategoryListModel? categories;
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, errorMessage: $errorMessage, failedState: $failedState, profile: $profile)';
+    return 'ProfileState(isLoading: $isLoading, errorMessage: $errorMessage, failedState: $failedState, profile: $profile, currencies: $currencies, countries: $countries, categories: $categories)';
   }
 
   @override
@@ -166,12 +214,18 @@ class _$ProfileStateImpl implements _ProfileState {
                 other.errorMessage == errorMessage) &&
             (identical(other.failedState, failedState) ||
                 other.failedState == failedState) &&
-            (identical(other.profile, profile) || other.profile == profile));
+            (identical(other.profile, profile) || other.profile == profile) &&
+            (identical(other.currencies, currencies) ||
+                other.currencies == currencies) &&
+            (identical(other.countries, countries) ||
+                other.countries == countries) &&
+            (identical(other.categories, categories) ||
+                other.categories == categories));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, errorMessage, failedState, profile);
+  int get hashCode => Object.hash(runtimeType, isLoading, errorMessage,
+      failedState, profile, currencies, countries, categories);
 
   @JsonKey(ignore: true)
   @override
@@ -185,7 +239,10 @@ abstract class _ProfileState implements ProfileState {
       {final bool isLoading,
       final String? errorMessage,
       final bool failedState,
-      final ProfileModel? profile}) = _$ProfileStateImpl;
+      final ProfileModel? profile,
+      final CurrencyListModel? currencies,
+      final CountryListModel? countries,
+      final CategoryListModel? categories}) = _$ProfileStateImpl;
 
   @override
   bool get isLoading;
@@ -195,6 +252,12 @@ abstract class _ProfileState implements ProfileState {
   bool get failedState;
   @override
   ProfileModel? get profile;
+  @override
+  CurrencyListModel? get currencies;
+  @override
+  CountryListModel? get countries;
+  @override
+  CategoryListModel? get categories;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

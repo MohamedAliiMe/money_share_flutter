@@ -2,13 +2,17 @@ import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:splitwise_flutter/core/dependencies/dependency_init.dart';
 import 'package:splitwise_flutter/core/utilities/configs/app_typography.dart';
 import 'package:splitwise_flutter/core/utilities/configs/colors.dart';
 import 'package:splitwise_flutter/features/authentication/widget/app_button_widget.dart';
+import 'package:splitwise_flutter/features/profile/data/model/currency_model.dart';
 import 'package:splitwise_flutter/features/profile/data/model/profile_model.dart';
+import 'package:splitwise_flutter/features/profile/logic/profile_cubit.dart';
 import 'package:splitwise_flutter/gen/assets.gen.dart';
 import 'package:splitwise_flutter/features/home/widget/add_expense_sheet_widget.dart';
 import 'package:splitwise_flutter/translations/locale_keys.g.dart';
@@ -26,13 +30,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  final ProfileCubit _profileCubit = getIt<ProfileCubit>();
 
   String selectedCurrency = "EGP";
   String selectedCountry = "Egypt";
   String selectedLanguage = "English";
-
-  List<String> currencies = ["USD", "EUR", "GBP", "EGP"];
-  List<String> countries = ["Australia", "Bahrain", "Canada", "Egypt"];
   List<String> languages = [
     "Français",
     "Deutsch",
@@ -43,6 +45,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   double progress = 0.75;
   @override
   void initState() {
+    _profileCubit.getCategories();
+    _profileCubit.getCountries();
+    _profileCubit.getCurrencies();
     final user = widget.profile.user;
 
     fullNameController.text = user?.name ?? "";
@@ -190,35 +195,61 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               style: tr20,
             ),
             SizedBox(height: 20.h),
-            CustomSearchDropdown(
-              label: LocaleKeys.currency.tr(),
-              value: selectedCurrency,
-              items: currencies,
-              onChanged: (value) {
-                setState(() {
-                  selectedCurrency = value;
-                });
+            BlocBuilder<ProfileCubit, ProfileState>(
+              bloc: _profileCubit,
+              builder: (context, state) {
+                final currencyNames = state.currencies?.currencies
+                        ?.map((e) => e.name ?? "")
+                        .where((name) => name.isNotEmpty)
+                        .toList() ??
+                    [];
+
+                return CustomSearchDropdown<CurrencyModel>(
+                  label: LocaleKeys.currency.tr(),
+                  value: currencyNames.contains(selectedCurrency)
+                      ? state.currencies?.currencies?.firstWhere(
+                          (c) => c.name == selectedCurrency,
+                        )
+                      : null,
+                  items: state.currencies?.currencies ?? [],
+                  getLabel: (c) => c.name ?? "",
+                  onChanged: (value) {
+                    setState(() {
+                      // selectedCurrencyModel = value;
+                    });
+                  },
+                  prefixIcon: SvgPicture.asset(Assets.images.currencyPound),
+                );
               },
-              prefixIcon: SvgPicture.asset(
-                Assets.images.currencyPound,
-              ),
+            ),
+            SizedBox(height: 16.h),
+            BlocBuilder<ProfileCubit, ProfileState>(
+              bloc: _profileCubit,
+              builder: (context, state) {
+                final countryNames = state.countries?.countries
+                        ?.map((e) => e.name ?? "")
+                        .where((name) => name.isNotEmpty)
+                        .toList() ??
+                    [];
+                return CustomSearchDropdown(
+                  getLabel: (item) => item,
+                  label: LocaleKeys.country.tr(),
+                  value: selectedCountry,
+                  items: countryNames,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCountry = value;
+                    });
+                  },
+                  prefixIcon: SvgPicture.asset(
+                    Assets.images.flag01,
+                  ),
+                );
+              },
             ),
             SizedBox(height: 16.h),
             CustomSearchDropdown(
-              label: LocaleKeys.country.tr(),
-              value: selectedCountry,
-              items: countries,
-              onChanged: (value) {
-                setState(() {
-                  selectedCountry = value;
-                });
-              },
-              prefixIcon: SvgPicture.asset(
-                Assets.images.flag01,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            CustomSearchDropdown(
+              getLabel: (item) => item,
               label: LocaleKeys.preferredLanguage.tr(),
               value: selectedLanguage,
               items: languages,
@@ -249,46 +280,52 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 }
 
-class CustomSearchDropdown extends StatefulWidget {
+class CustomSearchDropdown<T> extends StatefulWidget {
   final String label;
-  final List<String> items;
-  final String? value;
-  final ValueChanged<String>? onChanged;
+  final List<T> items;
+  final T? value;
+  final String Function(T) getLabel;
+  final ValueChanged<T>? onChanged;
   final Widget? prefixIcon;
 
   const CustomSearchDropdown({
     super.key,
     required this.label,
     required this.items,
+    required this.getLabel,
     this.value,
     this.onChanged,
     this.prefixIcon,
   });
 
   @override
-  State<CustomSearchDropdown> createState() => _CustomSearchDropdownState();
+  State<CustomSearchDropdown<T>> createState() =>
+      _CustomSearchDropdownState<T>();
 }
 
-class _CustomSearchDropdownState extends State<CustomSearchDropdown> {
+class _CustomSearchDropdownState<T> extends State<CustomSearchDropdown<T>> {
   late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.value ?? "");
+    _controller = TextEditingController(
+      text: widget.value != null ? widget.getLabel(widget.value!) : "",
+    );
   }
 
   void _handleTap() async {
-    final selected = await showSelectionDialog(
+    final selected = await showGenericSelectionDialog<T>(
       context: context,
       title: widget.label,
       items: widget.items,
-      selectedValue: _controller.text,
+      selectedValue: widget.value,
+      getLabel: widget.getLabel,
     );
 
     if (selected != null) {
       setState(() {
-        _controller.text = selected;
+        _controller.text = widget.getLabel(selected);
       });
       widget.onChanged?.call(selected);
     }
@@ -347,16 +384,17 @@ class _CustomSearchDropdownState extends State<CustomSearchDropdown> {
   }
 }
 
-Future<String?> showSelectionDialog({
+Future<T?> showGenericSelectionDialog<T>({
   required BuildContext context,
   required String title,
-  required List<String> items,
-  required String selectedValue,
+  required List<T> items,
+  required T? selectedValue,
+  required String Function(T) getLabel,
 }) async {
   TextEditingController searchController = TextEditingController();
-  List<String> filteredItems = [...items];
+  List<T> filteredItems = [...items];
 
-  return showDialog<String>(
+  return showDialog<T>(
     context: context,
     builder: (context) {
       return StatefulBuilder(
@@ -395,7 +433,7 @@ Future<String?> showSelectionDialog({
                     onChanged: (value) {
                       setState(() {
                         filteredItems = items
-                            .where((item) => item
+                            .where((item) => getLabel(item)
                                 .toLowerCase()
                                 .contains(value.toLowerCase()))
                             .toList();
@@ -412,7 +450,7 @@ Future<String?> showSelectionDialog({
                         final item = filteredItems[index];
                         final isSelected = item == selectedValue;
                         return ListTile(
-                          title: Text(item),
+                          title: Text(getLabel(item)),
                           trailing: Checkbox(
                             value: isSelected,
                             onChanged: (_) => Navigator.pop(context, item),

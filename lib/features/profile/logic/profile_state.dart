@@ -7,5 +7,8 @@ class ProfileState with _$ProfileState {
     String? errorMessage,
     @Default(false) bool failedState,
     ProfileModel? profile,
+    CurrencyListModel? currencies,
+    CountryListModel? countries,
+    CategoryListModel? categories,
   }) = _ProfileState;
 }

@@ -11,5 +11,8 @@ class AppApiPaths {
   static const String deleteGroups = '/groups/{groupId}';
   static const String updateGroups = '/groups/{groupId}';
   static const String user = '/user';
+  static const String currencies = '/currencies';
+  static const String countries = '/countries';
+  static const String categories = '/categories';
 
 }

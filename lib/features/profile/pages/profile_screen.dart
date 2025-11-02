@@ -131,11 +131,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 SizedBox(height: 20.h),
-                _buildSettingItem(Assets.images.currencyPound, "EGP"),
-                _buildSettingItem(Assets.images.flag01, "Egypt"),
-                _buildSettingItem(Assets.images.globe02, "English"),
-                _buildSettingItem(
-                    Assets.images.star01, LocaleKeys.ratingUs.tr()),
+                GestureDetector(
+                    onTap: () => pushNameWithArguments(
+                        context, AppRoute.editProfileScreen, state.profile),
+                    child:
+                        _buildSettingItem(Assets.images.currencyPound, "EGP")),
+                GestureDetector(
+                    onTap: () => pushNameWithArguments(
+                        context, AppRoute.editProfileScreen, state.profile),
+                    child: _buildSettingItem(Assets.images.flag01, "Egypt")),
+                GestureDetector(
+                    onTap: () => pushNameWithArguments(
+                        context, AppRoute.editProfileScreen, state.profile),
+                    child: _buildSettingItem(Assets.images.globe02, "English")),
+                GestureDetector(
+                  onTap: () => pushNameWithArguments(
+                      context, AppRoute.editProfileScreen, state.profile),
+                  child: _buildSettingItem(
+                      Assets.images.star01, LocaleKeys.ratingUs.tr()),
+                ),
                 GestureDetector(
                   onTap: () => showLogoutDialog(context),
                   child: _buildSettingItem(
